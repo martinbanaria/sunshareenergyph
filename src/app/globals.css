@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+/* Local brand fonts (served from public/) */
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/brand/fonts/BeVietnamPro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/brand/fonts/BeVietnamPro-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/brand/fonts/BeVietnamPro-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("/brand/fonts/BeVietnamPro-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Libre Baskerville";
+  src: url("/brand/fonts/LibreBaskerville-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Libre Baskerville";
+  src: url("/brand/fonts/LibreBaskerville-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* SunShare Brand Colors */
+  --sunshare-cream: #F3F6E4;
+  --sunshare-gray: #657376;
+  --sunshare-navy: #004F64;
+  --sunshare-deep: #00242E;
+  --sunshare-lime: #D1EB0C;
+  --radiant-teal: #20B2AA;
+  
+  /* Semantic Colors */
+  --background: #00242E;
+  --foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.6);
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sunshare-cream: var(--sunshare-cream);
+  --color-sunshare-gray: var(--sunshare-gray);
+  --color-sunshare-navy: var(--sunshare-navy);
+  --color-sunshare-deep: var(--sunshare-deep);
+  --color-sunshare-lime: var(--sunshare-lime);
+  --color-radiant-teal: var(--radiant-teal);
+  --font-sans: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
+  --font-serif: "Libre Baskerville", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Type scale */
+.h1 {
+  font-size: 2rem;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .h1 {
+    font-size: 3.75rem;
+  }
+}
+
+.h2 {
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .h2 {
+    font-size: 1.875rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .h2 {
+    font-size: 2.25rem;
+  }
+}
+
+.h3 {
+  font-size: 1.125rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .h3 {
+    font-size: 1.5rem;
+  }
+}
+
+.kicker {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (min-width: 640px) {
+  .kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.28em;
+  }
+}
+
+.body-text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media (min-width: 640px) {
+  .body-text {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+.body-large {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media (min-width: 640px) {
+  .body-large {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+}
+
+.metric {
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .metric {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .metric {
+    font-size: 3rem;
+  }
+}
+
+/* Surfaces */
+.surface {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(209, 235, 12, 0.25);
+}
+
+.card-teal:hover {
+  border-color: rgba(32, 178, 170, 0.25);
+}
+
+/* Text treatments */
+.text-gradient {
+  background: linear-gradient(135deg, var(--sunshare-lime) 0%, var(--sunshare-cream) 55%, var(--radiant-teal) 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-glow {
+  text-shadow: 0 0 28px rgba(209, 235, 12, 0.22);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Background Grid Pattern */
+.bg-grid-pattern {
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--sunshare-lime);
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}

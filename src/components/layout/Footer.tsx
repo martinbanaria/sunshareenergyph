@@ -1,0 +1,100 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import { Linkedin, Facebook, Twitter } from 'lucide-react';
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Solutions', href: '/solutions' },
+  { label: 'How It Works', href: '/how-it-works' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const socialLinks = [
+  { label: 'LinkedIn', href: '#', icon: Linkedin },
+  { label: 'Facebook', href: '#', icon: Facebook },
+  { label: 'X (Twitter)', href: '#', icon: Twitter },
+];
+
+export function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-sunshare-deep border-t border-white/10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
+        {/* Main Footer Content */}
+        <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Logo and Address */}
+          <div className="lg:col-span-2">
+            <Link href="/" className="inline-block mb-6">
+              <Image
+                src="/brand/logos/sunshare.svg"
+                alt="SunShare Philippines"
+                width={160}
+                height={36}
+                className="h-9 w-auto"
+              />
+            </Link>
+            <div className="body-text space-y-2 mb-6">
+              <p>Suite 1504, Tektite East Tower</p>
+              <p>Exchange Road, Ortigas Center</p>
+              <p>Pasig City, Philippines 1605</p>
+            </div>
+            <div className="body-text space-y-1">
+              <p>Phone: <a href="tel:+63000000000" className="hover:text-white transition-colors">[Placeholder]</a></p>
+              <p>Email: <a href="mailto:info@sunshareenergy.ph" className="hover:text-white transition-colors">[Placeholder]</a></p>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+            <nav className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="body-text hover:text-white transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Social Links */}
+          <div>
+            <h4 className="font-semibold text-white mb-4">Follow Us</h4>
+            <div className="flex gap-3">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/20 transition-colors"
+                  aria-label={link.label}
+                >
+                  <link.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="py-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-white/50">
+            Copyright © {currentYear} Sunshare Philippines Inc - All Rights Reserved.
+          </p>
+          <div className="flex items-center gap-6 text-sm text-white/50">
+            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default Footer;
