@@ -38,13 +38,13 @@ export function WhyUs() {
                 tools, and trusted partners.
               </p>
               <div className="grid grid-cols-2 gap-4 text-center">
-                <div className="p-4 rounded-xl bg-white/5">
-                  <p className="text-2xl font-bold text-sunshare-lime">1,500+</p>
-                  <p className="text-sm text-white/60">Households Served</p>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <p className="text-2xl font-bold text-sunshare-lime">7-12%</p>
+                  <p className="text-sm text-white/70">Immediate Savings</p>
                 </div>
-                <div className="p-4 rounded-xl bg-white/5">
-                  <p className="text-2xl font-bold text-radiant-teal">99.9%</p>
-                  <p className="text-sm text-white/60">Uptime Reliability</p>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <p className="text-2xl font-bold text-radiant-teal">24/7</p>
+                  <p className="text-sm text-white/70">Energy Support</p>
                 </div>
               </div>
             </div>

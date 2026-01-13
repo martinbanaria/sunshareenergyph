@@ -61,8 +61,8 @@
   /* Semantic Colors */
   --background: #00242E;
   --foreground: #ffffff;
-  --muted: rgba(255, 255, 255, 0.6);
-  --border: rgba(255, 255, 255, 0.1);
+  --muted: rgba(255, 255, 255, 0.7);
+  --border: rgba(255, 255, 255, 0.12);
 }
 
 @theme inline {

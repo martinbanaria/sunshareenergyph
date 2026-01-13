@@ -1,10 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.5 }
+};
 
 const contactInfo = [
   {
@@ -58,59 +66,94 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section with Contact Info Cards */}
-      <Section className="pt-24 md:pt-32 pb-8 md:pb-12">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <p className="kicker mb-4">Contact Us</p>
-          <h1 className="h1 text-white mb-6">
-            Let&apos;s Start a Conversation
-          </h1>
-          <p className="body-large">
-            Have questions about our energy solutions? Want to learn how SunShare 
-            can help your community or business save on electricity? We&apos;re here to help.
-          </p>
-        </div>
+      <section className="relative min-h-[50vh] flex items-center overflow-hidden bg-grid-pattern">
+        <div className="absolute inset-0 bg-gradient-to-b from-sunshare-deep via-sunshare-deep to-sunshare-navy/30" />
+        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-sunshare-lime/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-radiant-teal/5 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl relative z-10 py-24 md:py-32">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <motion.p {...fadeInUp} className="kicker mb-4">
+              Contact Us
+            </motion.p>
+            <motion.h1 
+              {...fadeInUp}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="h1 text-white mb-6"
+            >
+              Let&apos;s Start a Conversation
+            </motion.h1>
+            <motion.p 
+              {...fadeInUp}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="body-large"
+            >
+              Have questions about our energy solutions? Want to learn how SunShare 
+              can help your community or business save on electricity? We&apos;re here to help.
+            </motion.p>
+          </div>
 
-        {/* Contact Info Cards - Moved up directly under hero text */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {contactInfo.map((info) => (
-            <Card key={info.title} className="p-4 md:p-6 text-center">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-sunshare-lime/10 flex items-center justify-center mx-auto mb-3">
-                <info.icon className="w-5 h-5 md:w-6 md:h-6 text-sunshare-lime" />
-              </div>
-              <h3 className="font-semibold text-white text-sm md:text-base mb-1">{info.title}</h3>
-              {info.details.map((detail, index) => (
-                <p key={index} className="body-text text-xs md:text-sm">{detail}</p>
-              ))}
-            </Card>
-          ))}
+          {/* Contact Info Cards - Moved up directly under hero text */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {contactInfo.map((info, index) => (
+              <motion.div
+                key={info.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              >
+                <Card className="p-4 md:p-6 text-center h-full">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-sunshare-lime/10 flex items-center justify-center mx-auto mb-3">
+                    <info.icon className="w-5 h-5 md:w-6 md:h-6 text-sunshare-lime" />
+                  </div>
+                  <h3 className="font-semibold text-white text-sm md:text-base mb-1">{info.title}</h3>
+                  {info.details.map((detail, detailIndex) => (
+                    <p key={detailIndex} className="body-text text-xs md:text-sm">{detail}</p>
+                  ))}
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Contact Form & Map Section */}
       <Section className="pt-8 md:pt-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Form */}
-          <div>
+          <motion.div {...fadeInUp}>
             <h2 className="h2 text-white mb-4">Send Us a Message</h2>
             <p className="body-text mb-6">
               Fill out the form below and our team will get back to you as soon as possible.
             </p>
 
             {submitted ? (
-              <Card className="p-8 text-center">
-                <div className="w-16 h-16 rounded-full bg-sunshare-lime/20 flex items-center justify-center mx-auto mb-4">
-                  <Send className="w-8 h-8 text-sunshare-lime" />
-                </div>
-                <h3 className="h3 text-white mb-2">Message Sent!</h3>
-                <p className="body-text">
-                  Thank you for reaching out. Our team will review your message and 
-                  get back to you shortly.
-                </p>
-              </Card>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Card className="p-8 text-center">
+                  <div className="w-16 h-16 rounded-full bg-sunshare-lime/20 flex items-center justify-center mx-auto mb-4">
+                    <Send className="w-8 h-8 text-sunshare-lime" />
+                  </div>
+                  <h3 className="h3 text-white mb-2">Message Sent!</h3>
+                  <p className="body-text">
+                    Thank you for reaching out. Our team will review your message and 
+                    get back to you shortly.
+                  </p>
+                </Card>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                  >
                     <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                       Full Name *
                     </label>
@@ -124,8 +167,13 @@ export default function ContactPage() {
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors"
                       placeholder="Juan Dela Cruz"
                     />
-                  </div>
-                  <div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                  >
                     <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
                       Email Address *
                     </label>
@@ -139,11 +187,16 @@ export default function ContactPage() {
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors"
                       placeholder="juan@example.com"
                     />
-                  </div>
+                  </motion.div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                  >
                     <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
                       Phone Number
                     </label>
@@ -156,8 +209,13 @@ export default function ContactPage() {
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors"
                       placeholder="+63 912 345 6789"
                     />
-                  </div>
-                  <div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.4 }}
+                  >
                     <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
                       Subject *
                     </label>
@@ -176,10 +234,15 @@ export default function ContactPage() {
                       <option value="partnership" className="bg-sunshare-deep">Partnership Opportunity</option>
                       <option value="support" className="bg-sunshare-deep">Customer Support</option>
                     </select>
-                  </div>
+                  </motion.div>
                 </div>
 
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                >
                   <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
                     Message *
                   </label>
@@ -193,18 +256,29 @@ export default function ContactPage() {
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors resize-none"
                     placeholder="Tell us how we can help..."
                   />
-                </div>
+                </motion.div>
 
-                <Button type="submit" loading={isSubmitting} className="w-full md:w-auto">
-                  Send Message
-                  <Send className="ml-2 w-4 h-4" />
-                </Button>
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                >
+                  <Button type="submit" loading={isSubmitting} className="w-full md:w-auto">
+                    Send Message
+                    <Send className="ml-2 w-4 h-4" />
+                  </Button>
+                </motion.div>
               </form>
             )}
-          </div>
+          </motion.div>
 
           {/* Map and Additional Info */}
-          <div className="space-y-6">
+          <motion.div 
+            {...fadeInUp}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-6"
+          >
             <div>
               <h2 className="h2 text-white mb-4">Find Us</h2>
               <Card className="p-4 h-56 lg:h-64 overflow-hidden">
@@ -219,23 +293,30 @@ export default function ContactPage() {
               </Card>
             </div>
 
-            <Card className="p-5">
-              <h4 className="font-semibold text-white mb-2">Looking to join our team?</h4>
-              <p className="body-text text-sm mb-4">
-                We&apos;re always looking for talented individuals who share our passion for 
-                clean energy and sustainable solutions.
-              </p>
-              <Button href="mailto:careers@sunshareenergy.ph" variant="outline" size="sm">
-                View Opportunities
-              </Button>
-            </Card>
-          </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card className="p-5">
+                <h4 className="font-semibold text-white mb-2">Looking to join our team?</h4>
+                <p className="body-text text-sm mb-4">
+                  We&apos;re always looking for talented individuals who share our passion for 
+                  clean energy and sustainable solutions.
+                </p>
+                <Button href="mailto:careers@sunshareenergy.ph" variant="outline" size="sm">
+                  View Opportunities
+                </Button>
+              </Card>
+            </motion.div>
+          </motion.div>
         </div>
       </Section>
 
       {/* CTA */}
       <Section background="gradient" className="mt-8">
-        <div className="text-center">
+        <motion.div {...fadeInUp} className="text-center">
           <h2 className="h2 text-white mb-4">
             Ready to Start Saving?
           </h2>
@@ -246,7 +327,7 @@ export default function ContactPage() {
           <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external size="lg">
             Get a Free Assessment
           </Button>
-        </div>
+        </motion.div>
       </Section>
     </>
   );
