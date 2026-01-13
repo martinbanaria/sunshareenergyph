@@ -1,6 +1,6 @@
 # SunShare Philippines Website — Implementation Context
 
-**Document Version:** 1.0  
+**Document Version:** 1.1  
 **Last Updated:** January 13, 2026  
 **Owner:** Martin Banaria
 
@@ -19,6 +19,9 @@
 | **Content Source** | Webflow site (sunshare.webflow.io) |
 | **Timeline** | ASAP (1-2 days) |
 | **Primary Purpose** | Government licensing credibility |
+| **Current Status** | MVP Deployed, UX Audit Fixes Complete |
+| **Live Preview** | https://sunshareenergyph-ra0rkux94-martin-banarias-projects.vercel.app |
+| **GitHub Repo** | https://github.com/martinbanaria/sunshareenergyph |
 
 ---
 
@@ -203,7 +206,7 @@ sunshareenergyph/
 | **Phone** | [Placeholder] |
 | **Email** | [Placeholder] |
 | **Form** | Name, Email, Phone, Message, Submit |
-| **Social** | LinkedIn, Facebook, X (placeholders) |
+| **Social** | Removed (add back when real URLs available) |
 
 ---
 
@@ -240,12 +243,12 @@ Pasig City, Philippines 1605
 
 [Home] [About] [Solutions] [How It Works] [Contact]
 
-[LinkedIn] [Facebook] [X]
-
 Privacy | Terms
 
 Copyright © 2025 Sunshare Philippines Inc - All Rights Reserved.
 ```
+
+*Note: Social links removed until real URLs are available.*
 
 ---
 
@@ -284,6 +287,32 @@ Copyright © 2025 Sunshare Philippines Inc - All Rights Reserved.
 | **Domain Registrar** | GoDaddy |
 | **Repository Name** | sunshareenergyph |
 | **GitHub Account** | Personal account |
+| **Social Links** | Removed until real URLs available |
+
+---
+
+## Recent Updates (January 13, 2026)
+
+### UX/UI Audit Fixes Completed
+
+| Issue | Resolution | File |
+|-------|------------|------|
+| Text contrast on `.body-text` | Changed from `0.75` to `0.85` opacity | `globals.css` |
+| Text contrast on `.body-large` | Changed from `0.75` to `0.85` opacity | `globals.css` |
+| Text contrast on `.kicker` | Changed from `0.6` to `0.7` opacity | `globals.css` |
+| Footer text contrast | Changed from `text-white/50` to `text-white/70` | `Footer.tsx` |
+| Form focus states | Added `input`, `select`, `textarea` to focus-visible rule | `globals.css` |
+| Placeholder social links | Removed from Footer and Contact page | `Footer.tsx`, `contact/page.tsx` |
+| Mobile touch targets | Increased hamburger button padding from `p-2` to `p-3` | `Header.tsx` |
+| ARIA attributes | Added `aria-haspopup`, `aria-expanded` to dropdowns | `Header.tsx` |
+
+### Deployment History
+
+| Commit | Date | Description |
+|--------|------|-------------|
+| `56e7495` | Jan 13, 2026 | Initial commit: SunShare Philippines website |
+| `4d9ef2f` | Jan 13, 2026 | chore: ignore npm cache directory |
+| `20f254f` | Jan 13, 2026 | fix: improve accessibility and text contrast per UX audit |
 
 ---
 

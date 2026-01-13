@@ -1,9 +1,10 @@
 # SunShare Philippines Website — Product Roadmap
 
-**Document Version:** 1.0  
+**Document Version:** 1.1  
 **Last Updated:** January 13, 2026  
 **Owner:** Martin Banaria  
-**Timeline:** 1-2 Days (MVP Launch)
+**Timeline:** 1-2 Days (MVP Launch)  
+**Status:** MVP DEPLOYED + UX AUDIT FIXES COMPLETE
 
 ---
 
@@ -34,15 +35,16 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 
 ## Epic Overview
 
-| Epic | Name | Priority | Effort | Description |
-|------|------|----------|--------|-------------|
-| E1 | Project Foundation & Setup | Must Have | S | Repository, framework, deployment pipeline |
-| E2 | Design System & Core Components | Must Have | M | Brand tokens, reusable components |
-| E3 | Page Development | Must Have | L | All 5 pages with content |
-| E4 | Content & Media Integration | Must Have | M | Copy, images, icons |
-| E5 | SEO & Performance | Should Have | S | Metadata, Open Graph, performance |
-| E6 | Deployment & Domain Configuration | Must Have | S | Vercel, DNS, SSL |
-| E7 | Post-Launch & Maintenance | Could Have | S | Monitoring, iterations |
+| Epic | Name | Priority | Effort | Status |
+|------|------|----------|--------|--------|
+| E1 | Project Foundation & Setup | Must Have | S | COMPLETE |
+| E2 | Design System & Core Components | Must Have | M | COMPLETE |
+| E3 | Page Development | Must Have | L | COMPLETE |
+| E4 | Content & Media Integration | Must Have | M | COMPLETE |
+| E5 | SEO & Performance | Should Have | S | COMPLETE |
+| E6 | Deployment & Domain Configuration | Must Have | S | PARTIAL (domain pending) |
+| E7 | Post-Launch & Maintenance | Could Have | S | IN PROGRESS |
+| E8 | UX/UI Audit Fixes | Must Have | S | COMPLETE |
 
 ---
 
@@ -58,11 +60,11 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 **So that** I can build pages efficiently with modern patterns
 
 **Acceptance Criteria:**
-- [ ] Next.js 14 with App Router initialized
-- [ ] TypeScript configured with strict mode
-- [ ] Tailwind CSS 4 installed and configured
-- [ ] ESLint and Prettier configured
-- [ ] Project runs locally with `npm run dev`
+- [x] Next.js 14 with App Router initialized
+- [x] TypeScript configured with strict mode
+- [x] Tailwind CSS 4 installed and configured
+- [x] ESLint and Prettier configured
+- [x] Project runs locally with `npm run dev`
 
 **Priority:** Must Have  
 **Effort:** S (30 min)
@@ -75,10 +77,10 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 **So that** code is versioned and deployment can be automated
 
 **Acceptance Criteria:**
-- [ ] Git initialized with `.gitignore` for Next.js
-- [ ] Connected to `sunshareenergyph` repository
-- [ ] Initial commit with project structure
-- [ ] README.md with project overview
+- [x] Git initialized with `.gitignore` for Next.js
+- [x] Connected to `sunshareenergyph` repository
+- [x] Initial commit with project structure
+- [x] README.md with project overview
 
 **Priority:** Must Have  
 **Effort:** S (15 min)
@@ -91,10 +93,10 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 **So that** changes go live without manual intervention
 
 **Acceptance Criteria:**
-- [ ] Vercel project created and linked to GitHub repo
-- [ ] Preview deployments on PR/branch
-- [ ] Production deployment on main branch
-- [ ] Build succeeds with no errors
+- [x] Vercel project created and linked to GitHub repo
+- [x] Preview deployments on PR/branch
+- [x] Production deployment on main branch
+- [x] Build succeeds with no errors
 
 **Priority:** Must Have  
 **Effort:** S (15 min)
@@ -107,13 +109,13 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 **So that** the codebase remains maintainable
 
 **Acceptance Criteria:**
-- [ ] `/app` — App Router pages
-- [ ] `/components` — Reusable UI components
-- [ ] `/components/ui` — Atomic design elements
-- [ ] `/components/sections` — Page sections
-- [ ] `/lib` — Utilities and constants
-- [ ] `/public` — Static assets (images, icons)
-- [ ] `/styles` — Global styles if needed
+- [x] `/app` — App Router pages
+- [x] `/components` — Reusable UI components
+- [x] `/components/ui` — Atomic design elements
+- [x] `/components/sections` — Page sections
+- [x] `/lib` — Utilities and constants
+- [x] `/public` — Static assets (images, icons)
+- [x] `/styles` — Global styles if needed
 
 **Priority:** Must Have  
 **Effort:** S (15 min)
@@ -652,18 +654,19 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 
 ## Release Plan
 
-### MVP (Day 1-2) — MUST SHIP
+### MVP (Day 1-2) — SHIPPED
 
 | What | Status |
 |------|--------|
-| Project setup & Vercel deployment | Required |
-| Design system & core components | Required |
-| All 5 pages with content | Required |
-| Header & Footer | Required |
-| Mobile responsive | Required |
-| SEO metadata | Required |
-| Custom domain (sunshareenergy.ph) | Required |
-| External portal links | Required |
+| Project setup & Vercel deployment | COMPLETE |
+| Design system & core components | COMPLETE |
+| All 5 pages with content | COMPLETE |
+| Header & Footer | COMPLETE |
+| Mobile responsive | COMPLETE |
+| SEO metadata | COMPLETE |
+| Custom domain (sunshareenergy.ph) | PENDING (user testing first) |
+| External portal links | COMPLETE |
+| UX/UI Audit fixes | COMPLETE |
 
 ### Post-MVP (Day 3-5) — SHOULD DO
 
@@ -790,3 +793,68 @@ A user story is complete when:
 ---
 
 *This roadmap is a living document. Update as decisions are made and circumstances change.*
+
+---
+
+## Epic 8: UX/UI Audit Fixes (Added Post-MVP)
+
+**Objective:** Address accessibility and usability issues identified in UX audit.
+
+### US-8.1: Fix Text Contrast Issues
+**Status:** COMPLETE
+
+**Changes Made:**
+- `.body-text` color: `rgba(255, 255, 255, 0.75)` → `rgba(255, 255, 255, 0.85)`
+- `.body-large` color: `rgba(255, 255, 255, 0.75)` → `rgba(255, 255, 255, 0.85)`
+- `.kicker` color: `rgba(255, 255, 255, 0.6)` → `rgba(255, 255, 255, 0.7)`
+- Footer copyright/links: `text-white/50` → `text-white/70`
+
+### US-8.2: Add Form Focus States
+**Status:** COMPLETE
+
+**Changes Made:**
+- Added `input:focus-visible`, `select:focus-visible`, `textarea:focus-visible` to global focus styles
+- Consistent lime outline on all form elements
+
+### US-8.3: Remove Placeholder Social Links
+**Status:** COMPLETE
+
+**Changes Made:**
+- Removed social links section from `Footer.tsx`
+- Removed social links section from `contact/page.tsx`
+- Removed unused Lucide icon imports
+
+### US-8.4: Improve Mobile Accessibility
+**Status:** COMPLETE
+
+**Changes Made:**
+- Increased mobile menu button padding from `p-2` to `p-3` (48px touch target)
+- Added `aria-expanded` to mobile menu button
+- Added `aria-haspopup` and `aria-expanded` to login dropdown
+
+---
+
+## Remaining Items
+
+### High Priority
+| Item | Description | Blocker |
+|------|-------------|---------|
+| Configure sunshareenergy.ph domain | Add DNS records in GoDaddy | User wants to test first |
+| Add real phone/email | Replace placeholders in contact info | Waiting on client |
+| Privacy Policy page | Create `/privacy` page | Content needed |
+| Terms of Service page | Create `/terms` page | Content needed |
+
+### Medium Priority
+| Item | Description |
+|------|-------------|
+| Add real social media links | When company profiles are created |
+| Analytics integration | Google Analytics or Vercel Analytics |
+| Form submission backend | Connect to email service or CRM |
+| Performance optimization | Image optimization, lazy loading |
+
+### Low Priority
+| Item | Description |
+|------|-------------|
+| Add real testimonials | When customer testimonials available |
+| Team/Leadership section | When photos and bios available |
+| Blog/News section | Future content marketing |
