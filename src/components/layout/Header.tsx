@@ -35,11 +35,11 @@ export function Header() {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <Image
-                src="/brand/logos/sunshare.svg"
+                src="/brand/logos/sunshare-pulsegrid-dark.png"
                 alt="SunShare Philippines"
-                width={140}
-                height={32}
-                className="h-8 md:h-9 w-auto"
+                width={160}
+                height={36}
+                className="h-9 md:h-10 w-auto"
                 priority
               />
             </Link>

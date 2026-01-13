@@ -21,11 +21,11 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
               <Image
-                src="/brand/logos/sunshare.svg"
+                src="/brand/logos/sunshare-pulsegrid-dark.png"
                 alt="SunShare Philippines"
-                width={160}
-                height={36}
-                className="h-9 w-auto"
+                width={180}
+                height={40}
+                className="h-10 w-auto"
               />
             </Link>
             <div className="body-text space-y-2 mb-6">
