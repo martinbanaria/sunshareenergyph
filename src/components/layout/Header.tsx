@@ -65,6 +65,8 @@ export function Header() {
                   onClick={() => setLoginDropdownOpen(!loginDropdownOpen)}
                   onBlur={() => setTimeout(() => setLoginDropdownOpen(false), 150)}
                   className="flex items-center gap-1 px-4 py-2 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                  aria-haspopup="true"
+                  aria-expanded={loginDropdownOpen}
                 >
                   Login
                   <ChevronDown className={`w-4 h-4 transition-transform ${loginDropdownOpen ? 'rotate-180' : ''}`} />
@@ -103,8 +105,9 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-white/80 hover:text-white transition-colors"
+              className="lg:hidden p-3 text-white/80 hover:text-white transition-colors"
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

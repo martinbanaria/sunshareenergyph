@@ -158,7 +158,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 @media (min-width: 640px) {
@@ -171,7 +171,7 @@ body {
 .body-text {
   font-size: 0.875rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @media (min-width: 640px) {
@@ -184,7 +184,7 @@ body {
 .body-large {
   font-size: 1rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @media (min-width: 640px) {
@@ -277,7 +277,10 @@ body {
 
 /* Focus states for accessibility */
 button:focus-visible,
-a:focus-visible {
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 2px solid var(--sunshare-lime);
   outline-offset: 2px;
 }

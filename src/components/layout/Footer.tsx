@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Linkedin, Facebook, Twitter } from 'lucide-react';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -8,12 +7,6 @@ const navLinks = [
   { label: 'Solutions', href: '/solutions' },
   { label: 'How It Works', href: '/how-it-works' },
   { label: 'Contact', href: '/contact' },
-];
-
-const socialLinks = [
-  { label: 'LinkedIn', href: '#', icon: Linkedin },
-  { label: 'Facebook', href: '#', icon: Facebook },
-  { label: 'X (Twitter)', href: '#', icon: Twitter },
 ];
 
 export function Footer() {
@@ -61,33 +54,14 @@ export function Footer() {
               ))}
             </nav>
           </div>
-
-          {/* Social Links */}
-          <div>
-            <h4 className="font-semibold text-white mb-4">Follow Us</h4>
-            <div className="flex gap-3">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/20 transition-colors"
-                  aria-label={link.label}
-                >
-                  <link.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-white/50">
+          <p className="text-sm text-white/70">
             Copyright © {currentYear} Sunshare Philippines Inc - All Rights Reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm text-white/50">
+          <div className="flex items-center gap-6 text-sm text-white/70">
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Section, SectionHeader } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { MapPin, Phone, Mail, Clock, Send, Linkedin, Facebook, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 
 const contactInfo = [
   {
@@ -27,12 +27,6 @@ const contactInfo = [
     title: 'Business Hours',
     details: ['Monday - Friday', '9:00 AM - 6:00 PM'],
   },
-];
-
-const socialLinks = [
-  { icon: Linkedin, label: 'LinkedIn', href: '#' },
-  { icon: Facebook, label: 'Facebook', href: '#' },
-  { icon: Twitter, label: 'X (Twitter)', href: '#' },
 ];
 
 export default function ContactPage() {
@@ -224,22 +218,6 @@ export default function ContactPage() {
                 </div>
               </div>
             </Card>
-
-            <h3 className="font-semibold text-white mb-4">Connect With Us</h3>
-            <div className="flex gap-3 mb-8">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-sunshare-lime/50 transition-colors"
-                  aria-label={link.label}
-                >
-                  <link.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
 
             <Card className="p-6">
               <h4 className="font-semibold text-white mb-2">Looking to join our team?</h4>
