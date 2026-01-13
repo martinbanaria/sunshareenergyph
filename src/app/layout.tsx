@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sunshareenergy.ph"),
@@ -59,6 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen flex flex-col">
+        <ScrollToTop />
         <Header />
         <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <Footer />
