@@ -96,7 +96,7 @@ export default function SolutionsPage() {
   return (
     <>
       {/* Hero Section */}
-      <Section className="pt-24 md:pt-32 pb-12">
+      <Section className="!pt-24 md:!pt-32 !pb-8 md:!pb-12">
         <div className="max-w-4xl mx-auto text-center">
           <p className="kicker mb-4">Our Solutions</p>
           <h1 className="h1 text-white mb-6">
@@ -111,9 +111,9 @@ export default function SolutionsPage() {
       </Section>
 
       {/* Customer Journey - Compact horizontal timeline */}
-      <Section className="py-10 md:py-14">
-        <div className="text-center mb-8">
-          <p className="kicker mb-2">Your Energy Journey</p>
+      <Section className="!py-12 md:!py-16">
+        <div className="text-center mb-10">
+          <p className="kicker mb-3">Your Energy Journey</p>
           <h2 className="h2 text-white">Three Phases to Energy Independence</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
@@ -139,7 +139,7 @@ export default function SolutionsPage() {
       </Section>
 
       {/* Solutions Detail - Alternating layout */}
-      <Section background="gradient" className="py-12 md:py-16">
+      <Section background="gradient" className="!py-12 md:!py-16">
         <div className="text-center mb-10">
           <p className="kicker mb-2">How We Can Help</p>
           <h2 className="h2 text-white">Comprehensive Energy Solutions</h2>
@@ -190,7 +190,7 @@ export default function SolutionsPage() {
       </Section>
 
       {/* Who We Serve */}
-      <Section className="py-12 md:py-16">
+      <Section className="!py-12 md:!py-16">
         <div className="text-center mb-8">
           <p className="kicker mb-2">Who We Serve</p>
           <h2 className="h2 text-white mb-3">Solutions for Every Segment</h2>
@@ -209,7 +209,7 @@ export default function SolutionsPage() {
       </Section>
 
       {/* CTA */}
-      <Section className="pb-16 md:pb-20">
+      <Section className="!pb-16 md:!pb-20 !pt-0">
         <Card className="p-8 md:p-10 text-center bg-gradient-to-br from-sunshare-navy/50 to-sunshare-deep/50">
           <h2 className="h2 text-white mb-3">
             Find the Right Solution for You
