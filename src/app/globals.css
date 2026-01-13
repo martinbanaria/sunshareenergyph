@@ -306,3 +306,55 @@ textarea:focus-visible {
     scroll-behavior: auto;
   }
 }
+
+/* Mobile-specific improvements */
+@media (max-width: 639px) {
+  /* Prevent horizontal overflow */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  /* Improve touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Adjust section padding for mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Make cards more compact on mobile */
+  .card {
+    border-radius: 0.75rem;
+  }
+  
+  /* Reduce blur intensity for performance */
+  .blur-3xl {
+    filter: blur(40px);
+  }
+  
+  /* Improve text readability on small screens */
+  .body-text, .body-large {
+    line-height: 1.65;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+  
+  .container {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Tap highlight color */
+* {
+  -webkit-tap-highlight-color: rgba(209, 235, 12, 0.1);
+}

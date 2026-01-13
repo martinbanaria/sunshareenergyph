@@ -26,6 +26,8 @@ const solutions = [
       'Continue using your existing connection',
     ],
     savings: '7-12%',
+    savingsLabel: 'Potential Savings',
+    savingsSubtext: 'on energy costs',
   },
   {
     icon: Sun,
@@ -39,6 +41,8 @@ const solutions = [
       'Subscription and financing available',
     ],
     savings: '~30%',
+    savingsLabel: 'Potential Savings',
+    savingsSubtext: 'on energy costs',
   },
   {
     icon: Battery,
@@ -52,6 +56,8 @@ const solutions = [
       'Optimized self-consumption',
     ],
     savings: '~82%',
+    savingsLabel: 'Potential Savings',
+    savingsSubtext: 'on energy costs',
   },
   {
     icon: BarChart3,
@@ -64,7 +70,9 @@ const solutions = [
       'Solar performance visibility',
       'Easy bundle management',
     ],
-    savings: 'Visibility',
+    savings: 'Full Insight',
+    savingsLabel: 'Key Benefit',
+    savingsSubtext: 'into your energy use',
   },
 ];
 
@@ -213,9 +221,9 @@ export default function SolutionsPage() {
                   {/* Savings badge */}
                   <div className={`lg:col-span-4 ${index % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
                     <div className="bg-sunshare-deep/50 rounded-xl p-6 text-center">
-                      <p className="text-xs uppercase tracking-wider text-white/60 mb-1">Potential Savings</p>
+                      <p className="text-xs uppercase tracking-wider text-white/60 mb-1">{solution.savingsLabel}</p>
                       <p className="text-4xl md:text-5xl font-semibold text-sunshare-lime">{solution.savings}</p>
-                      <p className="text-sm text-white/60 mt-1">on energy costs</p>
+                      <p className="text-sm text-white/60 mt-1">{solution.savingsSubtext}</p>
                     </div>
                   </div>
                 </div>

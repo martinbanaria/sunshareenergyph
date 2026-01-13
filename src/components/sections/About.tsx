@@ -38,7 +38,7 @@ export function About() {
               future.
             </p>
           </div>
-          <Button href="/about" variant="outline" comingSoon>
+          <Button href="/about" variant="outline">
             Learn More About Us
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>

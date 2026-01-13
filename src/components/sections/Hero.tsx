@@ -81,7 +81,7 @@ export function Hero() {
               Get Started
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button href="/solutions" variant="secondary" size="lg" comingSoon>
+            <Button href="/solutions" variant="secondary" size="lg">
               Learn More
             </Button>
           </motion.div>
