@@ -16,9 +16,9 @@ const navLinks = [
 ];
 
 const loginLinks = [
-  { label: 'Customer Portal', href: 'https://studio--sunshare-registration-portal.us-central1.hosted.app/customer/login' },
-  { label: 'RES Portal', href: 'https://studio--sunshare-registration-portal.us-central1.hosted.app/res/login' },
-  { label: 'SunShare Portal', href: 'https://studio--sunshare-registration-portal.us-central1.hosted.app/employee/login' },
+  { label: 'Customer Portal (Coming Soon)', href: '#' },
+  { label: 'RES Portal (Coming Soon)', href: '#' },
+  { label: 'SunShare Portal (Coming Soon)', href: '#' },
 ];
 
 const SIGNUP_URL = 'https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member';
@@ -78,18 +78,15 @@ export function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-2 w-48 surface rounded-xl overflow-hidden shadow-xl"
+                      className="absolute right-0 top-full mt-2 w-56 surface rounded-xl overflow-hidden shadow-xl"
                     >
                       {loginLinks.map((link) => (
-                        <a
-                          key={link.href}
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block px-4 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+                        <span
+                          key={link.label}
+                          className="block px-4 py-3 text-sm text-white/40 cursor-not-allowed"
                         >
                           {link.label}
-                        </a>
+                        </span>
                       ))}
                     </motion.div>
                   )}
@@ -97,7 +94,7 @@ export function Header() {
               </div>
 
               {/* Join Us Button */}
-              <Button href={SIGNUP_URL} external size="sm">
+              <Button href={SIGNUP_URL} external size="sm" comingSoon>
                 Join Us
               </Button>
             </div>
@@ -140,19 +137,16 @@ export function Header() {
                 <div className="border-t border-white/10 my-2" />
                 <p className="px-4 py-2 text-xs text-white/50 uppercase tracking-wider">Login</p>
                 {loginLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-3 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                  <span
+                    key={link.label}
+                    className="px-4 py-3 text-white/40 rounded-lg cursor-not-allowed block"
                   >
                     {link.label}
-                  </a>
+                  </span>
                 ))}
                 <div className="border-t border-white/10 my-2" />
                 <div className="px-4 py-2">
-                  <Button href={SIGNUP_URL} external className="w-full">
+                  <Button href={SIGNUP_URL} external className="w-full" comingSoon>
                     Join Us
                   </Button>
                 </div>

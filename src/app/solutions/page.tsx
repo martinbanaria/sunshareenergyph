@@ -131,7 +131,7 @@ export default function SolutionsPage() {
       </section>
 
       {/* Customer Journey - Compact horizontal timeline */}
-      <Section className="!py-12 md:!py-16">
+      <Section spacing="compact">
         <motion.div {...fadeInUp} className="text-center mb-10">
           <p className="kicker mb-3">Your Energy Journey</p>
           <h2 className="h2 text-white">Three Phases to Energy Independence</h2>
@@ -167,7 +167,7 @@ export default function SolutionsPage() {
       </Section>
 
       {/* Solutions Detail - Alternating layout */}
-      <Section background="gradient" className="!py-12 md:!py-16">
+      <Section background="gradient" spacing="compact">
         <motion.div {...fadeInUp} className="text-center mb-10">
           <p className="kicker mb-2">How We Can Help</p>
           <h2 className="h2 text-white">Comprehensive Energy Solutions</h2>
@@ -226,7 +226,7 @@ export default function SolutionsPage() {
       </Section>
 
       {/* Who We Serve */}
-      <Section className="!py-12 md:!py-16">
+      <Section spacing="compact">
         <motion.div {...fadeInUp} className="text-center mb-8">
           <p className="kicker mb-2">Who We Serve</p>
           <h2 className="h2 text-white mb-3">Solutions for Every Segment</h2>
@@ -253,7 +253,7 @@ export default function SolutionsPage() {
       </Section>
 
       {/* CTA */}
-      <Section className="!pb-16 md:!pb-20 !pt-0">
+      <Section spacing="tight" className="pb-16 md:pb-20 pt-0">
         <motion.div {...fadeInUp}>
           <Card className="p-8 md:p-10 text-center bg-gradient-to-br from-sunshare-navy/50 to-sunshare-deep/50">
             <h2 className="h2 text-white mb-3">
@@ -264,7 +264,7 @@ export default function SolutionsPage() {
               energy solutions.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external>
+              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external comingSoon>
                 Get a Free Assessment
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

@@ -285,7 +285,7 @@ export default function HowItWorksPage() {
               with SunShare. The process is simple, and we&apos;re here to help every step of the way.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external>
+              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external comingSoon>
                 Start Your Assessment
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

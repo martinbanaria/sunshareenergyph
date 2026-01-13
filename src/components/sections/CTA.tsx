@@ -30,7 +30,7 @@ export function CTA() {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button href={SIGNUP_URL} external size="lg">
+          <Button href={SIGNUP_URL} external size="lg" comingSoon>
             Join Us
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>

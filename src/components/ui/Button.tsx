@@ -1,8 +1,8 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -14,6 +14,7 @@ interface ButtonProps {
   external?: boolean;
   loading?: boolean;
   disabled?: boolean;
+  comingSoon?: boolean;
   className?: string;
   children: React.ReactNode;
   onClick?: () => void;
@@ -21,10 +22,10 @@ interface ButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-sunshare-lime text-sunshare-deep hover:bg-sunshare-lime/90 font-semibold',
-  secondary: 'bg-white/10 text-white hover:bg-white/20 border border-white/20',
+  primary: 'bg-sunshare-lime text-sunshare-deep hover:bg-sunshare-lime/90 font-semibold hover:shadow-[0_0_20px_rgba(209,235,12,0.3)]',
+  secondary: 'bg-white/10 text-white hover:bg-white/20 border border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]',
   ghost: 'bg-transparent text-white hover:bg-white/10',
-  outline: 'bg-transparent text-sunshare-lime border border-sunshare-lime hover:bg-sunshare-lime/10',
+  outline: 'bg-transparent text-sunshare-lime border border-sunshare-lime hover:bg-sunshare-lime/10 hover:shadow-[0_0_15px_rgba(209,235,12,0.15)]',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -40,14 +41,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     href, 
     external = false,
     loading = false,
+    comingSoon = false,
     className = '', 
     children, 
     disabled,
     onClick,
     type = 'button',
   }, ref) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+    
     const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
-    const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
+    const comingSoonStyles = comingSoon ? 'opacity-40 cursor-not-allowed pointer-events-none' : '';
+    const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${comingSoonStyles} ${className}`;
 
     const content = (
       <>
@@ -66,6 +71,41 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </>
     );
 
+    // Coming Soon tooltip wrapper
+    const TooltipWrapper = ({ children: tooltipChildren }: { children: React.ReactNode }) => (
+      <span 
+        className="relative inline-flex"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {tooltipChildren}
+        <AnimatePresence>
+          {showTooltip && comingSoon && (
+            <motion.span
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.15 }}
+              className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs font-medium text-sunshare-deep bg-sunshare-lime rounded whitespace-nowrap z-50"
+            >
+              Coming Soon
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </span>
+    );
+
+    // If comingSoon, render as non-interactive span
+    if (comingSoon) {
+      return (
+        <TooltipWrapper>
+          <span className={combinedStyles} aria-disabled="true">
+            {content}
+          </span>
+        </TooltipWrapper>
+      );
+    }
+
     if (href) {
       if (external) {
         return (
@@ -74,8 +114,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             target="_blank"
             rel="noopener noreferrer"
             className={combinedStyles}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+            whileTap={{ scale: 0.97 }}
           >
             {content}
           </motion.a>
@@ -85,8 +125,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <Link href={href} className={combinedStyles}>
           <motion.span
             className="inline-flex items-center justify-center w-full"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+            whileTap={{ scale: 0.97 }}
           >
             {content}
           </motion.span>
@@ -101,8 +141,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={combinedStyles}
         disabled={disabled || loading}
         onClick={onClick}
-        whileHover={{ scale: disabled ? 1 : 1.02 }}
-        whileTap={{ scale: disabled ? 1 : 0.98 }}
+        whileHover={{ scale: disabled ? 1 : 1.03, transition: { duration: 0.2 } }}
+        whileTap={{ scale: disabled ? 1 : 0.97 }}
       >
         {content}
       </motion.button>

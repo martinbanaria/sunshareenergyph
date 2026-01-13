@@ -5,6 +5,7 @@ import { Section, SectionHeader } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight, Zap, Sun, Cpu, Building2, Users, Shield } from 'lucide-react';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -153,15 +154,12 @@ export default function AboutPage() {
             {...fadeInUp}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Card className="p-6 lg:p-8 aspect-[4/3] flex items-center justify-center bg-gradient-to-br from-sunshare-navy/50 to-sunshare-deep/80">
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-2xl bg-sunshare-lime/10 flex items-center justify-center mx-auto mb-4">
-                  <Sun className="w-10 h-10 text-sunshare-lime" />
-                </div>
-                <p className="text-white font-semibold mb-2">Powering Communities</p>
-                <p className="text-sm text-white/70">Solar • Storage • Savings</p>
-              </div>
-            </Card>
+            <OptimizedImage
+              src="/images/sections/solar-rooftop.jpg"
+              alt="Solar panels on a rooftop - Sustainable energy for Filipino communities"
+              overlay="gradient"
+              aspectRatio="4/3"
+            />
           </motion.div>
         </div>
       </Section>
@@ -258,7 +256,7 @@ export default function AboutPage() {
               and cleaner energy for your community or business.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external>
+              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external comingSoon>
                 Get Started
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
