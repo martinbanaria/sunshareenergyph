@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { Section } from '@/components/ui/Section';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
@@ -57,9 +57,9 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <Section className="pt-24 md:pt-32">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero Section with Contact Info Cards */}
+      <Section className="pt-24 md:pt-32 pb-8 md:pb-12">
+        <div className="max-w-4xl mx-auto text-center mb-12">
           <p className="kicker mb-4">Contact Us</p>
           <h1 className="h1 text-white mb-6">
             Let&apos;s Start a Conversation
@@ -69,32 +69,30 @@ export default function ContactPage() {
             can help your community or business save on electricity? We&apos;re here to help.
           </p>
         </div>
-      </Section>
 
-      {/* Contact Info Cards */}
-      <Section background="gradient" className="py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Contact Info Cards - Moved up directly under hero text */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {contactInfo.map((info) => (
-            <Card key={info.title} className="p-6 text-center">
-              <div className="w-12 h-12 rounded-xl bg-sunshare-lime/10 flex items-center justify-center mx-auto mb-4">
-                <info.icon className="w-6 h-6 text-sunshare-lime" />
+            <Card key={info.title} className="p-4 md:p-6 text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-sunshare-lime/10 flex items-center justify-center mx-auto mb-3">
+                <info.icon className="w-5 h-5 md:w-6 md:h-6 text-sunshare-lime" />
               </div>
-              <h3 className="font-semibold text-white mb-2">{info.title}</h3>
+              <h3 className="font-semibold text-white text-sm md:text-base mb-1">{info.title}</h3>
               {info.details.map((detail, index) => (
-                <p key={index} className="body-text text-sm">{detail}</p>
+                <p key={index} className="body-text text-xs md:text-sm">{detail}</p>
               ))}
             </Card>
           ))}
         </div>
       </Section>
 
-      {/* Contact Form */}
-      <Section>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      {/* Contact Form & Map Section */}
+      <Section className="pt-8 md:pt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Form */}
           <div>
-            <h2 className="h2 text-white mb-6">Send Us a Message</h2>
-            <p className="body-text mb-8">
+            <h2 className="h2 text-white mb-4">Send Us a Message</h2>
+            <p className="body-text mb-6">
               Fill out the form below and our team will get back to you as soon as possible.
             </p>
 
@@ -110,8 +108,8 @@ export default function ContactPage() {
                 </p>
               </Card>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                       Full Name *
@@ -144,7 +142,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
                       Phone Number
@@ -189,7 +187,7 @@ export default function ContactPage() {
                     id="message"
                     name="message"
                     required
-                    rows={5}
+                    rows={4}
                     value={formData.message}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors resize-none"
@@ -206,20 +204,22 @@ export default function ContactPage() {
           </div>
 
           {/* Map and Additional Info */}
-          <div>
-            <h2 className="h2 text-white mb-6">Find Us</h2>
-            <Card className="p-4 mb-8 h-64 lg:h-80 overflow-hidden">
-              {/* Map placeholder */}
-              <div className="w-full h-full bg-sunshare-navy/30 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-sunshare-lime/50 mx-auto mb-2" />
-                  <p className="body-text">Tektite East Tower</p>
-                  <p className="text-sm text-white/50">Ortigas Center, Pasig City</p>
+          <div className="space-y-6">
+            <div>
+              <h2 className="h2 text-white mb-4">Find Us</h2>
+              <Card className="p-4 h-56 lg:h-64 overflow-hidden">
+                {/* Map placeholder */}
+                <div className="w-full h-full bg-sunshare-navy/30 rounded-lg flex items-center justify-center">
+                  <div className="text-center">
+                    <MapPin className="w-10 h-10 text-sunshare-lime/50 mx-auto mb-2" />
+                    <p className="body-text">Tektite East Tower</p>
+                    <p className="text-sm text-white/60">Ortigas Center, Pasig City</p>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </div>
 
-            <Card className="p-6">
+            <Card className="p-5">
               <h4 className="font-semibold text-white mb-2">Looking to join our team?</h4>
               <p className="body-text text-sm mb-4">
                 We&apos;re always looking for talented individuals who share our passion for 
@@ -234,7 +234,7 @@ export default function ContactPage() {
       </Section>
 
       {/* CTA */}
-      <Section background="gradient">
+      <Section background="gradient" className="mt-8">
         <div className="text-center">
           <h2 className="h2 text-white mb-4">
             Ready to Start Saving?
