@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -26,6 +27,14 @@ const SIGNUP_URL = 'https://studio--sunshare-registration-portal.us-central1.hos
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActiveLink = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
@@ -50,9 +59,20 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                  className={`relative px-4 py-2 text-sm transition-colors rounded-lg hover:bg-white/5 ${
+                    isActiveLink(link.href) 
+                      ? 'text-white font-medium' 
+                      : 'text-white/80 hover:text-white'
+                  }`}
                 >
                   {link.label}
+                  {isActiveLink(link.href) && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-sunshare-lime rounded-full"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
               ))}
             </nav>
@@ -129,7 +149,11 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-3 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                    className={`px-4 py-3 rounded-lg transition-colors ${
+                      isActiveLink(link.href)
+                        ? 'text-white bg-sunshare-lime/10 border-l-2 border-sunshare-lime font-medium'
+                        : 'text-white/80 hover:text-white hover:bg-white/5'
+                    }`}
                   >
                     {link.label}
                   </Link>

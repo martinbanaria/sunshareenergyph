@@ -94,8 +94,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <Section background="gradient">
+      {/* Mission & Vision - Moved up directly after hero */}
+      <Section spacing="compact">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           <motion.div {...fadeInUp}>
             <Card className="p-8 h-full border-sunshare-lime/20">
@@ -126,8 +126,8 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Company Story with Image Placeholder */}
-      <Section>
+      {/* Company Story with Image */}
+      <Section background="gradient">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div {...fadeInUp}>
             <p className="kicker mb-4">Our Story</p>
