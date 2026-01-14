@@ -1,10 +1,10 @@
 # SunShare Philippines Website — Product Roadmap
 
-**Document Version:** 1.1  
-**Last Updated:** January 13, 2026  
+**Document Version:** 1.2  
+**Last Updated:** January 14, 2026  
 **Owner:** Martin Banaria  
 **Timeline:** 1-2 Days (MVP Launch)  
-**Status:** MVP DEPLOYED + UX AUDIT FIXES COMPLETE
+**Status:** MVP DEPLOYED + IMAGE SYSTEM REFACTORED
 
 ---
 
@@ -40,11 +40,12 @@ Using **MoSCoW Framework** given the 1-2 day constraint:
 | E1 | Project Foundation & Setup | Must Have | S | COMPLETE |
 | E2 | Design System & Core Components | Must Have | M | COMPLETE |
 | E3 | Page Development | Must Have | L | COMPLETE |
-| E4 | Content & Media Integration | Must Have | M | COMPLETE |
+| E4 | Content & Media Integration | Must Have | M | IN PROGRESS |
 | E5 | SEO & Performance | Should Have | S | COMPLETE |
 | E6 | Deployment & Domain Configuration | Must Have | S | PARTIAL (domain pending) |
 | E7 | Post-Launch & Maintenance | Could Have | S | IN PROGRESS |
 | E8 | UX/UI Audit Fixes | Must Have | S | COMPLETE |
+| E9 | Image System Refactor | Must Have | M | COMPLETE (awaiting assets) |
 
 ---
 
@@ -839,8 +840,9 @@ A user story is complete when:
 ### High Priority
 | Item | Description | Blocker |
 |------|-------------|---------|
+| Replace placeholder images | Swap in Filipino-centric photos for all sections | User sourcing images manually |
 | Configure sunshareenergy.ph domain | Add DNS records in GoDaddy | User wants to test first |
-| Add real phone/email | Replace placeholders in contact info | Waiting on client |
+| Add real contact info | Replace placeholder phone/email | Waiting on client |
 | Privacy Policy page | Create `/privacy` page | Content needed |
 | Terms of Service page | Create `/terms` page | Content needed |
 
@@ -858,3 +860,47 @@ A user story is complete when:
 | Add real testimonials | When customer testimonials available |
 | Team/Leadership section | When photos and bios available |
 | Blog/News section | Future content marketing |
+
+---
+
+## Epic 9: Image System Refactor (Added Post-MVP)
+
+**Objective:** Standardize image filenames and prepare codebase for Filipino-centric visual refresh.
+
+### US-9.1: Refactor Image Paths to Semantic Filenames
+**Status:** COMPLETE
+
+**Changes Made:**
+- Renamed all section images to semantic convention (e.g., `about-community.jpg`, `solutions-cost-savings.jpg`)
+- Updated all component `src` attributes to use new paths
+- Updated `alt` text to be Filipino-specific for SEO/accessibility
+- Deleted 10 legacy/duplicate image files
+
+**Files Modified:**
+- `src/components/sections/About.tsx`
+- `src/components/sections/HowItWorks.tsx`
+- `src/components/sections/WhyUs.tsx`
+- `src/components/sections/Testimonials.tsx`
+- `src/components/sections/Solutions.tsx`
+- `src/app/how-it-works/page.tsx`
+
+### US-9.2: Replace Placeholder Images with Filipino Assets
+**Status:** IN PROGRESS (User sourcing manually)
+
+**Target Images:**
+| Filename | Visual Direction |
+|----------|------------------|
+| `about-community.jpg` | Filipino family/community gathering, warm light |
+| `how-it-works-consultation.jpg` | Consultant + homeowner at table with bills/laptop |
+| `how-it-works-eligibility.jpg` | Filipino homeowner reviewing bills at dining table |
+| `how-it-works-application.jpg` | Consultant guiding customer through form on laptop |
+| `how-it-works-savings.jpg` | Happy Filipino family in living room |
+| `whyus-solar-rooftop.jpg` | Installer on Filipino rooftop, tropical setting |
+| `testimonials-partnership.jpg` | Team handshake with barangay/community reps |
+| `solutions-cost-savings.jpg` | Homeowner reviewing Meralco bill, smiling |
+| `solutions-dashboard.jpg` | Energy dashboard on laptop/tablet, charts visible |
+
+**Notes:**
+- Current images are placeholders (copies of old stock photos)
+- Once new images are sourced, simply overwrite files in `public/images/sections/`
+- No code changes required after file replacement

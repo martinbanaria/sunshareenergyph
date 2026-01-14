@@ -12,6 +12,7 @@ const solutions = [
     description: 'Start saving right away by switching to SunShare, then grow into solar and battery solutions at your pace with guided onboarding and financing.',
     imageSrc: '/images/sections/solutions-cost-savings.jpg',
     imageAlt: 'Filipino homeowner celebrating lower electricity bills',
+    objectPosition: 'center bottom',
   },
   {
     icon: Sun,
@@ -19,13 +20,15 @@ const solutions = [
     description: 'After switching, SunShare helps map your rooftop, match you with accredited solar installers, and give you access to solar bundles and financing options.',
     imageSrc: '/images/sections/solar-installation.jpg',
     imageAlt: 'Professional solar panel installation',
+    objectPosition: 'center bottom',
   },
   {
     icon: Battery,
     title: 'Future-Ready with Battery Storage',
     description: 'Once your solar is running, SunShare supports you in adding battery storage for reliability, outage protection, and optimized energy use.',
     imageSrc: '/images/sections/home-battery.jpg',
-    imageAlt: 'Home battery storage system',
+    imageAlt: 'Home battery storage system mounted on wall',
+    objectPosition: 'center',
   },
   {
     icon: BarChart3,
@@ -33,6 +36,7 @@ const solutions = [
     description: 'Track usage, monitor savings, view your solar performance, and manage your SunShare bundles all in one digital dashboard.',
     imageSrc: '/images/sections/solutions-dashboard.jpg',
     imageAlt: 'Smart energy monitoring dashboard showing real-time savings',
+    objectPosition: 'center top',
   },
 ];
 
@@ -71,6 +75,7 @@ export function Solutions() {
               description={solution.description}
               imageSrc={solution.imageSrc}
               imageAlt={solution.imageAlt}
+              objectPosition={solution.objectPosition}
               className="h-full"
             />
           </motion.div>

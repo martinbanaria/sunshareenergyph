@@ -83,9 +83,10 @@ interface ImageServiceCardProps {
   imageSrc: string;
   imageAlt?: string;
   className?: string;
+  objectPosition?: string;
 }
 
-export function ImageServiceCard({ icon: Icon, title, description, imageSrc, imageAlt, className = '' }: ImageServiceCardProps) {
+export function ImageServiceCard({ icon: Icon, title, description, imageSrc, imageAlt, className = '', objectPosition = 'center' }: ImageServiceCardProps) {
   return (
     <motion.div
       className={`card flex flex-col overflow-hidden ${className}`}
@@ -99,6 +100,7 @@ export function ImageServiceCard({ icon: Icon, title, description, imageSrc, ima
           src={imageSrc} 
           alt={imageAlt || title} 
           className="w-full h-full object-cover"
+          style={{ objectPosition }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-sunshare-deep/80 via-sunshare-deep/20 to-transparent" />
       </div>

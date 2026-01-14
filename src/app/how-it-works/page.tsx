@@ -141,7 +141,7 @@ export default function HowItWorksPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="body-large"
             >
-              Filipinos now have the power to choose where their electricity comes from—thanks 
+              Filipinos now have the power to choose where their electricity comes from, thanks 
               to the government&apos;s Competitive Retail Electricity Market and Retail Aggregation 
               Program. SunShare makes that choice easy, transparent, and fair.
             </motion.p>

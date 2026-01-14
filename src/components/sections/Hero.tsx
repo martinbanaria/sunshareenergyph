@@ -68,7 +68,7 @@ export function Hero() {
             transition={{ ...transitions.tweenSmooth, delay: 0.2 }}
             className="body-large max-w-2xl mx-auto mb-10"
           >
-            Access affordable, reliable, and sustainable clean energy—by sharing 
+            Access affordable, reliable, and sustainable clean energy by sharing 
             the power of community for a brighter, greener tomorrow.
           </motion.p>
 

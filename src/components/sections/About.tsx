@@ -34,8 +34,7 @@ export function About() {
             </p>
             <p>
               This is not just about cutting costs. It is about giving Filipinos more 
-              control, more reliability during outages, and more confidence in a cleaner 
-              future.
+              control and more confidence in a cleaner future.
             </p>
           </div>
           <Button href="/about" variant="outline-dark">
@@ -56,7 +55,7 @@ export function About() {
           <div className="relative rounded-xl overflow-hidden mb-6">
             <OptimizedImage
               src="/images/sections/about-community.jpg"
-              alt="Filipino community members discussing clean energy adoption"
+              alt="Aerial view of Manila skyline at sunset showing urban communities and businesses"
               overlay="gradient"
               aspectRatio="16/9"
             />
@@ -64,7 +63,7 @@ export function About() {
           
           {/* Stats card overlapping the image */}
           <div className="card-light p-6 lg:p-8 -mt-12 sm:-mt-16 lg:-mt-20 mx-4 relative z-10 shadow-lg">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
                 <p className="metric text-sunshare-navy">7-12%</p>
                 <p className="text-sunshare-gray text-sm mt-1">Immediate Savings</p>
@@ -76,10 +75,6 @@ export function About() {
               <div className="text-center">
                 <p className="metric text-sunshare-navy">82%</p>
                 <p className="text-sunshare-gray text-sm mt-1">With Solar + BESS</p>
-              </div>
-              <div className="text-center">
-                <p className="metric text-radiant-teal">24/7</p>
-                <p className="text-sunshare-gray text-sm mt-1">Energy Support</p>
               </div>
             </div>
           </div>
