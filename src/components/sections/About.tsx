@@ -1,14 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { ArrowRight } from 'lucide-react';
 
 export function About() {
   return (
-    <Section id="about-us" background="gradient">
+    <Section id="about-us" theme="light">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         {/* Content */}
         <motion.div
@@ -17,11 +17,11 @@ export function About() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="kicker mb-4">About SunShare Energy</p>
-          <h2 className="h2 text-white mb-6">
+          <p className="text-sunshare-navy text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-4">About SunShare Energy</p>
+          <h2 className="h2 text-sunshare-deep mb-6">
             Transforming the Way Filipino Communities and Businesses Experience Energy
           </h2>
-          <div className="space-y-4 body-text mb-8">
+          <div className="space-y-4 text-sunshare-gray mb-8">
             <p>
               Across the Philippines, families, condos, offices, buildings, and small 
               businesses all face the same challenge: electricity that keeps getting 
@@ -38,7 +38,7 @@ export function About() {
               future.
             </p>
           </div>
-          <Button href="/about" variant="outline">
+          <Button href="/about" variant="outline-dark">
             Learn More About Us
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
@@ -55,31 +55,31 @@ export function About() {
           {/* Image with overlay */}
           <div className="relative rounded-xl overflow-hidden mb-6">
             <OptimizedImage
-              src="/images/sections/community.jpg"
-              alt="Filipino community benefiting from clean energy solutions"
+              src="/images/sections/about-community.jpg"
+              alt="Filipino community members discussing clean energy adoption"
               overlay="gradient"
               aspectRatio="16/9"
             />
           </div>
           
           {/* Stats card overlapping the image */}
-          <div className="card p-6 lg:p-8 -mt-20 mx-4 relative z-10">
+          <div className="card-light p-6 lg:p-8 -mt-12 sm:-mt-16 lg:-mt-20 mx-4 relative z-10 shadow-lg">
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="metric text-sunshare-lime">7-12%</p>
-                <p className="body-text text-sm mt-1">Immediate Savings</p>
+                <p className="metric text-sunshare-navy">7-12%</p>
+                <p className="text-sunshare-gray text-sm mt-1">Immediate Savings</p>
               </div>
               <div className="text-center">
-                <p className="metric text-sunshare-lime">30%</p>
-                <p className="body-text text-sm mt-1">With Solar</p>
+                <p className="metric text-sunshare-navy">30%</p>
+                <p className="text-sunshare-gray text-sm mt-1">With Solar</p>
               </div>
               <div className="text-center">
-                <p className="metric text-sunshare-lime">82%</p>
-                <p className="body-text text-sm mt-1">With Solar + BESS</p>
+                <p className="metric text-sunshare-navy">82%</p>
+                <p className="text-sunshare-gray text-sm mt-1">With Solar + BESS</p>
               </div>
               <div className="text-center">
                 <p className="metric text-radiant-teal">24/7</p>
-                <p className="body-text text-sm mt-1">Energy Support</p>
+                <p className="text-sunshare-gray text-sm mt-1">Energy Support</p>
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 
 type SectionSpacing = 'default' | 'compact' | 'tight';
+type SectionTheme = 'dark' | 'light' | 'accent-teal';
 
 interface SectionProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface SectionProps {
   id?: string;
   background?: 'default' | 'gradient' | 'pattern';
   spacing?: SectionSpacing;
+  theme?: SectionTheme;
 }
 
 const spacingStyles: Record<SectionSpacing, string> = {
@@ -18,17 +20,26 @@ const spacingStyles: Record<SectionSpacing, string> = {
   tight: 'py-8 md:py-12',
 };
 
-export function Section({ children, className = '', id, background = 'default', spacing = 'default' }: SectionProps) {
+const themeStyles: Record<SectionTheme, string> = {
+  dark: 'bg-sunshare-deep text-white',
+  light: 'section-light',
+  'accent-teal': 'section-accent-teal text-white',
+};
+
+export function Section({ children, className = '', id, background = 'default', spacing = 'default', theme }: SectionProps) {
   const bgClasses = {
     default: '',
     gradient: 'bg-gradient-to-b from-transparent via-sunshare-navy/20 to-transparent',
     pattern: 'bg-grid-pattern',
   };
 
+  const themeClass = theme ? themeStyles[theme] : '';
+
   return (
     <section
       id={id}
-      className={`${spacingStyles[spacing]} ${bgClasses[background]} ${className}`}
+      data-theme={theme || 'dark'}
+      className={`${spacingStyles[spacing]} ${bgClasses[background]} ${themeClass} ${className}`}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
         {children}
@@ -43,6 +54,7 @@ interface SectionHeaderProps {
   subtitle?: string;
   centered?: boolean;
   className?: string;
+  theme?: 'dark' | 'light';
 }
 
 const headerStagger = {
@@ -59,7 +71,11 @@ const headerItem = {
   whileInView: { opacity: 1, y: 0 },
 };
 
-export function SectionHeader({ kicker, title, subtitle, centered = true, className = '' }: SectionHeaderProps) {
+export function SectionHeader({ kicker, title, subtitle, centered = true, className = '', theme = 'dark' }: SectionHeaderProps) {
+  const kickerColor = theme === 'light' ? 'text-sunshare-navy' : 'kicker';
+  const titleColor = theme === 'light' ? 'text-sunshare-deep' : 'text-white';
+  const subtitleColor = theme === 'light' ? 'text-sunshare-gray' : 'body-large';
+
   return (
     <motion.div
       className={`${centered ? 'text-center' : ''} mb-12 md:mb-16 ${className}`}
@@ -70,7 +86,7 @@ export function SectionHeader({ kicker, title, subtitle, centered = true, classN
     >
       {kicker && (
         <motion.p 
-          className="kicker mb-4"
+          className={`${kickerColor} mb-4 text-xs sm:text-sm font-medium tracking-[0.2em] uppercase`}
           variants={headerItem}
           transition={{ duration: 0.5 }}
         >
@@ -78,7 +94,7 @@ export function SectionHeader({ kicker, title, subtitle, centered = true, classN
         </motion.p>
       )}
       <motion.h2 
-        className="h2 text-white mb-4"
+        className={`h2 ${titleColor} mb-4`}
         variants={headerItem}
         transition={{ duration: 0.5 }}
       >
@@ -86,7 +102,7 @@ export function SectionHeader({ kicker, title, subtitle, centered = true, classN
       </motion.h2>
       {subtitle && (
         <motion.p 
-          className={`body-large ${centered ? 'max-w-3xl mx-auto' : ''}`}
+          className={`${subtitleColor} ${centered ? 'max-w-3xl mx-auto' : ''} ${theme === 'light' ? 'text-sunshare-gray' : ''}`}
           variants={headerItem}
           transition={{ duration: 0.5 }}
         >

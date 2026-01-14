@@ -107,7 +107,7 @@ const segments = [
 export default function SolutionsPage() {
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section - Dark */}
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-grid-pattern">
         <div className="absolute inset-0 bg-gradient-to-b from-sunshare-deep via-sunshare-deep to-sunshare-navy/30" />
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-sunshare-lime/5 rounded-full blur-3xl" />
@@ -138,11 +138,11 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      {/* Customer Journey - Compact horizontal timeline */}
-      <Section spacing="compact">
+      {/* Customer Journey - Light */}
+      <Section spacing="compact" theme="light">
         <motion.div {...fadeInUp} className="text-center mb-10">
-          <p className="kicker mb-3">Your Energy Journey</p>
-          <h2 className="h2 text-white">Three Phases to Energy Independence</h2>
+          <p className="text-sunshare-navy text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-3">Your Energy Journey</p>
+          <h2 className="h2 text-sunshare-deep">Three Phases to Energy Independence</h2>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           {journey.map((phase, index) => (
@@ -153,19 +153,19 @@ export default function SolutionsPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="p-5 relative h-full border-sunshare-lime/20">
+              <Card theme="light" className="p-5 relative h-full border-sunshare-navy/20">
                 {/* Connector line */}
                 {index < journey.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 lg:-right-3 w-6 h-px bg-gradient-to-r from-sunshare-lime/40 to-transparent" />
+                  <div className="hidden md:block absolute top-1/2 -right-3 lg:-right-3 w-6 h-px bg-gradient-to-r from-sunshare-navy/40 to-transparent" />
                 )}
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-sunshare-lime/10 flex items-center justify-center flex-shrink-0">
-                    <phase.icon className="w-5 h-5 text-sunshare-lime" />
+                  <div className="w-10 h-10 rounded-lg bg-sunshare-navy/10 flex items-center justify-center flex-shrink-0">
+                    <phase.icon className="w-5 h-5 text-sunshare-navy" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-sunshare-lime mb-0.5">{phase.phase}</p>
-                    <h3 className="font-semibold text-white mb-1">{phase.title}</h3>
-                    <p className="body-text text-sm">{phase.description}</p>
+                    <p className="text-xs font-medium text-sunshare-navy mb-0.5">{phase.phase}</p>
+                    <h3 className="font-semibold text-sunshare-deep mb-1">{phase.title}</h3>
+                    <p className="text-sunshare-gray text-sm">{phase.description}</p>
                   </div>
                 </div>
               </Card>
@@ -174,8 +174,8 @@ export default function SolutionsPage() {
         </div>
       </Section>
 
-      {/* Solutions Detail - Alternating layout */}
-      <Section background="gradient" spacing="compact">
+      {/* Solutions Detail - Dark */}
+      <Section theme="dark" background="gradient" spacing="compact">
         <motion.div {...fadeInUp} className="text-center mb-10">
           <p className="kicker mb-2">How We Can Help</p>
           <h2 className="h2 text-white">Comprehensive Energy Solutions</h2>
@@ -233,12 +233,12 @@ export default function SolutionsPage() {
         </div>
       </Section>
 
-      {/* Who We Serve */}
-      <Section spacing="compact">
+      {/* Who We Serve - Light */}
+      <Section spacing="compact" theme="light">
         <motion.div {...fadeInUp} className="text-center mb-8">
-          <p className="kicker mb-2">Who We Serve</p>
-          <h2 className="h2 text-white mb-3">Solutions for Every Segment</h2>
-          <p className="body-text max-w-2xl mx-auto">
+          <p className="text-sunshare-navy text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-2">Who We Serve</p>
+          <h2 className="h2 text-sunshare-deep mb-3">Solutions for Every Segment</h2>
+          <p className="text-sunshare-gray max-w-2xl mx-auto">
             Whether you&apos;re a homeowner, HOA, SME, or large facility, SunShare has a solution tailored to your needs.
           </p>
         </motion.div>
@@ -251,17 +251,17 @@ export default function SolutionsPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="p-5 text-center h-full">
-                <h4 className="font-semibold text-white mb-2">{segment.title}</h4>
-                <p className="body-text text-sm">{segment.description}</p>
+              <Card theme="light" className="p-5 text-center h-full">
+                <h4 className="font-semibold text-sunshare-deep mb-2">{segment.title}</h4>
+                <p className="text-sunshare-gray text-sm">{segment.description}</p>
               </Card>
             </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* CTA */}
-      <Section spacing="tight" className="pb-16 md:pb-20 pt-0">
+      {/* CTA - Dark */}
+      <Section theme="dark" background="gradient" spacing="tight" className="pb-16 md:pb-20 pt-8">
         <motion.div {...fadeInUp}>
           <Card className="p-8 md:p-10 text-center bg-gradient-to-br from-sunshare-navy/50 to-sunshare-deep/50">
             <h2 className="h2 text-white mb-3">

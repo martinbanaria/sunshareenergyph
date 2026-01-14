@@ -4,7 +4,7 @@ import { forwardRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'outline-dark';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
@@ -26,6 +26,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   secondary: 'bg-white/10 text-white hover:bg-white/20 border border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]',
   ghost: 'bg-transparent text-white hover:bg-white/10',
   outline: 'bg-transparent text-sunshare-lime border border-sunshare-lime hover:bg-sunshare-lime/10 hover:shadow-[0_0_15px_rgba(209,235,12,0.15)]',
+  'outline-dark': 'bg-transparent text-sunshare-navy border border-sunshare-navy hover:bg-sunshare-navy/10 hover:shadow-[0_0_15px_rgba(0,79,100,0.15)]',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

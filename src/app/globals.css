@@ -64,6 +64,18 @@
   --muted: rgba(255, 255, 255, 0.75);
   --border: rgba(255, 255, 255, 0.15);
   
+  /* Light section semantics */
+  --background-light: #F3F6E4;
+  --text-on-light: #00242E;
+  --text-muted-on-light: #657376;
+  --border-on-light: rgba(0, 36, 46, 0.12);
+  
+  /* Card variants */
+  --card-light-bg: rgba(255, 255, 255, 0.85);
+  --card-light-border: rgba(0, 36, 46, 0.08);
+  --card-dark-bg: rgba(255, 255, 255, 0.06);
+  --card-dark-border: rgba(255, 255, 255, 0.15);
+  
   /* Glow effects */
   --glow-lime: 0 0 20px rgba(209, 235, 12, 0.25);
   --glow-teal: 0 0 20px rgba(32, 178, 170, 0.2);
@@ -240,6 +252,57 @@ body {
 
 .card-teal:hover {
   border-color: rgba(32, 178, 170, 0.25);
+}
+
+/* Light card variant (for light backgrounds) */
+.card-light {
+  background: var(--card-light-bg);
+  border: 1px solid var(--card-light-border);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 36, 46, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-light:hover {
+  border-color: var(--sunshare-navy);
+  box-shadow: 0 8px 30px rgba(0, 36, 46, 0.1);
+}
+
+/* Section themes */
+.section-light {
+  background: var(--background-light);
+  color: var(--text-on-light);
+}
+
+.section-light .kicker {
+  color: var(--sunshare-navy);
+  opacity: 1;
+}
+
+.section-light .h2,
+.section-light .h3 {
+  color: var(--sunshare-deep);
+}
+
+.section-light .body-text,
+.section-light .body-large {
+  color: var(--text-muted-on-light);
+}
+
+.section-dark {
+  background: var(--sunshare-deep);
+  color: var(--foreground);
+}
+
+/* Teal accent section (for Solutions) */
+.section-accent-teal {
+  background: linear-gradient(135deg, var(--sunshare-deep) 0%, #003d4f 50%, var(--sunshare-navy) 100%);
+  color: var(--foreground);
+}
+
+.section-accent-teal .kicker {
+  color: var(--sunshare-lime);
 }
 
 /* Text treatments */

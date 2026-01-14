@@ -62,7 +62,7 @@ const values = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section - Dark */}
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-grid-pattern">
         <div className="absolute inset-0 bg-gradient-to-b from-sunshare-deep via-sunshare-deep to-sunshare-navy/30" />
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-sunshare-lime/5 rounded-full blur-3xl" />
@@ -94,16 +94,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & Vision - Moved up directly after hero */}
-      <Section spacing="compact">
+      {/* Mission & Vision - Light */}
+      <Section spacing="compact" theme="light">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           <motion.div {...fadeInUp}>
-            <Card className="p-8 h-full border-sunshare-lime/20">
-              <p className="kicker text-sunshare-lime mb-4">Our Mission</p>
-              <h2 className="h3 text-white mb-4">
+            <Card theme="light" className="p-8 h-full border-sunshare-navy/20">
+              <p className="text-sunshare-navy text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-4">Our Mission</p>
+              <h2 className="h3 text-sunshare-deep mb-4">
                 Empowering Energy Independence
               </h2>
-              <p className="body-text">
+              <p className="text-sunshare-gray">
                 To provide Filipino communities and businesses with smarter, cheaper, 
                 and cleaner energy solutions that reduce costs, increase reliability, 
                 and contribute to a sustainable future.
@@ -111,12 +111,12 @@ export default function AboutPage() {
             </Card>
           </motion.div>
           <motion.div {...fadeInUp} transition={{ duration: 0.5, delay: 0.1 }}>
-            <Card className="p-8 h-full border-radiant-teal/20">
-              <p className="kicker text-radiant-teal mb-4">Our Vision</p>
-              <h2 className="h3 text-white mb-4">
+            <Card theme="light" className="p-8 h-full border-radiant-teal/20">
+              <p className="text-radiant-teal text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-4">Our Vision</p>
+              <h2 className="h3 text-sunshare-deep mb-4">
                 A Clean Energy Philippines
               </h2>
-              <p className="body-text">
+              <p className="text-sunshare-gray">
                 To be the leading energy transition platform in the Philippines, 
                 turning every rooftop into a bankable climate asset and making 
                 clean energy the default choice for all Filipinos.
@@ -126,8 +126,8 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Company Story with Image */}
-      <Section background="gradient">
+      {/* Company Story with Image - Dark */}
+      <Section theme="dark" background="gradient">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div {...fadeInUp}>
             <p className="kicker mb-4">Our Story</p>
@@ -164,12 +164,13 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Business Lines */}
-      <Section background="gradient">
+      {/* Business Lines - Light */}
+      <Section theme="light">
         <SectionHeader
           kicker="Our Business"
           title="Three Pillars of Energy Transformation"
           subtitle="SunShare operates through three integrated business lines that work together to deliver comprehensive energy solutions."
+          theme="light"
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {businessLines.map((line, index) => (
@@ -180,21 +181,21 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="p-6 h-full">
-                <div className="w-12 h-12 rounded-xl bg-sunshare-lime/10 flex items-center justify-center mb-4">
-                  <line.icon className="w-6 h-6 text-sunshare-lime" />
+              <Card theme="light" className="p-6 h-full">
+                <div className="w-12 h-12 rounded-xl bg-sunshare-navy/10 flex items-center justify-center mb-4">
+                  <line.icon className="w-6 h-6 text-sunshare-navy" />
                 </div>
-                <h3 className="h3 text-white mb-1">{line.title}</h3>
-                <p className="text-sm text-sunshare-lime mb-3">{line.subtitle}</p>
-                <p className="body-text">{line.description}</p>
+                <h3 className="h3 text-sunshare-deep mb-1">{line.title}</h3>
+                <p className="text-sm text-sunshare-navy mb-3">{line.subtitle}</p>
+                <p className="text-sunshare-gray">{line.description}</p>
               </Card>
             </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Values */}
-      <Section>
+      {/* Values - Dark */}
+      <Section theme="dark" background="gradient">
         <SectionHeader
           kicker="Our Values"
           title="What Drives Us"
@@ -221,31 +222,31 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Regulatory Compliance */}
-      <Section background="gradient">
+      {/* Regulatory Compliance - Light */}
+      <Section theme="light">
         <motion.div 
           {...fadeInUp}
           className="max-w-3xl mx-auto text-center"
         >
-          <p className="kicker mb-4">Regulatory Compliance</p>
-          <h2 className="h2 text-white mb-6">
+          <p className="text-sunshare-navy text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-4">Regulatory Compliance</p>
+          <h2 className="h2 text-sunshare-deep mb-6">
             Committed to Philippine Energy Standards
           </h2>
-          <p className="body-large mb-8">
+          <p className="text-lg text-sunshare-gray mb-8">
             SunShare Philippines Inc. operates in full compliance with the regulations 
             set forth by the Department of Energy (DOE), Energy Regulatory Commission (ERC), 
             and other relevant government agencies. We are committed to transparency, 
             consumer protection, and the advancement of the Philippine energy sector.
           </p>
-          <Button href="/contact" variant="outline">
+          <Button href="/contact" variant="outline-dark">
             Contact Us for More Information
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </motion.div>
       </Section>
 
-      {/* CTA */}
-      <Section>
+      {/* CTA - Dark */}
+      <Section theme="dark" background="gradient">
         <motion.div {...fadeInUp}>
           <Card className="p-8 md:p-12 text-center bg-gradient-to-br from-sunshare-navy/40 to-sunshare-deep/60">
             <h2 className="h2 text-white mb-4">

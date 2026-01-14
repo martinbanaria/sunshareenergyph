@@ -65,7 +65,7 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Hero Section with Contact Info Cards */}
+      {/* Hero Section with Contact Info Cards - Dark */}
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-grid-pattern">
         <div className="absolute inset-0 bg-gradient-to-b from-sunshare-deep via-sunshare-deep to-sunshare-navy/30" />
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-sunshare-lime/5 rounded-full blur-3xl" />
@@ -93,7 +93,7 @@ export default function ContactPage() {
             </motion.p>
           </div>
 
-          {/* Contact Info Cards - Moved up directly under hero text */}
+          {/* Contact Info Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {contactInfo.map((info, index) => (
               <motion.div
@@ -118,13 +118,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form & Map Section */}
-      <Section className="pt-8 md:pt-12">
+      {/* Contact Form & Map Section - Light */}
+      <Section theme="light" className="pt-12 md:pt-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Form */}
           <motion.div {...fadeInUp}>
-            <h2 className="h2 text-white mb-4">Send Us a Message</h2>
-            <p className="body-text mb-6">
+            <h2 className="h2 text-sunshare-deep mb-4">Send Us a Message</h2>
+            <p className="text-sunshare-gray mb-6">
               Fill out the form below and our team will get back to you as soon as possible.
             </p>
 
@@ -134,12 +134,12 @@ export default function ContactPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                <Card className="p-8 text-center">
-                  <div className="w-16 h-16 rounded-full bg-sunshare-lime/20 flex items-center justify-center mx-auto mb-4">
-                    <Send className="w-8 h-8 text-sunshare-lime" />
+                <Card theme="light" className="p-8 text-center">
+                  <div className="w-16 h-16 rounded-full bg-sunshare-navy/10 flex items-center justify-center mx-auto mb-4">
+                    <Send className="w-8 h-8 text-sunshare-navy" />
                   </div>
-                  <h3 className="h3 text-white mb-2">Message Sent!</h3>
-                  <p className="body-text">
+                  <h3 className="h3 text-sunshare-deep mb-2">Message Sent!</h3>
+                  <p className="text-sunshare-gray">
                     Thank you for reaching out. Our team will review your message and 
                     get back to you shortly.
                   </p>
@@ -154,7 +154,7 @@ export default function ContactPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.1 }}
                   >
-                    <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-sunshare-deep mb-2">
                       Full Name *
                     </label>
                     <input
@@ -164,7 +164,7 @@ export default function ContactPage() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep placeholder-sunshare-gray/50 focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors"
                       placeholder="Juan Dela Cruz"
                     />
                   </motion.div>
@@ -174,7 +174,7 @@ export default function ContactPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.2 }}
                   >
-                    <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-sunshare-deep mb-2">
                       Email Address *
                     </label>
                     <input
@@ -184,7 +184,7 @@ export default function ContactPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep placeholder-sunshare-gray/50 focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors"
                       placeholder="juan@example.com"
                     />
                   </motion.div>
@@ -197,7 +197,7 @@ export default function ContactPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.3 }}
                   >
-                    <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-sunshare-deep mb-2">
                       Phone Number
                     </label>
                     <input
@@ -206,7 +206,7 @@ export default function ContactPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep placeholder-sunshare-gray/50 focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors"
                       placeholder="+63 912 345 6789"
                     />
                   </motion.div>
@@ -216,7 +216,7 @@ export default function ContactPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.4 }}
                   >
-                    <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
+                    <label htmlFor="subject" className="block text-sm font-medium text-sunshare-deep mb-2">
                       Subject *
                     </label>
                     <select
@@ -225,14 +225,14 @@ export default function ContactPage() {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-sunshare-lime/50 transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors"
                     >
-                      <option value="" className="bg-sunshare-deep">Select a topic</option>
-                      <option value="general" className="bg-sunshare-deep">General Inquiry</option>
-                      <option value="residential" className="bg-sunshare-deep">Residential Customer</option>
-                      <option value="commercial" className="bg-sunshare-deep">Commercial/Business</option>
-                      <option value="partnership" className="bg-sunshare-deep">Partnership Opportunity</option>
-                      <option value="support" className="bg-sunshare-deep">Customer Support</option>
+                      <option value="">Select a topic</option>
+                      <option value="general">General Inquiry</option>
+                      <option value="residential">Residential Customer</option>
+                      <option value="commercial">Commercial/Business</option>
+                      <option value="partnership">Partnership Opportunity</option>
+                      <option value="support">Customer Support</option>
                     </select>
                   </motion.div>
                 </div>
@@ -243,7 +243,7 @@ export default function ContactPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.5 }}
                 >
-                  <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-sunshare-deep mb-2">
                     Message *
                   </label>
                   <textarea
@@ -253,7 +253,7 @@ export default function ContactPage() {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-sunshare-lime/50 transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep placeholder-sunshare-gray/50 focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors resize-none"
                     placeholder="Tell us how we can help..."
                   />
                 </motion.div>
@@ -280,14 +280,14 @@ export default function ContactPage() {
             className="space-y-6"
           >
             <div>
-              <h2 className="h2 text-white mb-4">Find Us</h2>
-              <Card className="p-4 h-56 lg:h-64 overflow-hidden">
+              <h2 className="h2 text-sunshare-deep mb-4">Find Us</h2>
+              <Card theme="light" className="p-4 h-56 lg:h-64 overflow-hidden">
                 {/* Map placeholder */}
-                <div className="w-full h-full bg-sunshare-navy/30 rounded-lg flex items-center justify-center">
+                <div className="w-full h-full bg-sunshare-deep/5 rounded-lg flex items-center justify-center">
                   <div className="text-center">
-                    <MapPin className="w-10 h-10 text-sunshare-lime/50 mx-auto mb-2" />
-                    <p className="body-text">Tektite East Tower</p>
-                    <p className="text-sm text-white/60">Ortigas Center, Pasig City</p>
+                    <MapPin className="w-10 h-10 text-sunshare-navy/50 mx-auto mb-2" />
+                    <p className="text-sunshare-deep">Tektite East Tower</p>
+                    <p className="text-sm text-sunshare-gray">Ortigas Center, Pasig City</p>
                   </div>
                 </div>
               </Card>
@@ -299,13 +299,13 @@ export default function ContactPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <Card className="p-5">
-                <h4 className="font-semibold text-white mb-2">Looking to join our team?</h4>
-                <p className="body-text text-sm mb-4">
+              <Card theme="light" className="p-5">
+                <h4 className="font-semibold text-sunshare-deep mb-2">Looking to join our team?</h4>
+                <p className="text-sunshare-gray text-sm mb-4">
                   We&apos;re always looking for talented individuals who share our passion for 
                   clean energy and sustainable solutions.
                 </p>
-                <Button href="mailto:careers@sunshareenergy.ph" variant="outline" size="sm">
+                <Button href="mailto:careers@sunshareenergy.ph" variant="outline-dark" size="sm">
                   View Opportunities
                 </Button>
               </Card>
@@ -314,8 +314,8 @@ export default function ContactPage() {
         </div>
       </Section>
 
-      {/* CTA */}
-      <Section background="gradient" className="mt-8">
+      {/* CTA - Dark */}
+      <Section theme="dark" background="gradient" className="mt-8">
         <motion.div {...fadeInUp} className="text-center">
           <h2 className="h2 text-white mb-4">
             Ready to Start Saving?
