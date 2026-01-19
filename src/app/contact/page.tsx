@@ -102,15 +102,33 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                className="h-full"
               >
-                <Card className="p-4 md:p-6 text-center h-full">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-sunshare-lime/10 flex items-center justify-center mx-auto mb-3">
-                    <info.icon className="w-5 h-5 md:w-6 md:h-6 text-sunshare-lime" />
+                <Card className="p-5 md:p-7 text-left h-full relative overflow-hidden group hover:border-sunshare-lime/30 transition-all duration-300">
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-sunshare-lime/0 via-sunshare-lime/0 to-sunshare-lime/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <div className="relative z-10">
+                    {/* Icon with gradient background */}
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-sunshare-lime/20 to-radiant-teal/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <info.icon className="w-7 h-7 md:w-8 md:h-8 text-sunshare-lime" strokeWidth={1.5} />
+                    </div>
+                    
+                    {/* Title with accent */}
+                    <h3 className="font-bold text-white text-base md:text-lg mb-3 flex items-center gap-2">
+                      {info.title}
+                      <div className="h-px flex-1 bg-gradient-to-r from-sunshare-lime/30 to-transparent" />
+                    </h3>
+                    
+                    {/* Details with better spacing */}
+                    <div className="space-y-1">
+                      {info.details.map((detail, detailIndex) => (
+                        <p key={detailIndex} className="text-white/80 text-sm md:text-base leading-relaxed">
+                          {detail}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-white text-sm md:text-base mb-1">{info.title}</h3>
-                  {info.details.map((detail, detailIndex) => (
-                    <p key={detailIndex} className="body-text text-xs md:text-sm">{detail}</p>
-                  ))}
                 </Card>
               </motion.div>
             ))}
@@ -219,21 +237,28 @@ export default function ContactPage() {
                     <label htmlFor="subject" className="block text-sm font-medium text-sunshare-deep mb-2">
                       Subject *
                     </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors"
-                    >
-                      <option value="">Select a topic</option>
-                      <option value="general">General Inquiry</option>
-                      <option value="residential">Residential Customer</option>
-                      <option value="commercial">Commercial/Business</option>
-                      <option value="partnership">Partnership Opportunity</option>
-                      <option value="support">Customer Support</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        id="subject"
+                        name="subject"
+                        required
+                        value={formData.subject}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 pr-10 bg-white border border-sunshare-deep/20 rounded-xl text-sunshare-deep focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 transition-colors appearance-none"
+                      >
+                        <option value="">Select a topic</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="residential">Residential Customer</option>
+                        <option value="commercial">Commercial/Business</option>
+                        <option value="partnership">Partnership Opportunity</option>
+                        <option value="support">Customer Support</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-sunshare-deep/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
                   </motion.div>
                 </div>
 
@@ -281,15 +306,19 @@ export default function ContactPage() {
           >
             <div>
               <h2 className="h2 text-sunshare-deep mb-4">Find Us</h2>
-              <Card theme="light" className="p-4 h-56 lg:h-64 overflow-hidden">
-                {/* Map placeholder */}
-                <div className="w-full h-full bg-sunshare-deep/5 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-10 h-10 text-sunshare-navy/50 mx-auto mb-2" />
-                    <p className="text-sunshare-deep">Tektite East Tower</p>
-                    <p className="text-sm text-sunshare-gray">Ortigas Center, Pasig City</p>
-                  </div>
-                </div>
+              <Card theme="light" className="p-0 h-[400px] lg:h-[450px] overflow-hidden">
+                {/* Google Maps Embed */}
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.3168794473547!2d121.05550507585968!3d14.586281285899018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c839a1168fe9%3A0xb346f85d2fdfe802!2sTektite%20Tower%20East!5e0!3m2!1sen!2sph!4v1705634000000!5m2!1sen!2sph"
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }}
+                  allowFullScreen 
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Tektite East Tower Location Map"
+                  className="rounded-lg"
+                />
               </Card>
             </div>
 
