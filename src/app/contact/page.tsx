@@ -23,12 +23,12 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Call Us',
-    details: ['[Phone Placeholder]'],
+    details: ['+63 8635 9756'],
   },
   {
     icon: Mail,
     title: 'Email Us',
-    details: ['[Email Placeholder]'],
+    details: ['hello@sunshare.ph'],
   },
   {
     icon: Clock,
@@ -305,7 +305,7 @@ export default function ContactPage() {
                   We&apos;re always looking for talented individuals who share our passion for 
                   clean energy and sustainable solutions.
                 </p>
-                <Button href="mailto:careers@sunshareenergy.ph" variant="outline-dark" size="sm">
+                <Button href="mailto:hello@sunshare.ph" variant="outline-dark" size="sm">
                   View Opportunities
                 </Button>
               </Card>

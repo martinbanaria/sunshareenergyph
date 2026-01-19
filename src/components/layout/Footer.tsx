@@ -34,8 +34,8 @@ export function Footer() {
               <p>Pasig City, Philippines 1605</p>
             </div>
             <div className="body-text space-y-1">
-              <p>Phone: <a href="tel:+63000000000" className="hover:text-white transition-colors">[Placeholder]</a></p>
-              <p>Email: <a href="mailto:info@sunshareenergy.ph" className="hover:text-white transition-colors">[Placeholder]</a></p>
+              <p>Phone: <a href="tel:+6386359756" className="hover:text-white transition-colors">+63 8635 9756</a></p>
+              <p>Email: <a href="mailto:hello@sunshare.ph" className="hover:text-white transition-colors">hello@sunshare.ph</a></p>
             </div>
           </div>
 
