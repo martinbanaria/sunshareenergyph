@@ -322,9 +322,10 @@ function sanitizeFormData(formData: Partial<OnboardingFormData>): Partial<Onboar
   const sanitized = { ...formData };
   
   if (sanitized.step1) {
-    delete sanitized.step1.password;
-    delete sanitized.step1.confirmPassword;
-    delete sanitized.step1.captchaToken;
+    const step1 = sanitized.step1 as any; // Type assertion for deletion
+    delete step1.password;
+    delete step1.confirmPassword;
+    delete step1.captchaToken;
   }
   
   return sanitized;

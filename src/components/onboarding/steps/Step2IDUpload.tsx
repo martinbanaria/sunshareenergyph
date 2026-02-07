@@ -20,7 +20,9 @@ interface Step2IDUploadProps {
 
 export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Step2IDUploadProps) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [ocrStatus, setOcrStatus] = useState<'idle' | 'processing' | 'done' | 'error'>('idle');
+  const [ocrStatus, setOcrStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
+  const [ocrError, setOcrError] = useState<string>('');
+  const [lastProcessedImage, setLastProcessedImage] = useState<string>(''); // Track which image was last processed
   const [idTypeValidation, setIdTypeValidation] = useState<{
     matches: boolean;
     confidence: 'high' | 'medium' | 'low';
@@ -36,7 +38,6 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
     warnings: string[];
     showDetails: boolean;
   } | null>(null);
-  const [lastProcessedImage, setLastProcessedImage] = useState<string>(''); // Track last processed image
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -120,7 +121,7 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
       console.log('⏭️ Skipping OCR - fields already populated');
       // Update the last processed image to prevent future runs
       setLastProcessedImage(idImage);
-      setOcrStatus('done'); // Set status to done since we're skipping
+      setOcrStatus('success'); // Set status to success since we're skipping
     }
   }, [idImage, ocrStatus]);
 
@@ -170,10 +171,18 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
           idType: idType || 'EMPTY'
         });
         
-        // Validate ID type match
+        // Auto-populate ID type if empty and detected from OCR
         const selectedIdType = watch('idType');
-        if (selectedIdType && idType) {
-          const validation = validateIDTypeMatch(selectedIdType, idType);
+        if (idType && (!selectedIdType || selectedIdType === '')) {
+          console.log('🆔 Auto-populating ID type from OCR:', idType);
+          setValue('idType', idType);
+          onUpdate({ idType });
+        }
+        
+        // Validate ID type match (for both auto-populated and user-selected)
+        const currentIdType = selectedIdType || idType; // Use detected type if none selected
+        if (currentIdType && idType) {
+          const validation = validateIDTypeMatch(currentIdType, idType);
           setIdTypeValidation({
             matches: validation.matches,
             confidence: validation.confidence,
@@ -183,7 +192,7 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
           });
           
           console.log('🔍 ID Type Validation:', {
-            selected: selectedIdType,
+            selected: currentIdType,
             detected: idType,
             matches: validation.matches,
             confidence: validation.confidence,
@@ -235,7 +244,7 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
           });
         }
         
-        setOcrStatus('done');
+        setOcrStatus('success');
       } else {
         // If AI OCR fails, show error but allow manual entry
         console.warn('❌ OCR failed:', result.error);
@@ -341,7 +350,7 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
                 
                 // Re-validate ID type if we have OCR data
                 const currentOcrData = watch(['extractedName', 'extractedAddress', 'extractedIdNumber']);
-                if (ocrStatus === 'done' && currentOcrData.some(Boolean)) {
+                if (ocrStatus === 'success' && currentOcrData.some(Boolean)) {
                   // Re-run validation with new ID type selection
                   setIdTypeValidation(null); // Will be recalculated on next OCR or can be triggered here
                 }
@@ -499,7 +508,7 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
               )}
 
               {/* Re-run OCR button when fields are populated but user wants to re-extract */}
-              {idImage && ocrStatus === 'done' && (watch('extractedName') || watch('extractedAddress') || watch('extractedIdNumber')) && (
+              {idImage && ocrStatus === 'success' && (watch('extractedName') || watch('extractedAddress') || watch('extractedIdNumber')) && (
                 <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div>
