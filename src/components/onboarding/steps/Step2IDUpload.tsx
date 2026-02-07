@@ -3,12 +3,13 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { step2Schema, Step2FormData } from '@/lib/validations/onboarding';
-import { Step2Data, Step1Data, ID_TYPES } from '@/types/onboarding';
+import { Step1Data, Step2Data, ID_TYPES } from '@/types/onboarding';
 import { Button } from '@/components/ui/Button';
-import { ArrowRight, ArrowLeft, Upload, Camera, X, Loader2, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Upload, X, Eye, EyeOff, AlertCircle, CheckCircle2, Loader2, Camera, AlertTriangle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { validateIDTypeMatch } from '@/lib/ocr/ai-ocr';
+import { extractIDInfoWithAI, validateIDTypeMatch } from '@/lib/ocr/ai-ocr';
 import { validateNameMatch } from '@/lib/validation/name-validation';
+import { processImageForOCR, formatFileSize, type ImageMetadata } from '@/lib/utils/image-storage';
 
 interface Step2IDUploadProps {
   data: Step2Data;
@@ -20,14 +21,10 @@ interface Step2IDUploadProps {
 
 export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Step2IDUploadProps) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [ocrStatus, setOcrStatus] = useState<'idle' | 'processing' | 'done' | 'error'>('idle');
-  const [idTypeValidation, setIdTypeValidation] = useState<{
-    matches: boolean;
-    confidence: 'high' | 'medium' | 'low';
-    detectedType?: string;
-    suggestion?: string;
-    suggestedValue?: string; // Added for the actual ID type value
-  } | null>(null);
+  const [ocrStatus, setOcrStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
+  const [ocrError, setOcrError] = useState<string>('');
+  const [lastProcessedImage, setLastProcessedImage] = useState<string>(''); // Track which image was last processed
+  const [imageMetadata, setImageMetadata] = useState<ImageMetadata | null>(null); // Store image metadata
   const [nameValidation, setNameValidation] = useState<{
     matches: boolean;
     confidence: 'high' | 'medium' | 'low';
@@ -36,7 +33,6 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
     warnings: string[];
     showDetails: boolean;
   } | null>(null);
-  const [lastProcessedImage, setLastProcessedImage] = useState<string>(''); // Track last processed image
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -255,7 +251,8 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Optimized image upload handling with compression and metadata
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -265,24 +262,51 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
       return;
     }
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      alert('File size must be less than 10MB');
-      return;
-    }
-
     setIsProcessing(true);
     setOcrStatus('idle');
+    setOcrError('');
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setValue('idImage', base64);
+    try {
+      // Use optimized image processing
+      const result = await processImageForOCR(file);
+      
+      // Update form values
+      setValue('idImage', result.dataUrl);
       setValue('idFileName', file.name);
-      onUpdate({ idImage: base64, idFileName: file.name });
+      onUpdate({ idImage: result.dataUrl, idFileName: file.name });
+      
+      // Store metadata for display
+      setImageMetadata(result.metadata);
+      
+      console.log('Image optimized:', {
+        originalSize: formatFileSize(result.metadata.originalSize),
+        compressedSize: formatFileSize(result.metadata.compressedSize),
+        compressionRatio: `${result.metadata.compressionRatio}%`,
+        dimensions: `${result.metadata.width}x${result.metadata.height}`
+      });
+      
       setIsProcessing(false);
-    };
-    reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error processing image:', error);
+      setOcrError(error instanceof Error ? error.message : 'Failed to process image');
+      setIsProcessing(false);
+      
+      // Fallback to original method for compatibility
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        setValue('idImage', base64);
+        setValue('idFileName', file.name);
+        onUpdate({ idImage: base64, idFileName: file.name });
+        setIsProcessing(false);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const clearImage = () => {

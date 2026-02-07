@@ -275,6 +275,42 @@ check_current_captcha() {
 
 interactive_config() {
     if [[ "$AUTO_MODE" == "true" ]]; then
+        # Set defaults for auto mode
+        if [[ -z "$CLOUDFLARE_EMAIL" ]]; then
+            # Try to get email from authenticated wrangler session
+            local auth_email
+            auth_email=$(eval "$WRANGLER_CMD whoami 2>/dev/null | grep -o '[^ ]*@[^ ]*' | head -1" || echo "")
+            if [[ -n "$auth_email" ]]; then
+                CLOUDFLARE_EMAIL="$auth_email"
+                log_info "Using authenticated Cloudflare email: $CLOUDFLARE_EMAIL"
+            else
+                log_error "Could not determine Cloudflare email automatically"
+                log_info "Either authenticate with 'cd $PROJECT_ROOT && npx wrangler login' first,"
+                log_info "or set CLOUDFLARE_EMAIL environment variable,"
+                log_info "or use interactive mode without --auto flag"
+                exit 1
+            fi
+        fi
+        
+        # Set domains based on environment
+        if [[ -z "$DOMAINS" ]]; then
+            case $ENVIRONMENT in
+                development)
+                    DOMAINS="localhost:3000"
+                    ;;
+                staging)
+                    DOMAINS="staging.sunshareenergy.ph"
+                    ;;
+                production)
+                    DOMAINS="sunshareenergy.ph,www.sunshareenergy.ph"
+                    ;;
+            esac
+        fi
+        
+        log_info "Auto mode configuration:"
+        log_info "  Environment: $ENVIRONMENT"
+        log_info "  Cloudflare Email: $CLOUDFLARE_EMAIL"
+        log_info "  Domains: $DOMAINS"
         return
     fi
 
@@ -394,17 +430,20 @@ EOF
 # ============================================================================
 
 install_wrangler() {
-    log_step "Installing/updating Cloudflare Wrangler CLI..."
+    log_step "Checking Cloudflare Wrangler CLI..."
 
-    if command -v wrangler >/dev/null 2>&1; then
-        log_info "Wrangler CLI already installed: $(wrangler --version)"
-        read -p "Update to latest version? [y/N]: " update_wrangler
-        if [[ "$update_wrangler" =~ ^[Yy]$ ]]; then
-            npm install -g wrangler@latest
-        fi
+    # Check if wrangler is available locally first
+    if [[ -f "$PROJECT_ROOT/node_modules/.bin/wrangler" ]]; then
+        log_info "Wrangler CLI found locally: $(cd "$PROJECT_ROOT" && npx wrangler --version)"
+        WRANGLER_CMD="cd $PROJECT_ROOT && npx wrangler"
+    elif command -v wrangler >/dev/null 2>&1; then
+        log_info "Wrangler CLI found globally: $(wrangler --version)"
+        WRANGLER_CMD="wrangler"
     else
-        log_info "Installing Wrangler CLI..."
-        npm install -g wrangler
+        log_info "Installing Wrangler CLI locally..."
+        cd "$PROJECT_ROOT"
+        npm install wrangler --save-dev
+        WRANGLER_CMD="cd $PROJECT_ROOT && npx wrangler"
     fi
 
     log_success "Wrangler CLI is ready"
@@ -414,8 +453,8 @@ authenticate_cloudflare() {
     log_step "Authenticating with Cloudflare..."
 
     # Check if already authenticated
-    if wrangler whoami >/dev/null 2>&1; then
-        local current_user=$(wrangler whoami | grep -o '[^ ]*@[^ ]*' | head -1)
+    if eval "$WRANGLER_CMD whoami" >/dev/null 2>&1; then
+        local current_user=$(eval "$WRANGLER_CMD whoami" | grep -o '[^ ]*@[^ ]*' | head -1)
         if [[ "$current_user" == "$CLOUDFLARE_EMAIL" ]]; then
             log_info "Already authenticated as: $current_user"
             return
@@ -431,14 +470,14 @@ authenticate_cloudflare() {
             log_error "CLOUDFLARE_API_TOKEN environment variable required for auto mode"
             exit 1
         fi
-        wrangler auth api-token "$CLOUDFLARE_API_TOKEN"
+        eval "$WRANGLER_CMD auth api-token $CLOUDFLARE_API_TOKEN"
     else
         log_info "Opening Cloudflare authentication in browser..."
-        wrangler login
+        eval "$WRANGLER_CMD login"
     fi
 
     # Verify authentication
-    local auth_user=$(wrangler whoami | grep -o '[^ ]*@[^ ]*' | head -1)
+    local auth_user=$(eval "$WRANGLER_CMD whoami" | grep -o '[^ ]*@[^ ]*' | head -1)
     if [[ "$auth_user" != "$CLOUDFLARE_EMAIL" ]]; then
         log_error "Authentication failed or wrong account. Expected: $CLOUDFLARE_EMAIL, Got: $auth_user"
         exit 1
@@ -450,8 +489,18 @@ authenticate_cloudflare() {
 create_turnstile_site() {
     log_step "Creating Cloudflare Turnstile site..."
 
+    if [[ -z "$DOMAINS" ]]; then
+        log_error "No domains configured"
+        exit 1
+    fi
+
     local domains_array
     IFS=',' read -ra domains_array <<< "$DOMAINS"
+    
+    if [[ ${#domains_array[@]} -eq 0 ]]; then
+        log_error "No valid domains found in: $DOMAINS"
+        exit 1
+    fi
 
     if [[ "$DRY_RUN" == "true" ]]; then
         log_info "[DRY RUN] Would create Turnstile site with:"
@@ -463,7 +512,7 @@ create_turnstile_site() {
     # Create the site
     log_info "Creating site: $SITE_NAME"
     local create_output
-    create_output=$(wrangler turnstile create --name "$SITE_NAME" --domain "${domains_array[0]}" --json 2>&1)
+    create_output=$(eval "$WRANGLER_CMD turnstile create --name '$SITE_NAME' --domain '${domains_array[0]}' --json" 2>&1)
     
     if [[ $? -ne 0 ]]; then
         log_error "Failed to create Turnstile site: $create_output"
@@ -484,11 +533,12 @@ create_turnstile_site() {
         log_info "Adding additional domains..."
         for domain in "${domains_array[@]:1}"; do
             log_verbose "Adding domain: $domain"
-            wrangler turnstile domain add "$site_id" "$domain"
+            eval "$WRANGLER_CMD turnstile domain add '$site_id' '$domain'"
         done
     fi
 
     # Save site configuration
+    mkdir -p "$CONFIG_DIR"
     cat > "$CONFIG_DIR/turnstile-site.json" << EOF
 {
     "site_id": "$site_id",
@@ -518,11 +568,11 @@ main() {
     check_project_structure
     check_current_captcha
     
+    install_wrangler  # Move this before interactive_config
     interactive_config
     
     create_backup
     
-    install_wrangler
     authenticate_cloudflare
     create_turnstile_site
     

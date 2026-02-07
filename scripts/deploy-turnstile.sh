@@ -156,7 +156,7 @@ get_turnstile_secret() {
 
     # Try to get the secret key from Cloudflare
     local secret_output
-    secret_output=$(wrangler turnstile get "$SITE_ID" --json 2>/dev/null || echo "")
+    secret_output=$(cd "$PROJECT_ROOT" && npx wrangler turnstile get "$SITE_ID" --json 2>/dev/null || echo "")
 
     if [[ -n "$secret_output" ]]; then
         TURNSTILE_SECRET=$(echo "$secret_output" | jq -r '.secret')

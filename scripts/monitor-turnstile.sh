@@ -130,8 +130,8 @@ check_dependencies() {
     done
 
     # Check if authenticated with Cloudflare
-    if ! wrangler whoami >/dev/null 2>&1; then
-        log_error "Not authenticated with Cloudflare. Run: wrangler login"
+    if ! (cd "$PROJECT_ROOT" && npx wrangler whoami) >/dev/null 2>&1; then
+        log_error "Not authenticated with Cloudflare. Run: cd $PROJECT_ROOT && npx wrangler login"
         exit 1
     fi
 
@@ -195,7 +195,7 @@ fetch_turnstile_analytics() {
     log_step "Fetching Turnstile analytics..."
 
     local analytics_output
-    analytics_output=$(wrangler turnstile analytics "$SITE_ID" --start-date "$START_DATE" --end-date "$END_DATE" --json 2>/dev/null || echo "")
+    analytics_output=$(cd "$PROJECT_ROOT" && npx wrangler turnstile analytics "$SITE_ID" --start-date "$START_DATE" --end-date "$END_DATE" --json 2>/dev/null || echo "")
 
     if [[ -z "$analytics_output" ]]; then
         log_warning "No analytics data available for the specified period"
@@ -211,7 +211,7 @@ fetch_site_info() {
     log_step "Fetching site information..."
 
     local site_info
-    site_info=$(wrangler turnstile get "$SITE_ID" --json 2>/dev/null || echo "")
+    site_info=$(cd "$PROJECT_ROOT" && npx wrangler turnstile get "$SITE_ID" --json 2>/dev/null || echo "")
 
     if [[ -z "$site_info" ]]; then
         log_warning "Could not retrieve site information"
