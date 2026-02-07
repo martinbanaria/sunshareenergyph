@@ -1,33 +1,36 @@
 'use client';
 import React, { useState } from 'react';
-import Step1Account from './steps/Step1Account';
-import Step2ID from './steps/Step2ID';
-import Step3Property from './steps/Step3Property';
+import Step1Auth from './steps/Step1Auth';
+import Step2Welcome from './steps/Step2Welcome';
+import Step3Property from './steps/Step3Property'; // Reusing for Homeowner
+import Step3BusinessDetails from './steps/Step3BusinessDetails'; // New for Business
 import Step4Preferences from './steps/Step4Preferences';
 import Step5Review from './steps/Step5Review';
 
-const steps = [
-  'Account',
-  'ID',
-  'Property',
-  'Preferences',
-  'Review',
-];
+const steps = ['Auth', 'Welcome', 'Details', 'Preferences', 'Review'];
 
 const OnboardingWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [intention, setIntention] = useState<'home' | 'business' | null>(null);
 
-  const next = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const next = (val?: any) => {
+    if (currentStep === 1 && val) setIntention(val);
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+  
   const back = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return <Step1Account onNext={next} />;
+        return <Step1Auth onNext={next} />;
       case 1:
-        return <Step2ID onNext={next} onBack={back} />;
+        return <Step2Welcome onNext={next} />;
       case 2:
-        return <Step3Property onNext={next} onBack={back} />;
+        // Branching Logic: Home vs Business
+        return intention === 'business' 
+          ? <Step3BusinessDetails onNext={next} onBack={back} />
+          : <Step3Property onNext={next} onBack={back} />;
       case 3:
         return <Step4Preferences onNext={next} onBack={back} />;
       case 4:
