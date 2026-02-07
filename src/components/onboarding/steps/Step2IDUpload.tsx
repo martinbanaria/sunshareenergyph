@@ -371,8 +371,8 @@ export function Step2IDUpload({ data, step1Data, onUpdate, onNext, onBack }: Ste
           </div>
           {errors.idType && <p className={errorClass}>{errors.idType.message}</p>}
           
-          {/* ID Type Specific Guidance */}
-          {idType && (
+          {/* ID Type Specific Guidance - Only show when a valid ID type is selected */}
+          {idType && idType.trim() !== '' && ID_TYPES.some(type => type.value === idType) && (
             <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <h4 className="text-sm font-medium text-blue-800 mb-1">What to expect with {ID_TYPES.find(type => type.value === idType)?.label}:</h4>
               <div className="text-xs text-blue-700 space-y-1">
