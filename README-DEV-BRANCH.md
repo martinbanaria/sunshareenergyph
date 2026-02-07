@@ -26,11 +26,20 @@ This development branch contains the complete AI OCR implementation for Philippi
 
 ## 🧪 How to Test
 
-1. **Visit**: http://localhost:3000/onboarding
-2. **Upload Philippine ID**: Clear photo of PhilID, Driver's License, or Passport
-3. **Watch AI Processing**: 3-8 second analysis with status indicators
-4. **Verify Auto-Fill**: All three fields should populate automatically
-5. **Edit if needed**: User can correct any extracted information
+### **Local Testing (Recommended)**
+1. **Setup Environment**: Ensure `.env.local` contains required API keys
+2. **Start Server**: `npm run dev` (runs on http://localhost:3000)
+3. **Visit**: http://localhost:3000/onboarding
+4. **Upload Philippine ID**: Clear photo of PhilID, Driver's License, or Passport
+5. **Watch AI Processing**: 3-8 second analysis with status indicators
+6. **Verify Auto-Fill**: All three fields should populate automatically
+7. **Edit if needed**: User can correct any extracted information
+
+### **Deployed Testing**
+- **Preview URL**: https://sunshareenergyph-euz4uqofs-martin-banarias-projects.vercel.app
+- **Status**: ✅ Deployed with CAPTCHA and AI OCR configured
+- **Access**: Requires Vercel authentication for preview environment (security feature)
+- **Production**: Unchanged - all testing in preview/dev only
 
 ## 📊 Expected Results
 
@@ -56,8 +65,31 @@ This development branch contains the complete AI OCR implementation for Philippi
 
 ### **Environment Requirements:**
 ```bash
+# Required for AI OCR
 OPENAI_API_KEY=your_openai_api_key_here
+
+# Required for Supabase (database)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+
+# Required for CAPTCHA (resolved in latest deployment)
+NEXT_PUBLIC_HCAPTCHA_SITEKEY=your_hcaptcha_sitekey
+HCAPTCHA_SECRET=your_hcaptcha_secret
 ```
+
+## ✅ Latest Updates (Current Session)
+
+### **CAPTCHA Configuration Fixed** 
+- ✅ **Problem**: `CAPTCHA not configured. Add NEXT_PUBLIC_HCAPTCHA_SITEKEY to .env.local`
+- ✅ **Solution**: Added CAPTCHA environment variables and redeployed
+- ✅ **Status**: Resolved in latest Vercel preview deployment
+
+### **Complete System Testing**
+- ✅ **AI OCR Service**: Server-side GPT-4 Vision integration functional
+- ✅ **Field Extraction**: All three fields (name, address, ID number) working
+- ✅ **Form Processing**: End-to-end onboarding flow validated  
+- ✅ **Environment Variables**: All required configs deployed to Vercel
+- ✅ **Security**: No API keys exposed to client-side
 
 ## 🎯 Critical Fix Implemented
 

@@ -226,6 +226,7 @@ export function OnboardingWizard() {
         return (
           <Step2IDUpload
             data={formData.step2}
+            step1Data={formData.step1} // Pass Step1 data for name validation
             onUpdate={updateStep2}
             onNext={nextStep}
             onBack={prevStep}

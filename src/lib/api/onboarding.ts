@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/client';
 import { OnboardingFormData } from '@/types/onboarding';
+import { getFullLegalName } from '@/lib/validation/name-validation';
 
 export interface SubmissionResult {
   success: boolean;
@@ -10,29 +11,74 @@ export interface SubmissionResult {
   };
 }
 
+// Development helper to avoid rate limits
+function getDevEmail(originalEmail: string): string {
+  // Only modify email in development mode
+  if (process.env.NODE_ENV !== 'development') {
+    return originalEmail;
+  }
+  
+  // Add timestamp to make email unique for testing
+  const timestamp = Date.now().toString().slice(-4);
+  const [localPart, domain] = originalEmail.split('@');
+  return `${localPart}+dev${timestamp}@${domain}`;
+}
+
 export async function submitOnboardingData(
   formData: OnboardingFormData
 ): Promise<SubmissionResult> {
   try {
     const supabase = createClient();
 
+    // Use development email variation to avoid rate limits during testing
+    const emailToUse = getDevEmail(formData.step1.email);
+    
+    // Log email modification in development
+    if (process.env.NODE_ENV === 'development' && emailToUse !== formData.step1.email) {
+      console.log('🧪 Development Mode: Using email variation to avoid rate limits');
+      console.log('Original:', formData.step1.email);
+      console.log('Modified:', emailToUse);
+    }
+
     // Step 1: Register user with Supabase Auth
+    const fullName = getFullLegalName({
+      firstName: formData.step1.firstName,
+      middleName: formData.step1.middleName,
+      lastName: formData.step1.lastName,
+      nickname: formData.step1.nickname,
+    });
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: formData.step1.email,
+      email: emailToUse, // Use potentially modified email
       password: formData.step1.password,
       options: {
         data: {
-          full_name: formData.step1.fullName,
+          full_name: fullName,
           phone: formData.step1.phone,
+          original_email: formData.step1.email, // Store original email in metadata
         },
       },
     });
 
     if (authError) {
       console.error('Auth error:', authError);
+      
+      // Handle specific auth errors with user-friendly messages
+      let userMessage = authError.message;
+      
+      if (authError.message.includes('email rate limit exceeded')) {
+        userMessage = 'Too many signup attempts. Please try again in a few minutes, or use a different email address.';
+      } else if (authError.message.includes('User already registered')) {
+        userMessage = 'An account with this email already exists. Please use a different email or try logging in.';
+      } else if (authError.message.includes('Invalid email')) {
+        userMessage = 'Please enter a valid email address.';
+      } else if (authError.message.includes('Password')) {
+        userMessage = 'Password does not meet requirements. Please check the password criteria.';
+      }
+      
       return {
         success: false,
-        error: authError.message,
+        error: userMessage,
       };
     }
 
@@ -74,18 +120,19 @@ export async function submitOnboardingData(
         id_file_name: formData.step2.idFileName,
         extracted_name: formData.step2.extractedName,
         extracted_address: formData.step2.extractedAddress,
+        extracted_id_number: formData.step2.extractedIdNumber, // Fixed: Added missing field
         
         // Step 3 data
         property_type: formData.step3.propertyType,
         ownership_status: formData.step3.propertyOwnership,
-        property_address_line1: formData.step3.streetAddress,
-        property_address_line2: formData.step3.barangay,
-        property_city: formData.step3.city,
-        property_province: formData.step3.province,
-        property_postal_code: formData.step3.zipCode,
+        street_address: formData.step3.streetAddress, // Fixed: Updated to match schema
+        barangay: formData.step3.barangay, // Fixed: Updated to match schema
+        city: formData.step3.city, // Fixed: Updated to match schema
+        province: formData.step3.province, // Fixed: Updated to match schema
+        zip_code: formData.step3.zipCode, // Fixed: Updated to match schema
         
         // Step 4 data
-        service_interests: formData.step4.interestedServices,
+        interested_services: formData.step4.interestedServices, // Correct column name from schema
         monthly_bill_range: formData.step4.monthlyBillRange,
         referral_source: formData.step4.referralSource,
         installation_timeline: '', // Not collected in current form
@@ -103,6 +150,20 @@ export async function submitOnboardingData(
 
     if (onboardingError) {
       console.error('Onboarding data error:', onboardingError);
+      console.error('Error details:', {
+        message: onboardingError.message,
+        details: onboardingError.details,
+        hint: onboardingError.hint,
+        code: onboardingError.code
+      });
+      console.error('Data being inserted:', {
+        user_id: authData.user.id,
+        id_type: formData.step2.idType,
+        id_file_name: formData.step2.idFileName,
+        extracted_name: formData.step2.extractedName,
+        extracted_address: formData.step2.extractedAddress,
+        extracted_id_number: formData.step2.extractedIdNumber,
+      });
       return {
         success: false,
         error: onboardingError.message,
@@ -115,7 +176,8 @@ export async function submitOnboardingData(
     // Step 5: Send welcome email (if newsletter subscribed)
     if (formData.step5.subscribeNewsletter) {
       try {
-        await sendWelcomeEmail(formData.step1.email, formData.step1.fullName);
+        // Use original email for welcome email, not the dev variation
+        await sendWelcomeEmail(formData.step1.email, fullName);
       } catch (emailError) {
         console.error('Welcome email failed:', emailError);
         // Don't fail the entire process for email errors

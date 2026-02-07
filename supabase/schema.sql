@@ -15,10 +15,11 @@ CREATE TABLE IF NOT EXISTS user_onboarding (
     id_file_path TEXT,
     extracted_name TEXT,
     extracted_address TEXT,
+    extracted_id_number TEXT, -- Added: Store extracted ID number from OCR
     
     -- Step 3: Property Information
     property_type TEXT CHECK (property_type IN ('residential', 'commercial', 'industrial')),
-    property_ownership TEXT CHECK (property_ownership IN ('owner', 'renter', 'manager')),
+    ownership_status TEXT CHECK (ownership_status IN ('owner', 'renter', 'manager')),
     street_address TEXT,
     barangay TEXT,
     city TEXT,
@@ -40,6 +41,19 @@ CREATE TABLE IF NOT EXISTS user_onboarding (
     installation_timeline TEXT,
     
     -- Timestamps
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ID documents table for storing uploaded documents
+CREATE TABLE IF NOT EXISTS id_documents (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    file_name TEXT NOT NULL,
+    file_size BIGINT,
+    mime_type TEXT,
+    storage_path TEXT NOT NULL,
+    upload_status TEXT DEFAULT 'uploaded' CHECK (upload_status IN ('uploaded', 'processing', 'verified', 'rejected')),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -76,6 +90,8 @@ CREATE INDEX IF NOT EXISTS idx_application_activity_onboarding_id ON application
 CREATE INDEX IF NOT EXISTS idx_application_activity_created_at ON application_activity(created_at);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_timestamp ON analytics_events(timestamp);
+CREATE INDEX IF NOT EXISTS idx_id_documents_user_id ON id_documents(user_id);
+CREATE INDEX IF NOT EXISTS idx_id_documents_created_at ON id_documents(created_at);
 
 -- Row Level Security Policies
 
@@ -129,6 +145,29 @@ CREATE POLICY "Users can insert own analytics" ON analytics_events
 -- System can view analytics for reporting
 CREATE POLICY "System can view analytics" ON analytics_events
     FOR SELECT USING (true);
+
+-- id_documents table policies
+ALTER TABLE id_documents ENABLE ROW LEVEL SECURITY;
+
+-- Users can only see and modify their own documents
+CREATE POLICY "Users can view own documents" ON id_documents
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own documents" ON id_documents
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own documents" ON id_documents
+    FOR UPDATE USING (auth.uid() = user_id);
+
+-- Admin users can view all documents
+CREATE POLICY "Admins can view all documents" ON id_documents
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM auth.users 
+            WHERE id = auth.uid() 
+            AND raw_user_meta_data->>'role' = 'admin'
+        )
+    );
 
 -- Function to automatically update the updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()

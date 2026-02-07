@@ -19,7 +19,7 @@
     "setup-storage": "node scripts/setup-storage-bucket-node.js"
   },
   "dependencies": {
-    "@hcaptcha/react-hcaptcha": "^2.0.2",
+    "@hcaptcha/react-hcaptcha": "^2.0.1",
     "@hookform/resolvers": "^5.2.2",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",

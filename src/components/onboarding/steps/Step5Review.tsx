@@ -7,6 +7,7 @@ import { OnboardingFormData, ID_TYPES, BILL_RANGES, REFERRAL_SOURCES, SERVICE_OP
 import { Button } from '@/components/ui/Button';
 import { ArrowLeft, Edit2, CheckCircle2, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { getFullLegalName, getDisplayName } from '@/lib/validation/name-validation';
 
 interface Step5ReviewProps {
   formData: OnboardingFormData;
@@ -103,7 +104,18 @@ export function Step5Review({ formData, onUpdate, onSubmit, onBack, onEditStep, 
       <div className="space-y-4">
         {/* Account Info */}
         <SectionCard title="Account Information" step={1}>
-          <InfoRow label="Full Name" value={formData.step1.fullName} />
+          <InfoRow label="Full Name" value={getFullLegalName({
+            firstName: formData.step1.firstName,
+            middleName: formData.step1.middleName,
+            lastName: formData.step1.lastName,
+            nickname: formData.step1.nickname,
+          })} />
+          <InfoRow label="Preferred Name" value={getDisplayName({
+            firstName: formData.step1.firstName,
+            middleName: formData.step1.middleName,
+            lastName: formData.step1.lastName,
+            nickname: formData.step1.nickname,
+          })} />
           <InfoRow label="Email" value={formData.step1.email} />
           <InfoRow label="Phone" value={formData.step1.phone} />
         </SectionCard>

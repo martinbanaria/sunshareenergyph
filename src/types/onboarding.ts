@@ -7,7 +7,11 @@ export type BillRange = 'below_2k' | '2k_5k' | '5k_10k' | 'above_10k';
 export type ReferralSource = 'google' | 'facebook' | 'referral' | 'advertisement' | 'other';
 
 export interface Step1Data {
-  fullName: string;
+  // Structured name fields for better validation
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  nickname: string; // Optional display name
   email: string;
   phone: string;
   password: string;
@@ -59,7 +63,10 @@ export interface OnboardingFormData {
 
 export const INITIAL_ONBOARDING_DATA: OnboardingFormData = {
   step1: {
-    fullName: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    nickname: '',
     email: '',
     phone: '',
     password: '',

@@ -1,0 +1,7 @@
+{
+    "timestamp": "20260207_223934",
+    "environment": "development",
+    "backup_reason": "Pre-Turnstile migration",
+    "git_commit": "cea1b40192020161f13d45901ed40900ed24072b",
+    "script_version": "1.0.0"
+}
