@@ -1,8 +1,27 @@
--- SunShare Energy PH - Database Schema
--- This schema supports the multi-step onboarding process
+-- ============================================================================
+-- SUNSHARE ONBOARDING DATABASE SETUP - COPY AND PASTE THIS ENTIRE SCRIPT
+-- ============================================================================
+-- 
+-- Instructions:
+-- 1. Go to: https://supabase.com/dashboard/project/eiewhroiqnppkexgppxf
+-- 2. Navigate to SQL Editor (left sidebar)
+-- 3. Click "New Query"
+-- 4. Copy and paste this ENTIRE file 
+-- 5. Click "Run" to execute all setup steps
+--
+-- This script will create:
+-- ✅ Tables: user_onboarding, application_activity, analytics_events
+-- ✅ Row Level Security policies
+-- ✅ Triggers and functions for audit logging
+-- ✅ Indexes for performance
+--
+-- Note: Storage bucket must be created separately via Storage UI
+-- ============================================================================
 
--- Enable Row Level Security
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO postgres, anon, authenticated, service_role;
+BEGIN;
+
+-- Step 1: Create tables and indexes
+-- ============================================================================
 
 -- User onboarding data table
 CREATE TABLE IF NOT EXISTS user_onboarding (
@@ -77,22 +96,30 @@ CREATE INDEX IF NOT EXISTS idx_application_activity_created_at ON application_ac
 CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_timestamp ON analytics_events(timestamp);
 
--- Row Level Security Policies
+-- Step 2: Enable Row Level Security and create policies
+-- ============================================================================
+
+-- Enable RLS on all tables
+ALTER TABLE user_onboarding ENABLE ROW LEVEL SECURITY;
+ALTER TABLE application_activity ENABLE ROW LEVEL SECURITY;
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
 
 -- user_onboarding table policies
-ALTER TABLE user_onboarding ENABLE ROW LEVEL SECURITY;
-
 -- Users can only see and modify their own onboarding data
+DROP POLICY IF EXISTS "Users can view own onboarding data" ON user_onboarding;
 CREATE POLICY "Users can view own onboarding data" ON user_onboarding
     FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert own onboarding data" ON user_onboarding;
 CREATE POLICY "Users can insert own onboarding data" ON user_onboarding
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update own onboarding data" ON user_onboarding;
 CREATE POLICY "Users can update own onboarding data" ON user_onboarding
     FOR UPDATE USING (auth.uid() = user_id);
 
--- Admin users can view all onboarding data (you can modify this based on your admin logic)
+-- Admin users can view all onboarding data (modify role condition as needed)
+DROP POLICY IF EXISTS "Admins can view all onboarding data" ON user_onboarding;
 CREATE POLICY "Admins can view all onboarding data" ON user_onboarding
     FOR ALL USING (
         EXISTS (
@@ -103,9 +130,8 @@ CREATE POLICY "Admins can view all onboarding data" ON user_onboarding
     );
 
 -- application_activity table policies
-ALTER TABLE application_activity ENABLE ROW LEVEL SECURITY;
-
 -- Users can view activity related to their onboarding
+DROP POLICY IF EXISTS "Users can view own activity" ON application_activity;
 CREATE POLICY "Users can view own activity" ON application_activity
     FOR SELECT USING (
         EXISTS (
@@ -116,19 +142,23 @@ CREATE POLICY "Users can view own activity" ON application_activity
     );
 
 -- System can insert activity logs
+DROP POLICY IF EXISTS "System can insert activity" ON application_activity;
 CREATE POLICY "System can insert activity" ON application_activity
     FOR INSERT WITH CHECK (true);
 
 -- analytics_events table policies
-ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
-
 -- Users can insert their own analytics events
+DROP POLICY IF EXISTS "Users can insert own analytics" ON analytics_events;
 CREATE POLICY "Users can insert own analytics" ON analytics_events
     FOR INSERT WITH CHECK (auth.uid() = user_id OR user_id IS NULL);
 
 -- System can view analytics for reporting
+DROP POLICY IF EXISTS "System can view analytics" ON analytics_events;
 CREATE POLICY "System can view analytics" ON analytics_events
     FOR SELECT USING (true);
+
+-- Step 3: Create triggers and functions
+-- ============================================================================
 
 -- Function to automatically update the updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -178,3 +208,40 @@ CREATE TRIGGER log_onboarding_activity_trigger
     AFTER INSERT OR UPDATE ON user_onboarding
     FOR EACH ROW
     EXECUTE FUNCTION log_onboarding_activity();
+
+COMMIT;
+
+-- ============================================================================
+-- SETUP VERIFICATION
+-- ============================================================================
+
+-- Verify tables were created
+SELECT 'Tables created successfully!' as status 
+WHERE EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'user_onboarding')
+  AND EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'application_activity')
+  AND EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'analytics_events');
+
+-- Show table counts
+SELECT 
+    'user_onboarding' as table_name, 
+    COUNT(*) as record_count 
+FROM user_onboarding
+UNION ALL
+SELECT 
+    'application_activity' as table_name, 
+    COUNT(*) as record_count 
+FROM application_activity
+UNION ALL
+SELECT 
+    'analytics_events' as table_name, 
+    COUNT(*) as record_count 
+FROM analytics_events;
+
+-- ============================================================================
+-- ✅ DATABASE SETUP COMPLETE!
+--
+-- Next steps:
+-- 1. Create storage bucket 'id-documents' via Storage UI (Private, 10MB limit)
+-- 2. Run the storage policies script (supabase/storage-policies.sql)
+-- 3. Test your app at: http://localhost:3000/onboarding
+-- ============================================================================

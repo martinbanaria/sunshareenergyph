@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunShare Supabase Setup Assistant</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 16px; 
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #333; 
+            margin-bottom: 30px; 
+            text-align: center;
+            font-size: 2.5em;
+        }
+        .step { 
+            background: #f8f9fa; 
+            border-radius: 12px; 
+            padding: 30px; 
+            margin-bottom: 30px;
+            border-left: 5px solid #4CAF50;
+        }
+        .step h2 { 
+            color: #2c3e50; 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            background: #4CAF50;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .code-block { 
+            background: #1e1e1e; 
+            color: #d4d4d4; 
+            padding: 20px; 
+            border-radius: 8px; 
+            font-family: 'Monaco', 'Menlo', monospace; 
+            font-size: 14px;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover { background: #005a9e; }
+        .success-msg { 
+            background: #d4edda; 
+            color: #155724; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        .warning { 
+            background: #fff3cd; 
+            color: #856404; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 10px 0;
+            border: 1px solid #ffeaa7;
+        }
+        .link { 
+            color: #007acc; 
+            text-decoration: none; 
+            font-weight: 600;
+        }
+        .link:hover { text-decoration: underline; }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checklist li::before {
+            content: "□";
+            font-size: 18px;
+            color: #4CAF50;
+        }
+        .progress {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SunShare Supabase Setup Assistant</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Manual Setup Required:</strong> Automated setup failed due to API key restrictions. 
+            Follow these steps to complete your database configuration.
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="step">
+            <h2>
+                <span class="step-number">1</span>
+                Open Your Supabase Project
+            </h2>
+            <p>Click the link below to open your Supabase dashboard:</p>
+            <p style="margin: 20px 0;">
+                <a href="https://supabase.com/dashboard/project/eiewhroiqnppkexgppxf" 
+                   target="_blank" class="link">
+                    🔗 Open SunShare Supabase Project
+                </a>
+            </p>
+            <ul class="checklist">
+                <li>Navigate to your project dashboard</li>
+                <li>Ensure you're logged in with the correct account</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2>
+                <span class="step-number">2</span>
+                Execute Database Schema
+            </h2>
+            <p>Copy and paste this entire SQL script in your Supabase SQL Editor:</p>
+            
+            <div style="position: relative;">
+                <div class="code-block" id="schema-sql">-- Loading schema...</div>
+                <button class="copy-btn" onclick="copyToClipboard('schema-sql')">Copy SQL</button>
+            </div>
+            
+            <ul class="checklist">
+                <li>Go to <strong>SQL Editor</strong> (left sidebar)</li>
+                <li>Click <strong>"New Query"</strong></li>
+                <li>Paste the SQL code above</li>
+                <li>Click <strong>"Run"</strong> ▶️</li>
+                <li>Wait for "Query executed successfully" message</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2>
+                <span class="step-number">3</span>
+                Create Storage Bucket
+            </h2>
+            <ul class="checklist">
+                <li>Go to <strong>Storage</strong> (left sidebar)</li>
+                <li>Click <strong>"New bucket"</strong></li>
+                <li>Name: <code>id-documents</code></li>
+                <li>Set as <strong>Private</strong> (important!)</li>
+                <li>File size limit: <strong>10MB</strong></li>
+                <li>Allowed MIME types: <code>image/jpeg,image/png,image/jpg,application/pdf</code></li>
+                <li>Click <strong>"Create bucket"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2>
+                <span class="step-number">4</span>
+                Apply Storage Policies
+            </h2>
+            <p>After creating the bucket, apply these security policies:</p>
+            
+            <div style="position: relative;">
+                <div class="code-block" id="storage-sql">-- Loading storage policies...</div>
+                <button class="copy-btn" onclick="copyToClipboard('storage-sql')">Copy SQL</button>
+            </div>
+            
+            <ul class="checklist">
+                <li>Go back to <strong>SQL Editor</strong></li>
+                <li>Click <strong>"New Query"</strong></li>
+                <li>Paste the storage policies SQL above</li>
+                <li>Click <strong>"Run"</strong> ▶️</li>
+                <li>Verify "Storage policies created successfully!" message</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2>
+                <span class="step-number">5</span>
+                Test Your Setup
+            </h2>
+            <ul class="checklist">
+                <li>Start your development server: <code>npm run dev</code></li>
+                <li>Visit: <a href="http://localhost:3000/onboarding" target="_blank" class="link">http://localhost:3000/onboarding</a></li>
+                <li>Complete the 5-step registration process</li>
+                <li>Check your Supabase dashboard for new user data</li>
+            </ul>
+            
+            <div class="success-msg" id="successMsg" style="display: none;">
+                🎉 <strong>Setup Complete!</strong> Your SunShare onboarding system is now fully functional and ready for production use!
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <p style="color: #666;">
+                Need help? Check the <code>FINAL_SETUP_GUIDE.md</code> file for detailed instructions.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Load SQL files and display them
+        async function loadSQLFiles() {
+            try {
+                // In a real implementation, these would be loaded from the actual files
+                // For now, I'll embed them directly
+                
+                const schemaSQL = \`-- SUNSHARE ONBOARDING DATABASE SETUP
+-- Copy and paste this entire script into Supabase SQL Editor
+
+BEGIN;
+
+-- User onboarding data table
+CREATE TABLE IF NOT EXISTS user_onboarding (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE UNIQUE,
+    
+    -- Step 2: ID Information
+    id_type TEXT,
+    id_file_name TEXT,
+    id_file_path TEXT,
+    extracted_name TEXT,
+    extracted_address TEXT,
+    
+    -- Step 3: Property Information
+    property_type TEXT CHECK (property_type IN ('residential', 'commercial', 'industrial')),
+    property_ownership TEXT CHECK (property_ownership IN ('owner', 'renter', 'manager')),
+    street_address TEXT,
+    barangay TEXT,
+    city TEXT,
+    province TEXT,
+    zip_code TEXT,
+    
+    -- Step 4: Preferences
+    interested_services JSONB DEFAULT '[]'::JSONB,
+    monthly_bill_range TEXT CHECK (monthly_bill_range IN ('below_2k', '2k_5k', '5k_10k', 'above_10k', '')),
+    referral_source TEXT CHECK (referral_source IN ('google', 'facebook', 'referral', 'advertisement', 'other', '')),
+    
+    -- Step 5: Agreements
+    terms_accepted BOOLEAN DEFAULT FALSE,
+    privacy_accepted BOOLEAN DEFAULT FALSE,
+    newsletter_subscribed BOOLEAN DEFAULT FALSE,
+    
+    -- Meta information
+    application_status TEXT DEFAULT 'pending',
+    installation_timeline TEXT,
+    
+    -- Timestamps
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Application activity log
+CREATE TABLE IF NOT EXISTS application_activity (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    onboarding_id UUID REFERENCES user_onboarding(id) ON DELETE CASCADE,
+    actor_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    action_type TEXT NOT NULL,
+    action_description TEXT,
+    metadata JSONB DEFAULT '{}'::JSONB,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Analytics events table
+CREATE TABLE IF NOT EXISTS analytics_events (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id TEXT,
+    action TEXT NOT NULL,
+    step INTEGER,
+    user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    event_data JSONB DEFAULT '{}'::JSONB,
+    user_agent TEXT,
+    viewport TEXT,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable Row Level Security
+ALTER TABLE user_onboarding ENABLE ROW LEVEL SECURITY;
+ALTER TABLE application_activity ENABLE ROW LEVEL SECURITY;
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+CREATE POLICY "Users can view own onboarding data" ON user_onboarding
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own onboarding data" ON user_onboarding
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own onboarding data" ON user_onboarding
+    FOR UPDATE USING (auth.uid() = user_id);
+
+COMMIT;
+
+SELECT 'Database setup completed successfully!' as status;\`;
+
+                const storageSQL = \`-- STORAGE POLICIES FOR ID-DOCUMENTS BUCKET
+-- Run this after creating the storage bucket
+
+CREATE POLICY "Users can upload own documents" ON storage.objects
+  FOR INSERT WITH CHECK (
+    bucket_id = 'id-documents' 
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+CREATE POLICY "Users can view own documents" ON storage.objects
+  FOR SELECT USING (
+    bucket_id = 'id-documents' 
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+CREATE POLICY "Users can update own documents" ON storage.objects
+  FOR UPDATE USING (
+    bucket_id = 'id-documents' 
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+CREATE POLICY "Users can delete own documents" ON storage.objects
+  FOR DELETE USING (
+    bucket_id = 'id-documents' 
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+SELECT 'Storage policies created successfully!' as status;\`;
+
+                document.getElementById('schema-sql').textContent = schemaSQL;
+                document.getElementById('storage-sql').textContent = storageSQL;
+                
+            } catch (error) {
+                console.error('Error loading SQL files:', error);
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = element.nextElementSibling;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied! ✓';
+                btn.style.background = '#4CAF50';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#007acc';
+                }, 2000);
+            });
+        }
+
+        function updateProgress() {
+            // Simulate progress updates
+            const steps = document.querySelectorAll('.step');
+            let progress = 0;
+            
+            steps.forEach((step, index) => {
+                step.addEventListener('click', () => {
+                    progress = ((index + 1) / steps.length) * 100;
+                    document.getElementById('progressBar').style.width = progress + '%';
+                    
+                    if (progress === 100) {
+                        document.getElementById('successMsg').style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        loadSQLFiles();
+        updateProgress();
+    </script>
+</body>
+</html>
