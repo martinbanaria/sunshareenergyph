@@ -1,11 +1,13 @@
-import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
-import { Metadata } from 'next';
+import React from 'react';
+import OnboardingWizard from '@/components/onboarding/OnboardingWizard';
+import Layout from './layout';
 
-export const metadata: Metadata = {
-  title: 'Join SunShare | Start Your Solar Journey',
-  description: 'Create your SunShare account and start saving with clean, renewable solar energy in the Philippines.',
+const OnboardingPage = () => {
+  return (
+    <Layout>
+      <OnboardingWizard />
+    </Layout>
+  );
 };
 
-export default function OnboardingPage() {
-  return <OnboardingWizard />;
-}
+export default OnboardingPage;

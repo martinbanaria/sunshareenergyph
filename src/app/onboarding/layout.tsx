@@ -1,21 +1,14 @@
-import { Metadata } from 'next';
+import React from 'react';
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s | SunShare',
-    default: 'Join SunShare',
-  },
-};
-
-export default function OnboardingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // Clean layout without header/footer for focused onboarding experience
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-sunshare-cream">
-      {children}
+    <div style={{ backgroundColor: 'var(--sunshare-deep)', color: 'var(--sunshare-cream)', minHeight: '100vh' }}>
+      <header style={{ padding: '1rem', borderBottom: '1px solid var(--sunshare-lime)' }}>
+        <h1>SunShare Onboarding</h1>
+      </header>
+      <main>{children}</main>
     </div>
   );
-}
+};
+
+export default Layout;

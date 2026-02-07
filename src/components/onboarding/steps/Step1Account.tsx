@@ -1,293 +1,140 @@
 'use client';
+import React, { useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { step1Schema, Step1FormData } from '@/lib/validations/onboarding';
-import { Step1Data } from '@/types/onboarding';
-import { Button } from '@/components/ui/Button';
-import { ArrowRight, Eye, EyeOff } from 'lucide-react';
-import { useState, useRef } from 'react';
-import HCaptcha from '@hcaptcha/react-hcaptcha';
-
-interface Step1AccountProps {
-  data: Step1Data;
-  onUpdate: (data: Partial<Step1Data>) => void;
-  onNext: () => void;
-}
-
-export function Step1Account({ data, onUpdate, onNext }: Step1AccountProps) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const captchaRef = useRef<HCaptcha>(null);
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<Step1FormData>({
-    resolver: zodResolver(step1Schema),
-    defaultValues: {
-      firstName: data.firstName,
-      middleName: data.middleName,
-      lastName: data.lastName,
-      nickname: data.nickname,
-      email: data.email,
-      phone: data.phone,
-      password: data.password,
-      confirmPassword: data.confirmPassword,
-      captchaToken: data.captchaToken,
-    },
+const Step1Account = ({ onNext }: { onNext: () => void }) => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    password: ''
   });
 
-  const onSubmit = (formData: Step1FormData) => {
-    onUpdate(formData);
-    onNext();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleCaptchaVerify = (token: string) => {
-    setValue('captchaToken', token);
-    onUpdate({ captchaToken: token });
-  };
-
-  const inputClass = `
-    w-full px-4 py-3 bg-white border border-sunshare-deep/20 rounded-xl 
-    text-sunshare-deep placeholder-sunshare-gray/50 
-    focus:outline-none focus:border-sunshare-navy focus:ring-1 focus:ring-sunshare-navy/20 
-    transition-colors
-  `;
-
-  const labelClass = 'block text-sm font-medium text-sunshare-deep mb-2';
-  const errorClass = 'text-red-500 text-xs mt-1';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-sunshare-deep/5">
-        {/* First Name */}
-        <div className="mb-5">
-          <label htmlFor="firstName" className={labelClass}>
-            First Name <span className="text-red-500">*</span>
-          </label>
+    <div
+      style={{
+        padding: '2rem',
+        borderRadius: '15px',
+        background: 'rgba(255, 255, 255, 0.06)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        color: '#F3F6E4', // sunshare-cream
+      }}
+    >
+      <h2 style={{ 
+        fontSize: '1.5rem', 
+        fontWeight: 600, 
+        marginBottom: '1.5rem',
+        color: '#D1EB0C' // sunshare-lime
+      }}>
+        Create Your Account
+      </h2>
+
+      <form onSubmit={(e) => { e.preventDefault(); onNext(); }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Full Name</label>
           <input
-            {...register('firstName')}
             type="text"
-            id="firstName"
-            placeholder="Juan"
-            className={inputClass}
-            onChange={(e) => {
-              register('firstName').onChange(e);
-              onUpdate({ firstName: e.target.value });
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              borderRadius: '0.5rem',
+              background: 'rgba(0, 36, 46, 0.6)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              fontSize: '1rem'
             }}
+            placeholder="Juan dela Cruz"
           />
-          {errors.firstName && (
-            <p className={errorClass}>{errors.firstName.message}</p>
-          )}
-          <p className="text-xs text-sunshare-gray mt-1">
-            Enter your legal first name as it appears on your ID
-          </p>
         </div>
 
-        {/* Middle Name */}
-        <div className="mb-5">
-          <label htmlFor="middleName" className={labelClass}>
-            Middle Name <span className="text-sunshare-gray text-sm">(Optional)</span>
-          </label>
+        <div style={{ marginBottom: '1rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Email Address</label>
           <input
-            {...register('middleName')}
-            type="text"
-            id="middleName"
-            placeholder="Dela Cruz"
-            className={inputClass}
-            onChange={(e) => {
-              register('middleName').onChange(e);
-              onUpdate({ middleName: e.target.value });
-            }}
-          />
-          {errors.middleName && (
-            <p className={errorClass}>{errors.middleName.message}</p>
-          )}
-        </div>
-
-        {/* Last Name */}
-        <div className="mb-5">
-          <label htmlFor="lastName" className={labelClass}>
-            Last Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            {...register('lastName')}
-            type="text"
-            id="lastName"
-            placeholder="Santos"
-            className={inputClass}
-            onChange={(e) => {
-              register('lastName').onChange(e);
-              onUpdate({ lastName: e.target.value });
-            }}
-          />
-          {errors.lastName && (
-            <p className={errorClass}>{errors.lastName.message}</p>
-          )}
-          <p className="text-xs text-sunshare-gray mt-1">
-            Enter your legal last name as it appears on your ID
-          </p>
-        </div>
-
-        {/* Nickname */}
-        <div className="mb-5">
-          <label htmlFor="nickname" className={labelClass}>
-            Nickname/Preferred Name <span className="text-sunshare-gray text-sm">(Optional)</span>
-          </label>
-          <input
-            {...register('nickname')}
-            type="text"
-            id="nickname"
-            placeholder="How you prefer to be called"
-            className={inputClass}
-            onChange={(e) => {
-              register('nickname').onChange(e);
-              onUpdate({ nickname: e.target.value });
-            }}
-          />
-          {errors.nickname && (
-            <p className={errorClass}>{errors.nickname.message}</p>
-          )}
-          <p className="text-xs text-sunshare-gray mt-1">
-            This is how we'll address you in communications
-          </p>
-        </div>
-
-        {/* Email */}
-        <div className="mb-5">
-          <label htmlFor="email" className={labelClass}>
-            Email Address <span className="text-red-500">*</span>
-          </label>
-          <input
-            {...register('email')}
             type="email"
-            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              borderRadius: '0.5rem',
+              background: 'rgba(0, 36, 46, 0.6)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              fontSize: '1rem'
+            }}
             placeholder="juan@example.com"
-            className={inputClass}
-            onChange={(e) => {
-              register('email').onChange(e);
-              onUpdate({ email: e.target.value });
-            }}
           />
-          {errors.email && (
-            <p className={errorClass}>{errors.email.message}</p>
-          )}
         </div>
 
-        {/* Phone */}
-        <div className="mb-5">
-          <label htmlFor="phone" className={labelClass}>
-            Phone Number <span className="text-red-500">*</span>
-          </label>
+        <div style={{ marginBottom: '1rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Mobile Phone</label>
           <input
-            {...register('phone')}
             type="tel"
-            id="phone"
-            placeholder="+63 917 123 4567"
-            className={inputClass}
-            onChange={(e) => {
-              register('phone').onChange(e);
-              onUpdate({ phone: e.target.value });
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              borderRadius: '0.5rem',
+              background: 'rgba(0, 36, 46, 0.6)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              fontSize: '1rem'
             }}
+            placeholder="0917 123 4567"
           />
-          {errors.phone && (
-            <p className={errorClass}>{errors.phone.message}</p>
-          )}
         </div>
 
-        {/* Password */}
-        <div className="mb-5">
-          <label htmlFor="password" className={labelClass}>
-            Password <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <input
-              {...register('password')}
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              placeholder="Min 8 chars, 1 uppercase, 1 number"
-              className={`${inputClass} pr-12`}
-              onChange={(e) => {
-                register('password').onChange(e);
-                onUpdate({ password: e.target.value });
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-sunshare-gray hover:text-sunshare-deep"
-            >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
-          </div>
-          {errors.password && (
-            <p className={errorClass}>{errors.password.message}</p>
-          )}
+        <div style={{ marginBottom: '2rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              borderRadius: '0.5rem',
+              background: 'rgba(0, 36, 46, 0.6)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              fontSize: '1rem'
+            }}
+            placeholder="••••••••"
+          />
         </div>
 
-        {/* Confirm Password */}
-        <div className="mb-5">
-          <label htmlFor="confirmPassword" className={labelClass}>
-            Confirm Password <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <input
-              {...register('confirmPassword')}
-              type={showConfirmPassword ? 'text' : 'password'}
-              id="confirmPassword"
-              placeholder="Re-enter your password"
-              className={`${inputClass} pr-12`}
-              onChange={(e) => {
-                register('confirmPassword').onChange(e);
-                onUpdate({ confirmPassword: e.target.value });
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-sunshare-gray hover:text-sunshare-deep"
-            >
-              {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
-          </div>
-          {errors.confirmPassword && (
-            <p className={errorClass}>{errors.confirmPassword.message}</p>
-          )}
-        </div>
-
-        {/* hCaptcha */}
-        <div className="mb-5">
-          <label className={labelClass}>
-            Verification <span className="text-red-500">*</span>
-          </label>
-          {process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY ? (
-            <HCaptcha
-              ref={captchaRef}
-              sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY}
-              onVerify={handleCaptchaVerify}
-              onExpire={() => setValue('captchaToken', '')}
-            />
-          ) : (
-            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-sm text-yellow-800">
-              CAPTCHA not configured. Add NEXT_PUBLIC_HCAPTCHA_SITEKEY to .env.local
-            </div>
-          )}
-          {errors.captchaToken && (
-            <p className={errorClass}>{errors.captchaToken.message}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Submit */}
-      <div className="flex justify-end">
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Please wait...' : 'Next Step'}
-          <ArrowRight className="ml-2 w-4 h-4" />
-        </Button>
-      </div>
-    </form>
+        <button 
+          type="submit"
+          style={{
+            width: '100%',
+            padding: '0.75rem',
+            borderRadius: '0.5rem',
+            background: '#D1EB0C',
+            border: 'none',
+            color: '#00242E',
+            fontWeight: 600,
+            fontSize: '1rem',
+            cursor: 'pointer'
+          }}
+        >
+          Start Registration
+        </button>
+      </form>
+    </div>
   );
-}
+};
+
+export default Step1Account;
