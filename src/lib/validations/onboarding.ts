@@ -32,6 +32,7 @@ export const step2Schema = z.object({
   idFileName: z.string(),
   extractedName: z.string().optional(),
   extractedAddress: z.string().optional(),
+  extractedIdNumber: z.string().optional(),
 });
 
 // Step 3: Property Details

@@ -22,6 +22,7 @@ export interface Step2Data {
   // OCR extracted (editable)
   extractedName: string;
   extractedAddress: string;
+  extractedIdNumber: string;
 }
 
 export interface Step3Data {
@@ -71,6 +72,7 @@ export const INITIAL_ONBOARDING_DATA: OnboardingFormData = {
     idFileName: '',
     extractedName: '',
     extractedAddress: '',
+    extractedIdNumber: '',
   },
   step3: {
     propertyType: 'residential',

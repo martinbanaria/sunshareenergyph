@@ -34,6 +34,7 @@ export function Step2IDUpload({ data, onUpdate, onNext, onBack }: Step2IDUploadP
       idFileName: data.idFileName,
       extractedName: data.extractedName,
       extractedAddress: data.extractedAddress,
+      extractedIdNumber: data.extractedIdNumber,
     },
   });
 
@@ -50,52 +51,44 @@ export function Step2IDUpload({ data, onUpdate, onNext, onBack }: Step2IDUploadP
   const runOCR = async (imageData: string) => {
     setOcrStatus('processing');
     try {
-      // Dynamic import to avoid SSR issues
-      const Tesseract = (await import('tesseract.js')).default;
-      
-      const result = await Tesseract.recognize(imageData, 'eng', {
-        logger: (m) => {
-          if (m.status === 'recognizing text') {
-            // Could add progress here
-          }
+      // Use our server-side AI OCR API
+      const response = await fetch('/api/ocr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          image: imageData,
+          useAI: true // Use AI OCR for best results
+        })
       });
 
-      const text = result.data.text;
-      
-      // Basic extraction - try to find name and address patterns
-      const lines = text.split('\n').filter((line: string) => line.trim().length > 3);
-      
-      // Simple heuristics for Philippine IDs
-      let extractedName = '';
-      let extractedAddress = '';
-      
-      // Look for common patterns
-      for (const line of lines) {
-        const upperLine = line.toUpperCase();
-        // Skip common ID labels
-        if (upperLine.includes('REPUBLIC') || upperLine.includes('PHILIPPINES') || 
-            upperLine.includes('LICENSE') || upperLine.includes('VALID') ||
-            upperLine.includes('DATE') || upperLine.includes('BIRTH')) {
-          continue;
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        const { name, address, idNumber } = result.data;
+        
+        // Auto-fill extracted data
+        if (name) {
+          setValue('extractedName', name);
+          onUpdate({ extractedName: name });
+        }
+        if (address) {
+          setValue('extractedAddress', address);
+          onUpdate({ extractedAddress: address });
+        }
+        if (idNumber) {
+          setValue('extractedIdNumber', idNumber);
+          onUpdate({ extractedIdNumber: idNumber });
         }
         
-        // First substantial line might be name
-        if (!extractedName && line.length > 5 && /^[A-Za-z\s,.-]+$/.test(line.trim())) {
-          extractedName = line.trim();
-          continue;
-        }
-        
-        // Lines with numbers might be address
-        if (!extractedAddress && /\d/.test(line) && line.length > 10) {
-          extractedAddress = line.trim();
-        }
+        setOcrStatus('done');
+      } else {
+        // If AI OCR fails, show error but allow manual entry
+        console.warn('OCR failed:', result.error);
+        setOcrStatus('error');
       }
 
-      setValue('extractedName', extractedName);
-      setValue('extractedAddress', extractedAddress);
-      onUpdate({ extractedName, extractedAddress });
-      setOcrStatus('done');
     } catch (error) {
       console.error('OCR Error:', error);
       setOcrStatus('error');
@@ -310,6 +303,26 @@ export function Step2IDUpload({ data, onUpdate, onNext, onBack }: Step2IDUploadP
                   onUpdate({ extractedAddress: e.target.value });
                 }}
               />
+            </div>
+
+            <div className="mb-5">
+              <label htmlFor="extractedIdNumber" className={labelClass}>
+                ID Number <span className="text-sunshare-gray text-xs">(verify/edit)</span>
+              </label>
+              <input
+                {...register('extractedIdNumber')}
+                type="text"
+                id="extractedIdNumber"
+                placeholder="ID number as shown on ID"
+                className={inputClass}
+                onChange={(e) => {
+                  register('extractedIdNumber').onChange(e);
+                  onUpdate({ extractedIdNumber: e.target.value });
+                }}
+              />
+              <p className="text-xs text-sunshare-gray mt-1">
+                Please verify this matches your ID number exactly
+              </p>
             </div>
           </>
         )}
