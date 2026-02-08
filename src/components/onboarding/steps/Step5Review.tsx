@@ -59,7 +59,7 @@ const Step5Review = ({ onBack }: { onBack: () => void }) => {
         >
           Back
         </button>
-        <Link href="/onboarding/success" style={{ flex: 1 }}>
+        <Link href="/dashboard" style={{ flex: 1 }}>
           <button 
             type="button"
             style={{
