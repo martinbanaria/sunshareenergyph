@@ -353,7 +353,7 @@ export default function ContactPage() {
             Don&apos;t wait to take control of your energy costs. Join SunShare today and 
             start your journey toward smarter, cheaper, and cleaner energy.
           </p>
-          <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external size="lg" comingSoon>
+          <Button href="/onboarding" size="lg">
             Get a Free Assessment
           </Button>
         </motion.div>

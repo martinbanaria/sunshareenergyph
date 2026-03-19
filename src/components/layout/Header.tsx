@@ -22,7 +22,7 @@ const loginLinks = [
   { label: 'SunShare Portal (Coming Soon)', href: '#' },
 ];
 
-const SIGNUP_URL = 'https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member';
+const SIGNUP_URL = '/onboarding';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -230,11 +230,9 @@ export function Header() {
               </div>
 
               {/* Join Us Button */}
-              <Button 
-                href={SIGNUP_URL} 
-                external 
-                size="sm" 
-                comingSoon
+              <Button
+                href={SIGNUP_URL}
+                size="sm"
               >
                 Join Us
               </Button>
@@ -291,7 +289,7 @@ export function Header() {
                 ))}
                 <div className="border-t border-white/10 my-2" />
                 <div className="px-4 py-2">
-                  <Button href={SIGNUP_URL} external className="w-full" comingSoon>
+                  <Button href={SIGNUP_URL} className="w-full">
                     Join Us
                   </Button>
                 </div>

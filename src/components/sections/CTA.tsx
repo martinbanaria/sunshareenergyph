@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const SIGNUP_URL = 'https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member';
+const SIGNUP_URL = '/onboarding';
 
 export function CTA() {
   return (
@@ -77,7 +77,7 @@ export function CTA() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Button href={SIGNUP_URL} external size="lg" comingSoon>
+          <Button href={SIGNUP_URL} size="lg">
             Join Us
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>

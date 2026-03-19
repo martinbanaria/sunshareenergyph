@@ -348,7 +348,7 @@ const SuccessScreen = ({
 
       {/* Actions */}
       <button
-        onClick={onRestart}
+        onClick={() => { window.location.href = '/dashboard/ci'; }}
         style={{
           width: '100%',
           padding: '0.875rem',

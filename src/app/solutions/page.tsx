@@ -272,7 +272,7 @@ export default function SolutionsPage() {
               energy solutions.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external comingSoon>
+              <Button href="/onboarding">
                 Get a Free Assessment
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

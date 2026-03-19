@@ -257,7 +257,7 @@ export default function AboutPage() {
               and cleaner energy for your community or business.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button href="https://studio--sunshare-registration-portal.us-central1.hosted.app/signup-member" external comingSoon>
+              <Button href="/onboarding">
                 Get Started
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
