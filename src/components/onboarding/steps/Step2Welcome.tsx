@@ -1,21 +1,14 @@
 'use client';
 import React from 'react';
+import { HouseIcon, BuildingIcon, FactoryIcon } from '../CIIcons';
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 const Step2Welcome = ({ onNext }: { onNext: (intention: 'home' | 'business' | 'ci') => void }) => {
+  const { cardStyle, headingColor, isLight } = useOnboardingTheme();
+
   return (
-    <div
-      style={{
-        padding: '2rem',
-        borderRadius: '15px',
-        background: 'rgba(255, 255, 255, 0.06)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        color: '#F3F6E4',
-      }}
-    >
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: '#D1EB0C' }}>
+    <div style={cardStyle}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: headingColor }}>
         Let's get you started.
       </h2>
       <p style={{ marginBottom: '1.5rem', opacity: 0.8 }}>Choose the option that fits you best.</p>
@@ -36,7 +29,7 @@ const Step2Welcome = ({ onNext }: { onNext: (intention: 'home' | 'business' | 'c
             transition: 'all 0.2s',
           }}
         >
-          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>&#127968;</div>
+          <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><HouseIcon size={32} color={isLight ? '#004F64' : '#D1EB0C'} /></div>
           <div style={{ fontWeight: 600 }}>For My Home</div>
           <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>Residential</div>
         </button>
@@ -54,7 +47,7 @@ const Step2Welcome = ({ onNext }: { onNext: (intention: 'home' | 'business' | 'c
             transition: 'all 0.2s',
           }}
         >
-          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>&#127970;</div>
+          <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><BuildingIcon size={32} color={isLight ? '#004F64' : '#004F64'} /></div>
           <div style={{ fontWeight: 600 }}>For My Business</div>
           <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>SME</div>
         </button>
@@ -74,7 +67,7 @@ const Step2Welcome = ({ onNext }: { onNext: (intention: 'home' | 'business' | 'c
           transition: 'all 0.2s',
         }}
       >
-        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>&#127981;</div>
+        <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><FactoryIcon size={32} color="#D1EB0C" /></div>
         <div style={{ fontWeight: 600 }}>For My Facility</div>
         <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>Commercial & Industrial</div>
         <div style={{

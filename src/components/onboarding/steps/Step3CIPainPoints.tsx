@@ -1,16 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-
-const cardStyle: React.CSSProperties = {
-  padding: '2rem',
-  borderRadius: '15px',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: '#F3F6E4',
-};
+import InfoTooltip from '../InfoTooltip';
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 const painPoints = [
   {
@@ -52,6 +43,7 @@ const painPoints = [
 ];
 
 const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) => void; onBack: () => void }) => {
+  const { cardStyle, headingColor, accentColor, backButtonStyle, nextButtonStyle, isLight } = useOnboardingTheme();
   const [selected, setSelected] = useState<string[]>([]);
 
   const toggle = (id: string) => {
@@ -64,7 +56,7 @@ const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) =>
 
   return (
     <div style={cardStyle}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: '#D1EB0C' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: headingColor }}>
         What challenges do you face?
       </h2>
       <p style={{ marginBottom: '1.5rem', opacity: 0.8 }}>
@@ -82,8 +74,12 @@ const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) =>
                 style={{
                   padding: '1rem',
                   borderRadius: '0.75rem',
-                  border: isSelected ? '1px solid #D1EB0C' : '1px solid rgba(255,255,255,0.2)',
-                  background: isSelected ? 'rgba(209, 235, 12, 0.1)' : 'rgba(0, 36, 46, 0.4)',
+                  border: isSelected
+                    ? `1px solid ${accentColor}`
+                    : `1px solid ${isLight ? 'rgba(0,36,46,0.15)' : 'rgba(255,255,255,0.2)'}`,
+                  background: isSelected
+                    ? (isLight ? 'rgba(0, 79, 100, 0.08)' : 'rgba(209, 235, 12, 0.1)')
+                    : (isLight ? 'rgba(255,255,255,0.6)' : 'rgba(0, 36, 46, 0.4)'),
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'flex-start',
@@ -96,8 +92,8 @@ const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) =>
                   height: '22px',
                   minWidth: '22px',
                   borderRadius: '4px',
-                  border: isSelected ? '2px solid #D1EB0C' : '2px solid rgba(255,255,255,0.3)',
-                  background: isSelected ? '#D1EB0C' : 'transparent',
+                  border: isSelected ? `2px solid ${accentColor}` : `2px solid ${isLight ? 'rgba(0,36,46,0.25)' : 'rgba(255,255,255,0.3)'}`,
+                  background: isSelected ? accentColor : 'transparent',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -117,8 +113,15 @@ const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) =>
                     alignItems: 'center',
                     marginBottom: '0.25rem',
                   }}>
-                    <span style={{ fontWeight: 600, color: isSelected ? '#D1EB0C' : 'white' }}>
+                    <span style={{ fontWeight: 600, color: isSelected ? accentColor : (isLight ? '#00242E' : 'white') }}>
                       {point.title}
+                      {(point.id === 'power_quality' || point.id === 'unreliable_metering') && (
+                        <InfoTooltip text={
+                          point.id === 'power_quality'
+                            ? 'Low power factor causes reactive power penalties on your bill. PF correction equipment typically pays for itself within months.'
+                            : 'Interval metering gives you 15-minute consumption data, replacing estimated bills with revenue-grade accuracy.'
+                        } />
+                      )}
                     </span>
                   </div>
                   <div style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '0.25rem' }}>
@@ -126,7 +129,7 @@ const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) =>
                   </div>
                   <div style={{
                     fontSize: '0.75rem',
-                    color: isSelected ? '#D1EB0C' : 'rgba(209, 235, 12, 0.5)',
+                    color: isSelected ? accentColor : (isLight ? 'rgba(0, 79, 100, 0.5)' : 'rgba(209, 235, 12, 0.5)'),
                     fontWeight: 500,
                   }}>
                     &rarr; {point.solution}
@@ -138,36 +141,10 @@ const Step3CIPainPoints = ({ onNext, onBack }: { onNext: (selected: string[]) =>
         </div>
 
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <button
-            type="button"
-            onClick={onBack}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white',
-              cursor: 'pointer',
-            }}
-          >
+          <button type="button" onClick={onBack} style={backButtonStyle}>
             Back
           </button>
-          <button
-            type="submit"
-            disabled={!canProceed}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              background: canProceed ? '#D1EB0C' : 'rgba(209, 235, 12, 0.3)',
-              border: 'none',
-              color: '#00242E',
-              fontWeight: 600,
-              cursor: canProceed ? 'pointer' : 'not-allowed',
-              opacity: canProceed ? 1 : 0.6,
-            }}
-          >
+          <button type="submit" disabled={!canProceed} style={nextButtonStyle(canProceed)}>
             Next
           </button>
         </div>

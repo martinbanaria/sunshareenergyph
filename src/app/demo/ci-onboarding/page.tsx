@@ -1,17 +1,16 @@
-import type { Metadata } from 'next';
+'use client';
+import React from 'react';
 import CIOnboardingDemo from '@/components/onboarding/CIOnboardingDemo';
-
-export const metadata: Metadata = {
-  title: 'C&I Onboarding Demo',
-  robots: { index: false, follow: false },
-};
+import { useOnboardingTheme } from '@/components/onboarding/useOnboardingTheme';
 
 export default function CIDemoPage() {
+  const { pageBackground, textColor } = useOnboardingTheme();
+
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#00242E',
-      color: '#F3F6E4',
+      backgroundColor: pageBackground,
+      color: textColor,
       paddingTop: '1rem',
       paddingBottom: '3rem',
     }}>

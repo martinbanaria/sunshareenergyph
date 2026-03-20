@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -67,10 +68,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen flex flex-col">
-        <ScrollToTop />
-        <Header />
-        <main className="flex-1 pt-16 md:pt-20">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <ScrollToTop />
+          <Header />
+          <main className="flex-1 pt-16 md:pt-20">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,32 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-
-const cardStyle: React.CSSProperties = {
-  padding: '2rem',
-  borderRadius: '15px',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: '#F3F6E4',
-};
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.75rem',
-  borderRadius: '0.5rem',
-  background: 'rgba(0, 36, 46, 0.6)',
-  border: '1px solid rgba(255,255,255,0.2)',
-  color: 'white',
-  fontSize: '1rem',
-};
-
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  marginBottom: '0.5rem',
-  fontSize: '0.9rem',
-};
+import InfoTooltip from '../InfoTooltip';
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 type QualificationData = {
   companyName: string;
@@ -39,6 +14,7 @@ type QualificationData = {
 type EligibilityStatus = 'eligible' | 'eligible_2026' | 'unknown_demand' | 'below_threshold' | null;
 
 const Step3CIQualification = ({ onNext, onBack }: { onNext: (data: QualificationData) => void; onBack: () => void }) => {
+  const { cardStyle, inputStyle, labelStyle, headingColor, backButtonStyle, nextButtonStyle } = useOnboardingTheme();
   const [form, setForm] = useState<QualificationData>({
     companyName: '',
     industrySegment: '',
@@ -69,7 +45,7 @@ const Step3CIQualification = ({ onNext, onBack }: { onNext: (data: Qualification
 
   return (
     <div style={cardStyle}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: '#D1EB0C' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: headingColor }}>
         Tell us about your organization
       </h2>
       <p style={{ marginBottom: '1.5rem', opacity: 0.8 }}>
@@ -124,7 +100,10 @@ const Step3CIQualification = ({ onNext, onBack }: { onNext: (data: Qualification
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-          <label style={labelStyle}>Approximate Peak Demand (kW)</label>
+          <label style={labelStyle}>
+            Approximate Peak Demand (kW)
+            <InfoTooltip text="Peak demand is the highest amount of electrical power your facility draws at any moment. Check your latest electricity bill — it's usually listed in kW or kVA." />
+          </label>
           <select
             style={inputStyle}
             value={form.peakDemand}
@@ -224,36 +203,10 @@ const Step3CIQualification = ({ onNext, onBack }: { onNext: (data: Qualification
         )}
 
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <button
-            type="button"
-            onClick={onBack}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white',
-              cursor: 'pointer',
-            }}
-          >
+          <button type="button" onClick={onBack} style={backButtonStyle}>
             Back
           </button>
-          <button
-            type="submit"
-            disabled={!canProceed}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              background: canProceed ? '#D1EB0C' : 'rgba(209, 235, 12, 0.3)',
-              border: 'none',
-              color: '#00242E',
-              fontWeight: 600,
-              cursor: canProceed ? 'pointer' : 'not-allowed',
-              opacity: canProceed ? 1 : 0.6,
-            }}
-          >
+          <button type="submit" disabled={!canProceed} style={nextButtonStyle(!!canProceed)}>
             Next
           </button>
         </div>

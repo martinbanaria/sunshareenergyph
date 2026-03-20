@@ -1,16 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-
-const cardStyle: React.CSSProperties = {
-  padding: '2rem',
-  borderRadius: '15px',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: '#F3F6E4',
-};
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 // Monthly spend midpoints for calculation
 const spendMidpoints: Record<string, number> = {
@@ -64,6 +54,7 @@ const AnimatedNumber = ({ target, duration = 1500 }: { target: number; duration?
 };
 
 const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Props) => {
+  const { cardStyle, headingColor, accentColor, backButtonStyle, isLight } = useOnboardingTheme();
   const baseMonthlyCost = spendMidpoints[monthlySpend] || 500000;
 
   // Always include base RCOA savings
@@ -86,7 +77,7 @@ const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Pr
 
   return (
     <div style={cardStyle}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem', color: '#D1EB0C' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem', color: headingColor }}>
         Your Estimated Savings
       </h2>
 
@@ -94,19 +85,19 @@ const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Pr
       <div style={{
         padding: '1.5rem',
         borderRadius: '0.75rem',
-        background: 'rgba(209, 235, 12, 0.08)',
-        border: '1px solid rgba(209, 235, 12, 0.2)',
+        background: isLight ? 'rgba(0, 79, 100, 0.06)' : 'rgba(209, 235, 12, 0.08)',
+        border: `1px solid ${isLight ? 'rgba(0, 79, 100, 0.15)' : 'rgba(209, 235, 12, 0.2)'}`,
         textAlign: 'center',
         marginBottom: '1.5rem',
       }}>
-        <div style={{ fontSize: '2rem', fontWeight: 700, color: '#D1EB0C', marginBottom: '0.25rem' }}>
+        <div style={{ fontSize: '2rem', fontWeight: 700, color: accentColor, marginBottom: '0.25rem' }}>
           <AnimatedNumber target={totalLow} /> &ndash; <AnimatedNumber target={totalHigh} />
         </div>
         <div style={{ fontSize: '1rem', opacity: 0.7 }}>per month</div>
         <div style={{
           marginTop: '0.75rem',
           paddingTop: '0.75rem',
-          borderTop: '1px solid rgba(255,255,255,0.1)',
+          borderTop: `1px solid ${isLight ? 'rgba(0,36,46,0.1)' : 'rgba(255,255,255,0.1)'}`,
           fontSize: '1.1rem',
           fontWeight: 600,
         }}>
@@ -114,8 +105,8 @@ const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Pr
         </div>
       </div>
 
-      {/* Breakdown Cards */}
-      <p style={{ fontWeight: 600, marginBottom: '0.75rem', fontSize: '0.95rem' }}>How you'll save:</p>
+      {/* Breakdown Cards — service name + description only (no per-component ₱) */}
+      <p style={{ fontWeight: 600, marginBottom: '0.75rem', fontSize: '0.95rem' }}>How we do it</p>
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -128,15 +119,12 @@ const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Pr
             style={{
               padding: '1rem',
               borderRadius: '0.75rem',
-              background: 'rgba(0, 36, 46, 0.4)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: isLight ? 'rgba(255,255,255,0.7)' : 'rgba(0, 36, 46, 0.4)',
+              border: `1px solid ${isLight ? 'rgba(0,36,46,0.08)' : 'rgba(255,255,255,0.1)'}`,
             }}
           >
-            <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.5rem', color: '#D1EB0C' }}>
+            <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.35rem', color: accentColor }}>
               {item.label}
-            </div>
-            <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.25rem' }}>
-              {formatPeso(item.savingsLow)} &ndash; {formatPeso(item.savingsHigh)}/mo
             </div>
             <div style={{ fontSize: '0.8rem', opacity: 0.6 }}>
               {item.desc}
@@ -149,8 +137,8 @@ const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Pr
       <div style={{
         padding: '0.75rem 1rem',
         borderRadius: '0.5rem',
-        background: 'rgba(0, 36, 46, 0.3)',
-        border: '1px solid rgba(255,255,255,0.05)',
+        background: isLight ? 'rgba(0, 36, 46, 0.04)' : 'rgba(0, 36, 46, 0.3)',
+        border: `1px solid ${isLight ? 'rgba(0,36,46,0.06)' : 'rgba(255,255,255,0.05)'}`,
         fontSize: '0.8rem',
         opacity: 0.7,
         lineHeight: 1.5,
@@ -162,19 +150,7 @@ const Step4CISavingsEstimate = ({ monthlySpend, painPoints, onNext, onBack }: Pr
       </div>
 
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button
-          type="button"
-          onClick={onBack}
-          style={{
-            flex: 1,
-            padding: '0.75rem',
-            borderRadius: '0.5rem',
-            background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.3)',
-            color: 'white',
-            cursor: 'pointer',
-          }}
-        >
+        <button type="button" onClick={onBack} style={backButtonStyle}>
           Back
         </button>
         <button

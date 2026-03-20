@@ -2,30 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-// ─── Styles ──────────────────────────────────────────────────────────────────
-
-const cardStyle: React.CSSProperties = {
-  padding: '1.25rem',
-  borderRadius: '0.75rem',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  backdropFilter: 'blur(12px)',
-};
-
-const sectionHeader: React.CSSProperties = {
-  fontSize: '0.7rem',
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.1em',
-  color: '#D1EB0C',
-  marginBottom: '0.75rem',
-};
-
-const metricCard = (accentColor: string): React.CSSProperties => ({
-  ...cardStyle,
-  borderLeft: `3px solid ${accentColor}`,
-});
+import { BoltIcon, WrenchIcon, ChartIcon, SunIcon, PlusIcon, ChatIcon, BookIcon } from '@/components/onboarding/CIIcons';
+import { useOnboardingTheme } from '@/components/onboarding/useOnboardingTheme';
 
 // ─── Animated Counter ────────────────────────────────────────────────────────
 
@@ -61,6 +39,8 @@ const TimelineStep = ({
   date,
   status,
   isLast,
+  isLight,
+  accentColor,
 }: {
   step: number;
   title: string;
@@ -68,9 +48,10 @@ const TimelineStep = ({
   date: string;
   status: TimelineStatus;
   isLast: boolean;
+  isLight: boolean;
+  accentColor: string;
 }) => (
   <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
-    {/* Vertical line */}
     {!isLast && (
       <div style={{
         position: 'absolute',
@@ -78,10 +59,11 @@ const TimelineStep = ({
         top: '32px',
         bottom: '-8px',
         width: '2px',
-        background: status === 'completed' ? 'rgba(209, 235, 12, 0.3)' : 'rgba(255,255,255,0.08)',
+        background: status === 'completed'
+          ? (isLight ? 'rgba(0, 79, 100, 0.3)' : 'rgba(209, 235, 12, 0.3)')
+          : (isLight ? 'rgba(0,36,46,0.08)' : 'rgba(255,255,255,0.08)'),
       }} />
     )}
-    {/* Circle */}
     <div style={{
       width: '32px',
       height: '32px',
@@ -95,10 +77,10 @@ const TimelineStep = ({
       background: status === 'completed'
         ? '#D1EB0C'
         : status === 'active'
-          ? 'rgba(209, 235, 12, 0.2)'
-          : 'rgba(255,255,255,0.08)',
-      color: status === 'completed' ? '#00242E' : status === 'active' ? '#D1EB0C' : 'rgba(255,255,255,0.4)',
-      border: status === 'active' ? '2px solid #D1EB0C' : 'none',
+          ? (isLight ? 'rgba(0, 79, 100, 0.1)' : 'rgba(209, 235, 12, 0.2)')
+          : (isLight ? 'rgba(0,36,46,0.06)' : 'rgba(255,255,255,0.08)'),
+      color: status === 'completed' ? '#00242E' : status === 'active' ? accentColor : (isLight ? 'rgba(0,36,46,0.4)' : 'rgba(255,255,255,0.4)'),
+      border: status === 'active' ? `2px solid ${accentColor}` : 'none',
     }}>
       {status === 'completed' ? (
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -106,18 +88,17 @@ const TimelineStep = ({
         </svg>
       ) : step}
     </div>
-    {/* Content */}
     <div style={{ paddingBottom: isLast ? 0 : '1.5rem', flex: 1 }}>
       <div style={{
         fontWeight: 600,
         fontSize: '0.95rem',
         marginBottom: '0.15rem',
-        color: status === 'upcoming' ? 'rgba(255,255,255,0.4)' : 'white',
+        color: status === 'upcoming' ? (isLight ? 'rgba(0,36,46,0.4)' : 'rgba(255,255,255,0.4)') : undefined,
       }}>
         {title}
       </div>
       <div style={{ fontSize: '0.8rem', opacity: 0.5, marginBottom: '0.15rem' }}>{description}</div>
-      <div style={{ fontSize: '0.75rem', color: status === 'active' ? '#D1EB0C' : 'rgba(255,255,255,0.3)' }}>{date}</div>
+      <div style={{ fontSize: '0.75rem', color: status === 'active' ? accentColor : (isLight ? 'rgba(0,36,46,0.3)' : 'rgba(255,255,255,0.3)') }}>{date}</div>
     </div>
   </div>
 );
@@ -125,11 +106,35 @@ const TimelineStep = ({
 // ─── Main Dashboard ──────────────────────────────────────────────────────────
 
 export default function CIDashboardPage() {
+  const { pageBackground, textColor, accentColor, isLight } = useOnboardingTheme();
+
+  const cardStyle: React.CSSProperties = {
+    padding: '1.25rem',
+    borderRadius: '0.75rem',
+    background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.06)',
+    border: `1px solid ${isLight ? 'rgba(0, 36, 46, 0.08)' : 'rgba(255, 255, 255, 0.1)'}`,
+    backdropFilter: isLight ? undefined : 'blur(12px)',
+  };
+
+  const sectionHeader: React.CSSProperties = {
+    fontSize: '0.7rem',
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    letterSpacing: '0.1em',
+    color: accentColor,
+    marginBottom: '0.75rem',
+  };
+
+  const metricCard = (color: string): React.CSSProperties => ({
+    ...cardStyle,
+    borderLeft: `3px solid ${color}`,
+  });
+
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#00242E',
-      color: '#F3F6E4',
+      background: pageBackground,
+      color: textColor,
       padding: '1.5rem',
       maxWidth: '800px',
       margin: '0 auto',
@@ -147,9 +152,9 @@ export default function CIDashboardPage() {
         <Link href="/" style={{
           padding: '0.5rem 1rem',
           borderRadius: '0.5rem',
-          background: 'rgba(255,255,255,0.08)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          color: 'white',
+          background: isLight ? 'rgba(0,36,46,0.06)' : 'rgba(255,255,255,0.08)',
+          border: `1px solid ${isLight ? 'rgba(0,36,46,0.1)' : 'rgba(255,255,255,0.1)'}`,
+          color: textColor,
           fontSize: '0.8rem',
           textDecoration: 'none',
         }}>
@@ -163,8 +168,8 @@ export default function CIDashboardPage() {
       {/* ── Status Banner ── */}
       <div style={{
         ...cardStyle,
-        background: 'rgba(209, 235, 12, 0.06)',
-        border: '1px solid rgba(209, 235, 12, 0.2)',
+        background: isLight ? 'rgba(0, 79, 100, 0.04)' : 'rgba(209, 235, 12, 0.06)',
+        border: `1px solid ${isLight ? 'rgba(0, 79, 100, 0.15)' : 'rgba(209, 235, 12, 0.2)'}`,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -189,13 +194,110 @@ export default function CIDashboardPage() {
         <div style={{
           padding: '0.4rem 0.75rem',
           borderRadius: '2rem',
-          background: 'rgba(209, 235, 12, 0.15)',
-          color: '#D1EB0C',
+          background: isLight ? 'rgba(0, 79, 100, 0.1)' : 'rgba(209, 235, 12, 0.15)',
+          color: accentColor,
           fontSize: '0.75rem',
           fontWeight: 600,
         }}>
           IN PROGRESS
         </div>
+      </div>
+
+      {/* ── Journey Timeline (moved up) ── */}
+      <div style={sectionHeader}>Your Journey</div>
+      <div style={{ ...cardStyle, marginBottom: '1.5rem' }}>
+        <TimelineStep step={1} title="Audit Requested" description="You submitted your free energy audit request" date="Completed today" status="completed" isLast={false} isLight={isLight} accentColor={accentColor} />
+        <TimelineStep step={2} title="Advisor Contact" description="A SunShare energy advisor will reach out to schedule" date="Within 24 hours" status="active" isLast={false} isLight={isLight} accentColor={accentColor} />
+        <TimelineStep step={3} title="On-Site Energy Audit" description="Smappee monitoring deployed, 30-day baseline measurement" date="To be scheduled" status="upcoming" isLast={false} isLight={isLight} accentColor={accentColor} />
+        <TimelineStep step={4} title="Efficiency Diagnosis" description="Detailed report with exact savings, PF correction sizing, solar design" date="After baseline period" status="upcoming" isLast={false} isLight={isLight} accentColor={accentColor} />
+        <TimelineStep step={5} title="PSA Signing" description="Power Supply Agreement execution — start saving immediately" date="Pending" status="upcoming" isLast={true} isLight={isLight} accentColor={accentColor} />
+      </div>
+
+      {/* ── Quick Actions (moved up) ── */}
+      <div style={sectionHeader}>Quick Actions</div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+        gap: '0.75rem',
+        marginBottom: '1.5rem',
+      }}>
+        <Link href="/onboarding" style={{
+          ...cardStyle,
+          textDecoration: 'none',
+          color: textColor,
+          textAlign: 'center',
+          cursor: 'pointer',
+          transition: 'border-color 0.2s',
+        }}>
+          <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><PlusIcon size={24} color={isLight ? '#004F64' : '#F3F6E4'} /></div>
+          <div style={{ fontWeight: 500, fontSize: '0.85rem' }}>Add Facility</div>
+        </Link>
+
+        <Link href="/contact" style={{
+          ...cardStyle,
+          textDecoration: 'none',
+          color: textColor,
+          textAlign: 'center',
+          cursor: 'pointer',
+          transition: 'border-color 0.2s',
+        }}>
+          <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><ChatIcon size={24} color={isLight ? '#004F64' : '#F3F6E4'} /></div>
+          <div style={{ fontWeight: 500, fontSize: '0.85rem' }}>Contact Advisor</div>
+        </Link>
+
+        <Link href="/how-it-works" style={{
+          ...cardStyle,
+          textDecoration: 'none',
+          color: textColor,
+          textAlign: 'center',
+          cursor: 'pointer',
+          transition: 'border-color 0.2s',
+        }}>
+          <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><BookIcon size={24} color={isLight ? '#004F64' : '#F3F6E4'} /></div>
+          <div style={{ fontWeight: 500, fontSize: '0.85rem' }}>Learn More</div>
+        </Link>
+      </div>
+
+      {/* ── Solutions Matched ── */}
+      <div style={sectionHeader}>Your SunShare Solutions</div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gap: '0.75rem',
+        marginBottom: '1.5rem',
+      }}>
+        {[
+          { name: 'Retail Supply (PSA)', status: 'Pending audit', Icon: BoltIcon, iconColor: '#D1EB0C', savings: '₱84K–₱126K/mo', color: '#D1EB0C' },
+          { name: 'PF Correction', status: 'Pending audit', Icon: WrenchIcon, iconColor: '#20B2AA', savings: '₱30K–₱45K/mo', color: '#20B2AA' },
+          { name: 'Smappee Monitoring', status: 'To be deployed', Icon: ChartIcon, iconColor: '#D1EB0C', savings: '₱18K–₱27K/mo', color: '#D1EB0C' },
+          { name: 'Embedded Solar', status: 'Roof assessment needed', Icon: SunIcon, iconColor: '#20B2AA', savings: '₱48K–₱72K/mo', color: '#20B2AA' },
+        ].map((solution) => (
+          <div key={solution.name} style={{
+            ...cardStyle,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <div style={{ marginBottom: '0.25rem' }}><solution.Icon size={24} color={solution.iconColor} /></div>
+                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{solution.name}</div>
+              </div>
+              <div style={{
+                padding: '0.2rem 0.5rem',
+                borderRadius: '0.25rem',
+                background: isLight ? 'rgba(0,36,46,0.04)' : 'rgba(255,255,255,0.05)',
+                fontSize: '0.65rem',
+                opacity: 0.5,
+              }}>
+                {solution.status}
+              </div>
+            </div>
+            <div style={{ fontSize: '0.85rem', color: solution.color, fontWeight: 600 }}>
+              {solution.savings}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* ── Savings Overview ── */}
@@ -222,100 +324,13 @@ export default function CIDashboardPage() {
           <div style={{ fontSize: '0.7rem', opacity: 0.4 }}>estimated per year</div>
         </div>
 
-        <div style={metricCard('rgba(255,255,255,0.3)')}>
+        <div style={metricCard(isLight ? 'rgba(0,36,46,0.3)' : 'rgba(255,255,255,0.3)')}>
           <div style={{ fontSize: '0.75rem', opacity: 0.5, marginBottom: '0.5rem' }}>vs. Current Provider</div>
           <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>
             <AnimatedMetric target={14} suffix="%" />
           </div>
           <div style={{ fontSize: '0.7rem', opacity: 0.4 }}>avg. RCOA savings</div>
         </div>
-      </div>
-
-      {/* ── Solutions Matched ── */}
-      <div style={sectionHeader}>Your SunShare Solutions</div>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '0.75rem',
-        marginBottom: '1.5rem',
-      }}>
-        {[
-          { name: 'Retail Supply (PSA)', status: 'Pending audit', icon: '⚡', savings: '₱84K–₱126K/mo', color: '#D1EB0C' },
-          { name: 'PF Correction', status: 'Pending audit', icon: '🔧', savings: '₱30K–₱45K/mo', color: '#20B2AA' },
-          { name: 'Smappee Monitoring', status: 'To be deployed', icon: '📊', savings: '₱18K–₱27K/mo', color: '#D1EB0C' },
-          { name: 'Embedded Solar', status: 'Roof assessment needed', icon: '☀️', savings: '₱48K–₱72K/mo', color: '#20B2AA' },
-        ].map((solution) => (
-          <div key={solution.name} style={{
-            ...cardStyle,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <div style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>{solution.icon}</div>
-                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{solution.name}</div>
-              </div>
-              <div style={{
-                padding: '0.2rem 0.5rem',
-                borderRadius: '0.25rem',
-                background: 'rgba(255,255,255,0.05)',
-                fontSize: '0.65rem',
-                opacity: 0.5,
-              }}>
-                {solution.status}
-              </div>
-            </div>
-            <div style={{ fontSize: '0.85rem', color: solution.color, fontWeight: 600 }}>
-              {solution.savings}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Onboarding Timeline ── */}
-      <div style={sectionHeader}>Your Journey</div>
-      <div style={{ ...cardStyle, marginBottom: '1.5rem' }}>
-        <TimelineStep
-          step={1}
-          title="Audit Requested"
-          description="You submitted your free energy audit request"
-          date="Completed today"
-          status="completed"
-          isLast={false}
-        />
-        <TimelineStep
-          step={2}
-          title="Advisor Contact"
-          description="A SunShare energy advisor will reach out to schedule"
-          date="Within 24 hours"
-          status="active"
-          isLast={false}
-        />
-        <TimelineStep
-          step={3}
-          title="On-Site Energy Audit"
-          description="Smappee monitoring deployed, 30-day baseline measurement"
-          date="To be scheduled"
-          status="upcoming"
-          isLast={false}
-        />
-        <TimelineStep
-          step={4}
-          title="Efficiency Diagnosis"
-          description="Detailed report with exact savings, PF correction sizing, solar design"
-          date="After baseline period"
-          status="upcoming"
-          isLast={false}
-        />
-        <TimelineStep
-          step={5}
-          title="PSA Signing"
-          description="Power Supply Agreement execution — start saving immediately"
-          date="Pending"
-          status="upcoming"
-          isLast={true}
-        />
       </div>
 
       {/* ── Facility Details ── */}
@@ -357,56 +372,11 @@ export default function CIDashboardPage() {
         </div>
       </div>
 
-      {/* ── Quick Actions ── */}
-      <div style={sectionHeader}>Quick Actions</div>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-        gap: '0.75rem',
-        marginBottom: '1.5rem',
-      }}>
-        <Link href="/onboarding" style={{
-          ...cardStyle,
-          textDecoration: 'none',
-          color: '#F3F6E4',
-          textAlign: 'center',
-          cursor: 'pointer',
-          transition: 'border-color 0.2s',
-        }}>
-          <div style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>➕</div>
-          <div style={{ fontWeight: 500, fontSize: '0.85rem' }}>Add Facility</div>
-        </Link>
-
-        <Link href="/contact" style={{
-          ...cardStyle,
-          textDecoration: 'none',
-          color: '#F3F6E4',
-          textAlign: 'center',
-          cursor: 'pointer',
-          transition: 'border-color 0.2s',
-        }}>
-          <div style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>💬</div>
-          <div style={{ fontWeight: 500, fontSize: '0.85rem' }}>Contact Advisor</div>
-        </Link>
-
-        <Link href="/how-it-works" style={{
-          ...cardStyle,
-          textDecoration: 'none',
-          color: '#F3F6E4',
-          textAlign: 'center',
-          cursor: 'pointer',
-          transition: 'border-color 0.2s',
-        }}>
-          <div style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>📖</div>
-          <div style={{ fontWeight: 500, fontSize: '0.85rem' }}>Learn More</div>
-        </Link>
-      </div>
-
       {/* ── Footer ── */}
       <div style={{
         textAlign: 'center',
         paddingTop: '1.5rem',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        borderTop: `1px solid ${isLight ? 'rgba(0,36,46,0.06)' : 'rgba(255,255,255,0.06)'}`,
         fontSize: '0.75rem',
         opacity: 0.3,
       }}>

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import Step1QuickStart from './steps/Step1QuickStart';
 import Step2Welcome from './steps/Step2Welcome';
 import Step3Property from './steps/Step3Property';
@@ -40,8 +40,12 @@ const OnboardingWizard = () => {
 
   const steps = intention === 'ci' ? ciSteps : residentialSteps;
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [currentStep]);
+
   const scrollToTop = useCallback(() => {
-    containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, []);
 
   const next = useCallback((val?: any) => {

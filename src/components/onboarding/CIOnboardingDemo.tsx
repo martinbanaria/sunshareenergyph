@@ -5,6 +5,7 @@ import Step3CIFacility from './steps/Step3CIFacility';
 import Step3CIPainPoints from './steps/Step3CIPainPoints';
 import Step4CISavingsEstimate from './steps/Step4CISavingsEstimate';
 import Step5CIReview from './steps/Step5CIReview';
+import { HouseIcon, BuildingIcon, FactoryIcon } from './CIIcons';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -122,7 +123,7 @@ const WelcomeScreen = ({ onNext }: { onNext: () => void }) => (
           position: 'relative',
         }}
       >
-        <div style={{ fontSize: '2rem', marginBottom: '0.5rem', opacity: 0.5 }}>&#127968;</div>
+        <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center', opacity: 0.5 }}><HouseIcon size={32} color="#D1EB0C" /></div>
         <div style={{ fontWeight: 600 }}>For My Home</div>
         <div style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: '0.25rem' }}>Residential</div>
       </button>
@@ -140,7 +141,7 @@ const WelcomeScreen = ({ onNext }: { onNext: () => void }) => (
           transition: 'all 0.2s',
         }}
       >
-        <div style={{ fontSize: '2rem', marginBottom: '0.5rem', opacity: 0.5 }}>&#127970;</div>
+        <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center', opacity: 0.5 }}><BuildingIcon size={32} color="#004F64" /></div>
         <div style={{ fontWeight: 600 }}>For My Business</div>
         <div style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: '0.25rem' }}>SME</div>
       </button>
@@ -168,7 +169,7 @@ const WelcomeScreen = ({ onNext }: { onNext: () => void }) => (
         e.currentTarget.style.background = 'rgba(0, 36, 46, 0.4)';
       }}
     >
-      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>&#127981;</div>
+      <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}><FactoryIcon size={32} color="#D1EB0C" /></div>
       <div style={{ fontWeight: 600 }}>For My Facility</div>
       <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>Commercial & Industrial</div>
       <div style={{
@@ -538,8 +539,12 @@ const CIOnboardingDemo = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [currentStep, showSuccess]);
+
   const scrollToTop = useCallback(() => {
-    containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, []);
 
   const next = useCallback(() => {

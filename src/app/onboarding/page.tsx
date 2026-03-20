@@ -1,12 +1,24 @@
-import React from 'react';
+'use client';
+import React, { useEffect } from 'react';
 import OnboardingWizard from '@/components/onboarding/OnboardingWizard';
-import Layout from './layout';
+import { useOnboardingTheme } from '@/components/onboarding/useOnboardingTheme';
 
 const OnboardingPage = () => {
+  const { pageBackground, textColor } = useOnboardingTheme();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, []);
+
   return (
-    <Layout>
+    <div style={{
+      padding: '1rem',
+      minHeight: '100vh',
+      backgroundColor: pageBackground,
+      color: textColor,
+    }}>
       <OnboardingWizard />
-    </Layout>
+    </div>
   );
 };
 

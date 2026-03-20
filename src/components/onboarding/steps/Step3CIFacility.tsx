@@ -1,32 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-
-const cardStyle: React.CSSProperties = {
-  padding: '2rem',
-  borderRadius: '15px',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: '#F3F6E4',
-};
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.75rem',
-  borderRadius: '0.5rem',
-  background: 'rgba(0, 36, 46, 0.6)',
-  border: '1px solid rgba(255,255,255,0.2)',
-  color: 'white',
-  fontSize: '1rem',
-};
-
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  marginBottom: '0.5rem',
-  fontSize: '0.9rem',
-};
+import InfoTooltip from '../InfoTooltip';
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 type FacilityData = {
   facilityName: string;
@@ -40,6 +15,7 @@ type FacilityData = {
 };
 
 const Step3CIFacility = ({ onNext, onBack }: { onNext: (data: FacilityData) => void; onBack: () => void }) => {
+  const { cardStyle, inputStyle, labelStyle, headingColor, backButtonStyle, nextButtonStyle, pillStyle } = useOnboardingTheme();
   const [form, setForm] = useState<FacilityData>({
     facilityName: '',
     address: '',
@@ -58,21 +34,9 @@ const Step3CIFacility = ({ onNext, onBack }: { onNext: (data: FacilityData) => v
   const canProceed = form.facilityName && form.address && form.city
     && form.facilityOwnership && form.rooftopAvailable && form.operatingHours;
 
-  const pillStyle = (active: boolean): React.CSSProperties => ({
-    padding: '0.6rem 1rem',
-    borderRadius: '2rem',
-    border: active ? '1px solid #D1EB0C' : '1px solid rgba(255,255,255,0.2)',
-    background: active ? 'rgba(209, 235, 12, 0.15)' : 'rgba(0, 36, 46, 0.4)',
-    color: active ? '#D1EB0C' : 'white',
-    cursor: 'pointer',
-    fontSize: '0.9rem',
-    fontWeight: active ? 600 : 400,
-    transition: 'all 0.2s',
-  });
-
   return (
     <div style={cardStyle}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: '#D1EB0C' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: headingColor }}>
         Your Facility
       </h2>
       <p style={{ marginBottom: '1.5rem', opacity: 0.8 }}>
@@ -140,7 +104,10 @@ const Step3CIFacility = ({ onNext, onBack }: { onNext: (data: FacilityData) => v
         </div>
 
         <div style={{ marginBottom: '1.25rem' }}>
-          <label style={labelStyle}>Rooftop available for solar?</label>
+          <label style={labelStyle}>
+            Rooftop available for solar?
+            <InfoTooltip text="If your building has unshaded rooftop space, we can install embedded solar panels at zero upfront cost under an Energy-as-a-Service model." />
+          </label>
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             {(['yes', 'no', 'not_sure'] as const).map((val) => (
               <button
@@ -156,7 +123,10 @@ const Step3CIFacility = ({ onNext, onBack }: { onNext: (data: FacilityData) => v
         </div>
 
         <div style={{ marginBottom: '1.25rem' }}>
-          <label style={labelStyle}>Operating hours per day</label>
+          <label style={labelStyle}>
+            Operating hours per day
+            <InfoTooltip text="This tells us your load profile shape. 24/7 operations benefit most from base-load supply, while shorter shifts may benefit more from solar." />
+          </label>
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             {[
               { value: '8h', label: '8 hrs' },
@@ -202,36 +172,10 @@ const Step3CIFacility = ({ onNext, onBack }: { onNext: (data: FacilityData) => v
         </div>
 
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <button
-            type="button"
-            onClick={onBack}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white',
-              cursor: 'pointer',
-            }}
-          >
+          <button type="button" onClick={onBack} style={backButtonStyle}>
             Back
           </button>
-          <button
-            type="submit"
-            disabled={!canProceed}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              background: canProceed ? '#D1EB0C' : 'rgba(209, 235, 12, 0.3)',
-              border: 'none',
-              color: '#00242E',
-              fontWeight: 600,
-              cursor: canProceed ? 'pointer' : 'not-allowed',
-              opacity: canProceed ? 1 : 0.6,
-            }}
-          >
+          <button type="submit" disabled={!canProceed} style={nextButtonStyle(!!canProceed)}>
             Next
           </button>
         </div>
