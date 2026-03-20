@@ -22,7 +22,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const stored = localStorage.getItem('sunshare-theme') as Theme | null;
     if (stored === 'light' || stored === 'dark') {
       setTheme(stored);
-      document.documentElement.setAttribute('data-theme', stored);
     }
   }, []);
 
@@ -30,7 +29,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setTheme(prev => {
       const next = prev === 'dark' ? 'light' : 'dark';
       localStorage.setItem('sunshare-theme', next);
-      document.documentElement.setAttribute('data-theme', next);
       return next;
     });
   }, []);

@@ -5,9 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, Sun, Moon } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -26,7 +25,6 @@ const loginLinks = [
 const SIGNUP_URL = '/onboarding';
 
 export function Header() {
-  const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
   const [isOverLightSection, setIsOverLightSection] = useState(false);
@@ -197,15 +195,6 @@ export function Header() {
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className={`p-2 rounded-lg transition-colors duration-200 ${hoverBg} ${textColorMuted}`}
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </button>
-
               {/* Login Dropdown */}
               <div className="relative">
                 <button
@@ -298,14 +287,6 @@ export function Header() {
                     {link.label}
                   </span>
                 ))}
-                <div className="border-t border-white/10 my-2" />
-                <button
-                  onClick={toggleTheme}
-                  className="flex items-center gap-3 w-full px-4 py-3 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                >
-                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                </button>
                 <div className="border-t border-white/10 my-2" />
                 <div className="px-4 py-2">
                   <Button href={SIGNUP_URL} className="w-full">

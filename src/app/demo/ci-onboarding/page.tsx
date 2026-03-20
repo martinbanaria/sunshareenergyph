@@ -2,6 +2,7 @@
 import React from 'react';
 import CIOnboardingDemo from '@/components/onboarding/CIOnboardingDemo';
 import { useOnboardingTheme } from '@/components/onboarding/useOnboardingTheme';
+import ThemeToggle from '@/components/onboarding/ThemeToggle';
 
 export default function CIDemoPage() {
   const { pageBackground, textColor } = useOnboardingTheme();
@@ -15,6 +16,7 @@ export default function CIDemoPage() {
       paddingBottom: '3rem',
     }}>
       <CIOnboardingDemo />
+      <ThemeToggle />
     </div>
   );
 }

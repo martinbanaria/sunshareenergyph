@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { BoltIcon, WrenchIcon, ChartIcon, SunIcon, PlusIcon, ChatIcon, BookIcon } from '@/components/onboarding/CIIcons';
 import { useOnboardingTheme } from '@/components/onboarding/useOnboardingTheme';
+import ThemeToggle from '@/components/onboarding/ThemeToggle';
 
 // ─── Animated Counter ────────────────────────────────────────────────────────
 
@@ -382,6 +383,8 @@ export default function CIDashboardPage() {
       }}>
         SunShare Philippines Inc. &mdash; C&I Energy Portal
       </div>
+
+      <ThemeToggle />
 
       <style>{`
         @keyframes pulse {
