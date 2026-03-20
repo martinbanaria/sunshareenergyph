@@ -1,44 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
-const cardStyle: React.CSSProperties = {
-  padding: '2rem',
-  borderRadius: '15px',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: '#F3F6E4',
-};
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.75rem',
-  borderRadius: '0.5rem',
-  background: 'rgba(0, 36, 46, 0.6)',
-  border: '1px solid rgba(255,255,255,0.2)',
-  color: 'white',
-  fontSize: '1rem',
-};
-
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  marginBottom: '0.5rem',
-  fontSize: '0.85rem',
-  opacity: 0.8,
-};
-
-const sectionHeaderStyle: React.CSSProperties = {
-  fontSize: '0.75rem',
-  fontWeight: 600,
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.08em',
-  color: '#D1EB0C',
-  marginBottom: '0.5rem',
-  paddingBottom: '0.25rem',
-  borderBottom: '1px solid rgba(209, 235, 12, 0.2)',
-};
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 const painPointLabels: Record<string, { title: string; solution: string }> = {
   'high_cost': { title: 'High electricity costs', solution: 'Retail Supply (PSA)' },
@@ -109,6 +71,7 @@ type AuditRequestData = {
 };
 
 const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
+  const { cardStyle, inputStyle, labelStyle, headingColor, accentColor, backButtonStyle, isLight } = useOnboardingTheme();
   const [audit, setAudit] = useState<AuditRequestData>({
     contactPerson: '',
     contactRole: '',
@@ -129,7 +92,6 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
     e.preventDefault();
     if (!canSubmit) return;
     setSubmitting(true);
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     onSubmit(audit);
   };
@@ -139,9 +101,23 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
     return `₱${Math.round(amount).toLocaleString()}`;
   };
 
+  const sectionHeaderStyle: React.CSSProperties = {
+    fontSize: '0.75rem',
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.08em',
+    color: accentColor,
+    marginBottom: '0.5rem',
+    paddingBottom: '0.25rem',
+    borderBottom: `1px solid ${isLight ? 'rgba(0, 79, 100, 0.15)' : 'rgba(209, 235, 12, 0.2)'}`,
+  };
+
+  const dividerColor = isLight ? 'rgba(0, 36, 46, 0.1)' : 'rgba(255,255,255,0.1)';
+  const mutedOpacity = isLight ? 0.6 : 0.7;
+
   return (
     <div style={cardStyle}>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem', color: '#D1EB0C' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem', color: headingColor }}>
         Review & Schedule Your Audit
       </h2>
 
@@ -149,7 +125,7 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
       <div style={{ marginBottom: '1.25rem' }}>
         <div style={sectionHeaderStyle}>Company</div>
         <div style={{ fontWeight: 600 }}>{data.companyName}</div>
-        <div style={{ fontSize: '0.85rem', opacity: 0.7 }}>
+        <div style={{ fontSize: '0.85rem', opacity: mutedOpacity }}>
           {industryLabels[data.industrySegment] || data.industrySegment}
           {' · '}
           {providerLabels[data.currentProvider] || data.currentProvider}
@@ -162,10 +138,10 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
       <div style={{ marginBottom: '1.25rem' }}>
         <div style={sectionHeaderStyle}>Facility</div>
         <div style={{ fontWeight: 600 }}>{data.facilityName}</div>
-        <div style={{ fontSize: '0.85rem', opacity: 0.7 }}>
+        <div style={{ fontSize: '0.85rem', opacity: mutedOpacity }}>
           {data.facilityAddress}, {data.facilityCity}
         </div>
-        <div style={{ fontSize: '0.85rem', opacity: 0.7 }}>
+        <div style={{ fontSize: '0.85rem', opacity: mutedOpacity }}>
           {data.facilityOwnership.charAt(0).toUpperCase() + data.facilityOwnership.slice(1)}
           {data.floorArea ? ` · ${data.floorArea} sqm` : ''}
           {' · '}
@@ -183,7 +159,7 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
           if (!point) return null;
           return (
             <div key={id} style={{ fontSize: '0.85rem', marginBottom: '0.25rem' }}>
-              <span style={{ color: '#D1EB0C' }}>&#10003;</span>{' '}
+              <span style={{ color: accentColor }}>&#10003;</span>{' '}
               {point.title}{' '}
               <span style={{ opacity: 0.5 }}>&rarr; {point.solution}</span>
             </div>
@@ -194,20 +170,16 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
       {/* Savings Estimate */}
       <div style={{ marginBottom: '1.5rem' }}>
         <div style={sectionHeaderStyle}>Estimated Savings</div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#D1EB0C' }}>
+        <div style={{ fontSize: '1.1rem', fontWeight: 600, color: accentColor }}>
           {formatPeso(data.savingsLow)} &ndash; {formatPeso(data.savingsHigh)} / month
         </div>
-        <div style={{ fontSize: '0.9rem', opacity: 0.7 }}>
+        <div style={{ fontSize: '0.9rem', opacity: mutedOpacity }}>
           {formatPeso(data.savingsLow * 12)} &ndash; {formatPeso(data.savingsHigh * 12)} / year
         </div>
       </div>
 
       {/* Divider */}
-      <div style={{
-        height: '1px',
-        background: 'rgba(255,255,255,0.1)',
-        margin: '1.5rem 0',
-      }} />
+      <div style={{ height: '1px', background: dividerColor, margin: '1.5rem 0' }} />
 
       {/* Audit Scheduling Form */}
       <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '1rem' }}>
@@ -217,55 +189,28 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
           <label style={labelStyle}>Contact Person</label>
-          <input
-            type="text"
-            style={inputStyle}
-            placeholder="Full name"
-            value={audit.contactPerson}
-            onChange={(e) => updateAudit('contactPerson', e.target.value)}
-          />
+          <input type="text" style={inputStyle} placeholder="Full name" value={audit.contactPerson} onChange={(e) => updateAudit('contactPerson', e.target.value)} />
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
           <div>
             <label style={labelStyle}>Role / Title (optional)</label>
-            <input
-              type="text"
-              style={inputStyle}
-              placeholder="e.g. CEO, Plant Mgr"
-              value={audit.contactRole}
-              onChange={(e) => updateAudit('contactRole', e.target.value)}
-            />
+            <input type="text" style={inputStyle} placeholder="e.g. CEO, Plant Mgr" value={audit.contactRole} onChange={(e) => updateAudit('contactRole', e.target.value)} />
           </div>
           <div>
             <label style={labelStyle}>Phone Number</label>
-            <input
-              type="tel"
-              style={inputStyle}
-              placeholder="+63 9XX XXX XXXX"
-              value={audit.phone}
-              onChange={(e) => updateAudit('phone', e.target.value)}
-            />
+            <input type="tel" style={inputStyle} placeholder="+63 9XX XXX XXXX" value={audit.phone} onChange={(e) => updateAudit('phone', e.target.value)} />
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
           <div>
             <label style={labelStyle}>Preferred Date (optional)</label>
-            <input
-              type="date"
-              style={inputStyle}
-              value={audit.preferredDate}
-              onChange={(e) => updateAudit('preferredDate', e.target.value)}
-            />
+            <input type="date" style={inputStyle} value={audit.preferredDate} onChange={(e) => updateAudit('preferredDate', e.target.value)} />
           </div>
           <div>
             <label style={labelStyle}>Preferred Time</label>
-            <select
-              style={inputStyle}
-              value={audit.preferredTime}
-              onChange={(e) => updateAudit('preferredTime', e.target.value)}
-            >
+            <select style={inputStyle} value={audit.preferredTime} onChange={(e) => updateAudit('preferredTime', e.target.value)}>
               <option value="flexible">Flexible</option>
               <option value="morning">Morning (8AM–12PM)</option>
               <option value="afternoon">Afternoon (1PM–5PM)</option>
@@ -275,19 +220,15 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
 
         <div style={{ marginBottom: '1.5rem' }}>
           <label style={labelStyle}>Additional Notes (optional)</label>
-          <textarea
-            style={{ ...inputStyle, minHeight: '80px', resize: 'vertical' }}
-            placeholder="Any specific concerns or scheduling constraints..."
-            value={audit.notes}
-            onChange={(e) => updateAudit('notes', e.target.value)}
-          />
+          <textarea style={{ ...inputStyle, minHeight: '80px', resize: 'vertical' }} placeholder="Any specific concerns or scheduling constraints..." value={audit.notes} onChange={(e) => updateAudit('notes', e.target.value)} />
         </div>
 
         {/* What Happens Next */}
         <div style={{
           padding: '1rem',
           borderRadius: '0.5rem',
-          background: 'rgba(0, 36, 46, 0.3)',
+          background: isLight ? 'rgba(0, 79, 100, 0.06)' : 'rgba(0, 36, 46, 0.3)',
+          border: `1px solid ${isLight ? 'rgba(0, 79, 100, 0.1)' : 'transparent'}`,
           marginBottom: '1.5rem',
           fontSize: '0.85rem',
           lineHeight: 1.6,
@@ -320,19 +261,7 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
         </button>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button
-            type="button"
-            onClick={onBack}
-            style={{
-              padding: '0.75rem 1.5rem',
-              borderRadius: '0.5rem',
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white',
-              cursor: 'pointer',
-              fontSize: '0.9rem',
-            }}
-          >
+          <button type="button" onClick={onBack} style={{ ...backButtonStyle, flex: 'none', padding: '0.75rem 1.5rem', fontSize: '0.9rem' }}>
             Back
           </button>
           <button
@@ -341,7 +270,7 @@ const Step5CIReview = ({ data, onSubmit, onBack }: Props) => {
               padding: '0.75rem',
               background: 'transparent',
               border: 'none',
-              color: 'rgba(255,255,255,0.5)',
+              color: isLight ? 'rgba(0, 36, 46, 0.5)' : 'rgba(255,255,255,0.5)',
               cursor: 'pointer',
               fontSize: '0.85rem',
               textDecoration: 'underline',

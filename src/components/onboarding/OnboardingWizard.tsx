@@ -11,6 +11,7 @@ import Step4Preferences from './steps/Step4Preferences';
 import Step4CISavingsEstimate from './steps/Step4CISavingsEstimate';
 import Step5Review from './steps/Step5Review';
 import Step5CIReview from './steps/Step5CIReview';
+import { useOnboardingTheme } from './useOnboardingTheme';
 
 type Intention = 'home' | 'business' | 'ci' | null;
 
@@ -28,6 +29,7 @@ const savingsPercents: Record<string, number> = {
 };
 
 const OnboardingWizard = () => {
+  const { isLight } = useOnboardingTheme();
   const [currentStep, setCurrentStep] = useState(0);
   const [intention, setIntention] = useState<Intention>(null);
   const [userName, setUserName] = useState('');
@@ -179,7 +181,9 @@ const OnboardingWizard = () => {
               width: index === currentStep ? '24px' : '10px',
               height: '10px',
               borderRadius: index === currentStep ? '5px' : '50%',
-              background: index <= currentStep ? '#D1EB0C' : 'rgba(255,255,255,0.2)',
+              background: index <= currentStep
+                ? (isLight ? '#004F64' : '#D1EB0C')
+                : (isLight ? 'rgba(0, 36, 46, 0.15)' : 'rgba(255,255,255,0.2)'),
               transition: 'all 0.3s ease',
             }}
           />

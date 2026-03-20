@@ -1,49 +1,50 @@
 'use client';
 import React, { useState } from 'react';
-
-const cardStyle: React.CSSProperties = {
-  padding: '2rem',
-  borderRadius: '15px',
-  background: 'rgba(255, 255, 255, 0.06)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: '#F3F6E4',
-};
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.875rem 1rem',
-  borderRadius: '0.75rem',
-  background: 'rgba(0, 36, 46, 0.6)',
-  border: '1px solid rgba(255,255,255,0.15)',
-  color: 'white',
-  fontSize: '1rem',
-};
-
-const ssoButtonStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.875rem 1rem',
-  borderRadius: '0.75rem',
-  border: '1px solid rgba(255,255,255,0.15)',
-  background: 'rgba(0, 36, 46, 0.4)',
-  color: 'white',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-  fontWeight: 500,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '0.75rem',
-  transition: 'all 0.2s',
-};
+import { useOnboardingTheme } from '../useOnboardingTheme';
 
 const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
+  const { cardStyle, inputStyle, headingColor, isLight, backButtonStyle } = useOnboardingTheme();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mode, setMode] = useState<'sso' | 'email'>('sso');
   const [loading, setLoading] = useState<string | null>(null);
+
+  const ssoButtonStyle: React.CSSProperties = isLight
+    ? {
+        width: '100%',
+        padding: '0.875rem 1rem',
+        borderRadius: '0.75rem',
+        border: '1px solid rgba(0, 36, 46, 0.15)',
+        background: 'rgba(0, 36, 46, 0.06)',
+        color: '#00242E',
+        cursor: 'pointer',
+        fontSize: '0.95rem',
+        fontWeight: 500,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.75rem',
+        transition: 'all 0.2s',
+      }
+    : {
+        width: '100%',
+        padding: '0.875rem 1rem',
+        borderRadius: '0.75rem',
+        border: '1px solid rgba(255,255,255,0.15)',
+        background: 'rgba(0, 36, 46, 0.4)',
+        color: 'white',
+        cursor: 'pointer',
+        fontSize: '0.95rem',
+        fontWeight: 500,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.75rem',
+        transition: 'all 0.2s',
+      };
+
+  const dividerColor = isLight ? 'rgba(0, 36, 46, 0.1)' : 'rgba(255,255,255,0.1)';
+  const mutedText = isLight ? 'rgba(0, 36, 46, 0.5)' : 'rgba(255,255,255,0.5)';
 
   const handleSSO = (provider: string) => {
     setLoading(provider);
@@ -62,7 +63,7 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
   return (
     <div style={cardStyle}>
       <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: '#D1EB0C' }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: headingColor }}>
           Welcome to SunShare
         </h2>
         <p style={{ opacity: 0.7, fontSize: '0.95rem' }}>
@@ -78,12 +79,16 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
               disabled={!!loading}
               style={{
                 ...ssoButtonStyle,
-                background: loading === 'google' ? 'rgba(209, 235, 12, 0.1)' : 'rgba(0, 36, 46, 0.4)',
-                border: loading === 'google' ? '1px solid rgba(209, 235, 12, 0.3)' : '1px solid rgba(255,255,255,0.15)',
+                background: loading === 'google'
+                  ? (isLight ? 'rgba(0, 79, 100, 0.08)' : 'rgba(209, 235, 12, 0.1)')
+                  : ssoButtonStyle.background,
+                border: loading === 'google'
+                  ? `1px solid ${isLight ? 'rgba(0, 79, 100, 0.3)' : 'rgba(209, 235, 12, 0.3)'}`
+                  : ssoButtonStyle.border,
               }}
             >
               {loading === 'google' ? (
-                <span style={{ fontSize: '0.85rem', color: '#D1EB0C' }}>Signing in...</span>
+                <span style={{ fontSize: '0.85rem', color: headingColor }}>Signing in...</span>
               ) : (
                 <>
                   <svg width="20" height="20" viewBox="0 0 24 24">
@@ -102,11 +107,13 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
               disabled={!!loading}
               style={{
                 ...ssoButtonStyle,
-                background: loading === 'facebook' ? 'rgba(209, 235, 12, 0.1)' : 'rgba(0, 36, 46, 0.4)',
+                background: loading === 'facebook'
+                  ? (isLight ? 'rgba(0, 79, 100, 0.08)' : 'rgba(209, 235, 12, 0.1)')
+                  : ssoButtonStyle.background,
               }}
             >
               {loading === 'facebook' ? (
-                <span style={{ fontSize: '0.85rem', color: '#D1EB0C' }}>Signing in...</span>
+                <span style={{ fontSize: '0.85rem', color: headingColor }}>Signing in...</span>
               ) : (
                 <>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
@@ -119,9 +126,9 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
-            <span style={{ fontSize: '0.8rem', opacity: 0.5 }}>or</span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+            <div style={{ flex: 1, height: '1px', background: dividerColor }} />
+            <span style={{ fontSize: '0.8rem', color: mutedText }}>or</span>
+            <div style={{ flex: 1, height: '1px', background: dividerColor }} />
           </div>
 
           <button
@@ -142,7 +149,7 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
       ) : (
         <form onSubmit={handleEmail}>
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', opacity: 0.8 }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: isLight ? '#004F64' : undefined, opacity: isLight ? 1 : 0.8 }}>
               Full Name
             </label>
             <input
@@ -155,7 +162,7 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
             />
           </div>
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', opacity: 0.8 }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: isLight ? '#004F64' : undefined, opacity: isLight ? 1 : 0.8 }}>
               Email Address
             </label>
             <input
@@ -192,7 +199,7 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
               padding: '0.5rem',
               background: 'transparent',
               border: 'none',
-              color: 'rgba(255,255,255,0.5)',
+              color: mutedText,
               cursor: 'pointer',
               fontSize: '0.85rem',
             }}
@@ -205,7 +212,7 @@ const Step1QuickStart = ({ onNext }: { onNext: (name: string) => void }) => {
       <p style={{
         textAlign: 'center',
         fontSize: '0.75rem',
-        opacity: 0.4,
+        color: mutedText,
         marginTop: '1.5rem',
         lineHeight: 1.5,
       }}>
