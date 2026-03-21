@@ -1,11 +1,13 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
+import { useOnboardingTheme } from './useOnboardingTheme';
 
 type InfoTooltipProps = {
   text: string;
 };
 
 const InfoTooltip = ({ text }: InfoTooltipProps) => {
+  const { isLight } = useOnboardingTheme();
   const [open, setOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +25,7 @@ const InfoTooltip = ({ text }: InfoTooltipProps) => {
   return (
     <span
       ref={tooltipRef}
-      style={{ position: 'relative', display: 'inline-block', marginLeft: '0.4rem', verticalAlign: 'middle' }}
+      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', marginLeft: '0.35rem' }}
     >
       <button
         type="button"
@@ -32,22 +34,23 @@ const InfoTooltip = ({ text }: InfoTooltipProps) => {
         onMouseLeave={() => setOpen(false)}
         aria-label="More info"
         style={{
-          width: '18px',
-          height: '18px',
+          width: '16px',
+          height: '16px',
           borderRadius: '50%',
-          border: '1.5px solid rgba(255,255,255,0.3)',
-          background: 'rgba(255,255,255,0.06)',
-          color: 'rgba(255,255,255,0.5)',
-          fontSize: '0.65rem',
+          border: isLight ? '1.5px solid #004F64' : '1.5px solid rgba(255,255,255,0.4)',
+          background: isLight ? 'rgba(0, 79, 100, 0.1)' : 'rgba(255,255,255,0.08)',
+          color: isLight ? '#004F64' : 'rgba(255,255,255,0.7)',
+          fontSize: '0.6rem',
           fontWeight: 700,
+          fontStyle: 'italic',
           cursor: 'pointer',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
           lineHeight: 1,
           padding: 0,
-          verticalAlign: 'middle',
           transition: 'all 0.15s',
+          flexShrink: 0,
         }}
       >
         i
